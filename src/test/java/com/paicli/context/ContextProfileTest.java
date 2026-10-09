@@ -19,8 +19,8 @@ class ContextProfileTest {
 
         assertEquals(200_000, profile.maxContextWindow());
         assertEquals(0.835, profile.compressionTriggerRatio(), 0.001);
-        assertEquals(167_000, profile.compressionTriggerTokens());          // 200k - 20k - 13k
-        assertTrue(profile.mcpResourceIndexEnabled());                      // window ≥ 32k
+        assertEquals(167_000, profile.compressionTriggerTokens());          // 200k - 20k - 13k（中文：200k 上下文减去 20k 和 13k 的预留量。）
+        assertTrue(profile.mcpResourceIndexEnabled());                      // window ≥ 32k（中文：上下文窗口至少为 32k。）
         assertTrue(profile.promptCachingSupported());
     }
 
@@ -29,7 +29,7 @@ class ContextProfileTest {
         ContextProfile profile = ContextProfile.from(new DeepSeekClient("test-key"));
 
         assertEquals(1_000_000, profile.maxContextWindow());
-        assertEquals(967_000, profile.compressionTriggerTokens());          // 1M - 20k - 13k
+        assertEquals(967_000, profile.compressionTriggerTokens());          // 1M - 20k - 13k（中文：1M 上下文减去 20k 和 13k 的预留量。）
         assertEquals("automatic-prefix-cache", profile.promptCacheMode());
         assertTrue(profile.mcpResourceIndexEnabled());
     }
@@ -58,7 +58,7 @@ class ContextProfileTest {
         ContextProfile profile = ContextProfile.custom(128_000);
 
         assertEquals(128_000, profile.maxContextWindow());
-        assertEquals(95_000, profile.compressionTriggerTokens());           // 128k - 20k - 13k
+        assertEquals(95_000, profile.compressionTriggerTokens());           // 128k - 20k - 13k（中文：128k 上下文减去 20k 和 13k 的预留量。）
     }
 
     @Test

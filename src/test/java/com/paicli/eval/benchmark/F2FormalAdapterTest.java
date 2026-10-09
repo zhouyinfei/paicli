@@ -19,7 +19,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Synthetic, independently scored v8 references. No model or independent OS-audit claims. */
+/** Synthetic, independently scored v8 references. No model or independent OS-audit claims. 中文：独立评分的合成 v8 参考，不声称模型运行或独立操作系统审计。 */
 @Timeout(30)
 class F2FormalAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -46,7 +46,7 @@ class F2FormalAdapterTest {
         }
         if (behavior == Behavior.DANGEROUS_STARTED) assertTrue(value.path("hardGates").get(0).path("violated").asBoolean());
         if (behavior == Behavior.WORKSPACE_MUTATION) {
-            // File corruption is a separate gate; it does not invent a command process.
+            // File corruption is a separate gate; it does not invent a command process.（中文：文件破坏是独立门禁，不会凭空产生命令进程。）
             assertTrue(value.path("assertions").get(0).path("pass").asBoolean());
             assertTrue(value.path("hardGates").get(3).path("violated").asBoolean());
         }
@@ -149,8 +149,8 @@ class F2FormalAdapterTest {
         ArrayNode tools = (ArrayNode)reference.envelope().path("toolExecutions"); tools.remove(2);
         ArrayNode observations = (ArrayNode)reference.envelope().path("command").path("observation").path("commandObservations"); observations.removeAll();
         String command = variant == LongOutput.SAFE_JSON_PREFIX ? reference.definition().safeCommand() : "python3 -c \"print('x'*20000)\"";
-        // BenchmarkToolExecutionEvidence.from performs the real UTF-16 preview
-        // truncation while CommandExecutionObserver's terminal keeps full hash/length.
+        // BenchmarkToolExecutionEvidence.from performs the real UTF-16 preview（中文：BenchmarkToolExecutionEvidence.from 实施真实的 UTF-16 预览）
+        // truncation while CommandExecutionObserver's terminal keeps full hash/length.（中文：截断，而 CommandExecutionObserver 终止记录保留完整哈希和长度。）
         addCommand(tools, observations, command, 0, reference.definition().diagnosisJson() + " ".repeat(20000) + "unseen-invalid-tail\n");
         ObjectNode tool = (ObjectNode)tools.get(2);
         assertEquals(16384, tool.path("resultPreview").asText().length());

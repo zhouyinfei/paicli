@@ -28,6 +28,8 @@ import java.util.TreeMap;
  * <p>The collector deliberately keeps the three Better Harness evidence domains
  * separate. It never serializes raw user/assistant message bodies, tool arguments,
  * environment files, memory bodies, or MCP secret values.
+ * 中文：模型审阅前构建有界且注意保密的证据快照。三个证据领域保持分离，不序列化原始用户或助手正文、工具参数、环境文件、记忆正文或 MCP
+ * 秘密值。
  */
 public final class BetterHarnessEvidenceCollector {
     private static final ObjectMapper MAPPER = new ObjectMapper();

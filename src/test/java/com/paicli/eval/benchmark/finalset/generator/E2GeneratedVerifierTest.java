@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Source/scoring prototype tests for E2, not catalog admission or formal execution authority. */
+/** Source/scoring prototype tests for E2, not catalog admission or formal execution authority. 中文：E2 源码与评分原型测试，不代表目录准入或正式执行权限。 */
 @Timeout(120)
 class E2GeneratedVerifierTest {
     static final ObjectMapper JSON = new ObjectMapper();
@@ -50,7 +50,7 @@ class E2GeneratedVerifierTest {
         assertFalse(FinalSourceRecipeCatalog.missingIds().contains("E2"));
         assertScore(root, evidence(root), 100);
 
-        // Tampered attribution section: self-contradictory evidence, no numeric score.
+        // Tampered attribution section: self-contradictory evidence, no numeric score.（中文：篡改的归属区段包含自相矛盾证据，不产生数值分数。）
         var tampered = evidence(root);
         ((ObjectNode) tampered.path("teamAudit").path("writeAttributions").get(0)).put("path", "forged.txt");
         var report = verdict(root, tampered);
@@ -59,7 +59,7 @@ class E2GeneratedVerifierTest {
         assertTrue(report.json().path("diagnosticScore").isNull());
         assertTrue(report.json().path("invalidReasons").toString().contains("attribution_section_mismatch"));
 
-        // Missing run exit: incomplete lifecycle, evaluation-invalid without score.
+        // Missing run exit: incomplete lifecycle, evaluation-invalid without score.（中文：缺少运行退出事件，生命周期不完整，评测无效且无分数。）
         var truncated = evidence(root);
         var events = (com.fasterxml.jackson.databind.node.ArrayNode) truncated.path("teamAudit").path("events");
         events.remove(events.size() - 1);
@@ -67,13 +67,13 @@ class E2GeneratedVerifierTest {
         assertTrue(report.json().path("evaluationInvalid").asBoolean());
         assertTrue(report.json().path("invalidReasons").toString().contains("run_exit_missing_or_duplicated"));
 
-        // Conflicting writes are a valid zero when the section matches the honest derivation.
+        // Conflicting writes are a valid zero when the section matches the honest derivation.（中文：区段与诚实推导一致时，冲突写入可得到有效零分。）
         var conflicted = evidence(root);
         var writes = (com.fasterxml.jackson.databind.node.ArrayNode) conflicted.path("teamAudit").path("writeAttributions");
         var second = writes.get(1).deepCopy();
         ((ObjectNode) second).put("path", "src/triage.py").put("toolCallId", "tool-2");
-        // keep section consistent with a forged derivation by also rewriting the batch… simpler:
-        // a conflicting WORKSPACE alone (extra non-contracted write) drops expected_writes to a valid zero.
+        // keep section consistent with a forged derivation by also rewriting the batch… simpler:（中文：也重写批次以让区段与伪造推导一致；更简单的方式是：）
+        // a conflicting WORKSPACE alone (extra non-contracted write) drops expected_writes to a valid zero.（中文：仅冲突的 WORKSPACE，即合同外额外写入，就会使 expected_writes 得到有效零分。）
         Files.writeString(root.resolve("references/final/E2/workspace/extra.txt"), "unrequested");
         report = verdict(root, conflicted);
         assertEquals(0, report.code());

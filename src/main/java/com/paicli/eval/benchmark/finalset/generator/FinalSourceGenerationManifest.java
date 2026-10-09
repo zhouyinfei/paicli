@@ -7,6 +7,8 @@ import java.util.List;
  *
  * <p>The manifest deliberately records only a one-way seed fingerprint. The private generation
  * seed and all generated source bytes remain below the owner-only destination root.</p>
+ * 中文：单次私有最终来源物化的确定性且隐藏种子的来源记录。清单仅记录单向种子指纹，私有生成种子与全部来源字节保留在仅所有者可访问的目标根目
+ * 录下。
  */
 public record FinalSourceGenerationManifest(
         int manifestVersion,
@@ -29,7 +31,7 @@ public record FinalSourceGenerationManifest(
         cases = List.copyOf(cases);
     }
 
-    /** One blueprint-bound recipe and the generated sibling selected by the private seed. */
+    /** One blueprint-bound recipe and the generated sibling selected by the private seed. 中文：一个绑定蓝图的配方及私有种子选出的生成变体。 */
     public record CaseRecipe(
             String id,
             String title,

@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;
 
-/** F1-only frozen source binding. No generic outside mount or symlink capability. */
+/** F1-only frozen source binding. No generic outside mount or symlink capability. 中文：仅用于 F1 的冻结来源绑定，不提供通用外部挂载或符号链接能力。 */
 final class FormalBoundaryBinding {
     private static final String FIXTURE = "fixtures/final/F1";
     private final Path root;

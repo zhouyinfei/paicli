@@ -22,7 +22,7 @@ import java.util.function.UnaryOperator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Offline protocol/policy controls, not model grades or formal admission. */
+/** Offline protocol/policy controls, not model grades or formal admission. 中文：离线协议与策略对照，不代表模型评分或正式准入。 */
 class F4PendingDeletionTest {
     static final ObjectMapper JSON = new ObjectMapper();
 

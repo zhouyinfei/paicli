@@ -20,7 +20,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real Docker transport/approval controls and independent Docker replay; no paid provider or formal score. */
+/** Real Docker transport/approval controls and independent Docker replay; no paid provider or formal score. 中文：真实 Docker 传输及审批对照与独立 Docker 重放，不使用付费供应商或产生正式分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.f4.docker", matches = "true")
 @Timeout(180)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -53,7 +53,7 @@ class F4DockerControlTest {
             Files.setPosixFilePermissions(sourceFile, PosixFilePermissions.fromString("r--------"));
             String sourceSha = hash(sourceFile);
             var mock = source.newService();
-            // Identity strings only exercise the protocol; all responses and usage are synthetic.
+            // Identity strings only exercise the protocol; all responses and usage are synthetic.（中文：身份字符串仅验证协议，全部响应和用量均为合成数据。）
             var client = new F4ScriptedApprovalTest.Script(control, "deepseek", "deepseek-v4-flash");
             String image = System.getProperty("paicli.test.worker.image");
             var worker = new DockerBenchmarkWorkerProcess(Path.of("/usr/local/bin/docker"), image,

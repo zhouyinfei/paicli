@@ -640,8 +640,8 @@ class FormalBenchmarkPreflightTest {
                         "Case " + index,
                         category(index),
                         caseLevel(index),
-                        // Test-only L3 placeholders: 3+3 becomes 4+2 so F4 retains weight 4.
-                        // The level total stays 24 and suite total stays 100; no real recipe changes.
+                        // Test-only L3 placeholders: 3+3 becomes 4+2 so F4 retains weight 4.（中文：仅用于测试的 L3 占位：将 3+3 改为 4+2，使 F4 保留权重 4。）
+                        // The level total stays 24 and suite total stays 100; no real recipe changes.（中文：该层总分保持 24，套件总分保持 100，不修改真实配方。）
                         generatedSource != null && "F4".equals(generatedId) && index == 22 ? 4
                                 : generatedSource != null && "F4".equals(generatedId) && index == 23 ? 2 : caseWeight(index),
                         caseMode(index),
@@ -681,7 +681,7 @@ class FormalBenchmarkPreflightTest {
                     Files.copy(generatedSource.resolve(relative), target);
                     if (relative.equals(generatedCase.verifierEntryPath())) makeExecutable(target);
                 }
-                // Replace a synthetic case in the same difficulty/weight bucket, then keep the real control first.
+                // Replace a synthetic case in the same difficulty/weight bucket, then keep the real control first.（中文：在相同难度与权重分组内替换合成用例，并把真实对照放在首位。）
                 int replacement = -1;
                 for (int i = 0; i < suiteCases.size(); i++) {
                     var item = suiteCases.get(i);

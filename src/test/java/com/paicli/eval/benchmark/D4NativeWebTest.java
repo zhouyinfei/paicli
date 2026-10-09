@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real Agent/ToolRegistry/HTML extractor/provenance policy, scripted LLM and offline transport. No model score. */
+/** Real Agent/ToolRegistry/HTML extractor/provenance policy, scripted LLM and offline transport. No model score. 中文：真实 Agent、ToolRegistry、HTML 提取器和来源策略，配合脚本 LLM 与离线传输，不产生模型分数。 */
 @Timeout(30)
 class D4NativeWebTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -173,7 +173,7 @@ class D4NativeWebTest {
                     .collect(java.util.stream.Collectors.joining("\n"));
             if (!steps.isEmpty()) return new ChatResponse("assistant", "", null, steps.remove(), 100, 30, 0, getModelName(), true);
             JsonNode answer;
-            if (control == Control.NO_SEARCH) answer = reference(d); // deliberate answer-only cheat control
+            if (control == Control.NO_SEARCH) answer = reference(d); // deliberate answer-only cheat control（中文：故意设置的仅答案作弊对照。）
             else {
                 String release = capture("Current release (2\\.\\d+)", toolText);
                 int timeout = Integer.parseInt(capture("default request timeout is (\\d+) seconds", toolText));

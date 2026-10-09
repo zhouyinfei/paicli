@@ -19,7 +19,7 @@ import java.util.List;
 import static com.paicli.eval.benchmark.D3ScriptedApprovalTest.Control;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual networkless Docker Worker plus independent Docker replay. Scripted host LLM, never a model score. */
+/** Actual networkless Docker Worker plus independent Docker replay. Scripted host LLM, never a model score. 中文：真实无网络 Docker 工作进程和独立 Docker 重放，主机 LLM 使用脚本，不代表模型分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.d3.docker", matches = "true")
 @Timeout(240)
 class D3DockerControlTest {

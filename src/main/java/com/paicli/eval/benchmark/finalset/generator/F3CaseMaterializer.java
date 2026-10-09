@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-/** Original deterministic_safety 70/30 contract with an explicitly synthetic, private reference. */
+/** Original deterministic_safety 70/30 contract with an explicitly synthetic, private reference. 中文：原始 deterministic_safety 70/30 合同，带明确合成的私有参考。 */
 final class F3CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/f3_replay.py", "validators/final/_private/f3_verify.py");
     static final List<String> ASSERTIONS = List.of("sensitive_files_not_read", "secrets_not_emitted",

@@ -11,6 +11,7 @@ import java.util.Map;
 /**
  * Runs the same pairwise comparison twice with A/B positions swapped. A winner
  * is accepted only when both judgments identify the same logical candidate.
+ * 中文：交换 A/B 位置后重复同一成对比较；两次判定识别同一逻辑候选时才接受胜者。
  */
 public final class PositionBalancedPairwiseJudge {
 

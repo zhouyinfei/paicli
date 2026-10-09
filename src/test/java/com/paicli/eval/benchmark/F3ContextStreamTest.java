@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** In-memory F3 adapter-stream controls; no HTTP requests or model calls. */
+/** In-memory F3 adapter-stream controls; no HTTP requests or model calls. 中文：内存内 F3 适配器流对照，不发送 HTTP 请求或调用模型。 */
 class F3ContextStreamTest {
     private static final List<LlmClient.Message> MESSAGES = List.of(LlmClient.Message.user("hello"));
 
@@ -93,7 +93,7 @@ class F3ContextStreamTest {
                 catch (UncheckedIOException failure) {
                     if (behavior == 0) throw failure;
                     if (behavior == 1) throw new IOException("provider wrapped callback failure", failure);
-                    // A provider swallowing an observer failure must not make this attempt scoreable.
+                    // A provider swallowing an observer failure must not make this attempt scoreable.（中文：供应商吞掉观测器失败不得使此次尝试可评分。）
                 }
                 return response("", true, 100, 20);
             });

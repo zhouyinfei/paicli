@@ -31,6 +31,7 @@ import java.util.function.Consumer;
 
 /**
  * Bridges TUI input to the existing Agent runtime.
+ * 中文：将 TUI 输入连接到现有 Agent 运行时。
  */
 public final class TuiSessionController implements AutoCloseable {
 

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import static com.paicli.eval.benchmark.D3ScriptedApprovalTest.Control;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual trusted Worker, Agent, native HITL and MCP over framed pipes. No provider API or Docker. */
+/** Actual trusted Worker, Agent, native HITL and MCP over framed pipes. No provider API or Docker. 中文：真实受信工作进程、Agent、原生 HITL 与 MCP，通过分帧管道通信，不使用供应商 API 或 Docker。 */
 @Timeout(30)
 class D3McpRelayTest {
     @TempDir Path temp;

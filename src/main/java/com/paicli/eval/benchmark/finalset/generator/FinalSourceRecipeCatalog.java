@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** Immutable code-side registration of all 28 final blueprint recipes. */
+/** Immutable code-side registration of all 28 final blueprint recipes. 中文：全部 28 个最终蓝图配方的不可变代码侧注册。 */
 public final class FinalSourceRecipeCatalog {
     public static final int REQUIRED_CASE_COUNT = 28;
     private static final List<String> IMPLEMENTED_IDS = List.of(
@@ -40,7 +40,7 @@ public final class FinalSourceRecipeCatalog {
                 .orElseThrow(() -> new IllegalArgumentException("unknown final recipe: " + id));
     }
 
-    /** Refuses to authorize a formal source while any blueprint recipe is not implemented. */
+    /** Refuses to authorize a formal source while any blueprint recipe is not implemented. 中文：任何蓝图配方尚未实现时，拒绝授权正式来源。 */
     public static void requireFinalReady() {
         List<String> missing = missingIds();
         if (!missing.isEmpty()) {

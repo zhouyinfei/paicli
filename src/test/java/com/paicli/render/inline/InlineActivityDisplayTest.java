@@ -75,7 +75,7 @@ class InlineActivityDisplayTest {
         try (InlineActivityDisplay display = new InlineActivityDisplay(terminal,
                 new PrintStream(new ByteArrayOutputStream(), true, StandardCharsets.UTF_8),
                 statusBar)) {
-            // no begin() called, panel is idle
+            // no begin() called, panel is idle（中文：未调用 begin()，面板处于空闲状态。）
             display.refreshIfActive();
             terminal.writer().flush();
         }

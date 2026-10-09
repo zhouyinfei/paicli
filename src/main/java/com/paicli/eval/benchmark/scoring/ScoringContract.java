@@ -13,6 +13,7 @@ import java.util.Set;
  *
  * <p>The contract, not the candidate or judge, owns component maxima, assertion mappings,
  * strict-success threshold, and the exact accepted identifier sets.</p>
+ * 中文：单个正式用例冻结且预注册的评分策略。分项上限、断言映射、严格成功阈值及接受的标识符集合由合同控制，不由候选或裁判控制。
  */
 public record ScoringContract(
         @JsonProperty(value = "schemaVersion", required = true) int schemaVersion,

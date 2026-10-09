@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
  * dependency. Ranking uses only frozen content and frozen semantic aliases from
  * {@link FrozenCodeSearchIndex}. It is suitable for wiring directly into
  * {@code BenchmarkToolRegistry.setFrozenCodeSearch(search::apply)}.</p>
+ * 中文：search_code 的确定性评测实现，无嵌入、网络、数据库、Ollama 或工作区文件依赖。仅用
+ * FrozenCodeSearchIndex 的冻结内容与语义别名排序，可直接连接评测工具注册表的冻结代码搜索接口。
  */
 public final class FrozenCodeSearch implements Function<String, ToolOutput> {
     public static final String RANKING_VERSION = "frozen-semantic-terms-v1";

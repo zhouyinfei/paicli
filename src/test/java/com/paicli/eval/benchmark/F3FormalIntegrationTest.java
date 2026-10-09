@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** One generated F3 with synthetic admission peers; real Docker controls, never model scores. */
+/** One generated F3 with synthetic admission peers; real Docker controls, never model scores. 中文：一个生成 F3 搭配合成准入用例；真实 Docker 对照不代表模型分数。 */
 @Timeout(300)
 class F3FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();

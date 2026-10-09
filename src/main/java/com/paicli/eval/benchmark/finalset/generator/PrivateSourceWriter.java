@@ -14,7 +14,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
-/** CREATE_NEW-only writer bound to one newly-created private generation root. */
+/** CREATE_NEW-only writer bound to one newly-created private generation root. 中文：仅支持 CREATE_NEW 且绑定全新私有生成根目录的写入器。 */
 final class PrivateSourceWriter {
     static final ObjectMapper JSON = new ObjectMapper()
             .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)

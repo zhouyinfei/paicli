@@ -37,6 +37,8 @@ import java.util.stream.Stream;
  * <p>The gate accepts only the six immutable input artifacts. Execution-affecting values such as
  * mode, tool profile, budgets, mocks, evidence requirements and verifier selection are read from
  * the executable-suite contract; there is deliberately no API for a CLI override.</p>
+ * 中文：预注册正式评测批次的只读且失败时拒绝准入门禁。仅接受六个不可变输入产物；模式、工具配置、预算、模拟服务、证据要求及验证器选择等值从
+ * 可执行套件合同读取，不提供 CLI 覆盖 API。
  */
 public final class FormalBenchmarkPreflight {
     private static final int MAX_SCORING_CONTRACT_BYTES = 1024 * 1024;
@@ -46,19 +48,20 @@ public final class FormalBenchmarkPreflight {
 
     private final FreezeVerifier freezeVerifier;
 
-    /** Uses the production freezer verifier, including its private-tree and canary checks. */
+    /** Uses the production freezer verifier, including its private-tree and canary checks. 中文：使用生产冻结验证器，包括私有目录树与金丝雀检查。 */
     public FormalBenchmarkPreflight() {
         FinalDatasetFreezer freezer = new FinalDatasetFreezer();
         this.freezeVerifier = freezer::verify;
     }
 
-    /** Package-private seam for filesystem-portable binding tests. */
+    /** Package-private seam for filesystem-portable binding tests. 中文：供跨文件系统绑定测试使用的包私有入口。 */
     FormalBenchmarkPreflight(FreezeVerifier freezeVerifier) {
         this.freezeVerifier = Objects.requireNonNull(freezeVerifier, "freezeVerifier");
     }
 
     /**
      * Verifies every registered byte and path binding without changing any input artifact.
+     * 中文：验证所有已注册字节和路径绑定，不修改任何输入产物。
      */
     public VerifiedPreflight verify(Path frozenRoot,
                                     Path publicRepositoryRoot,
@@ -134,8 +137,8 @@ public final class FormalBenchmarkPreflight {
                 verifiedFrozenRoot, suiteFile, suite, manifest, executableSuite, frozenFiles);
         suiteBytes.verifyUnchanged();
 
-        // FormalBatchContract construction already proves this path is canonical, executable and
-        // byte-bound. Resolve and hash it once more so the returned path is verified at admission.
+        // FormalBatchContract construction already proves this path is canonical, executable and（中文：FormalBatchContract 构建已证明路径规范、可执行且绑定字节；）
+        // byte-bound. Resolve and hash it once more so the returned path is verified at admission.（中文：再次解析并计算哈希，确保返回路径在准入时已验证。）
         Path dockerExecutable = requireCanonicalExecutable(
                 Path.of(batch.dockerExecutablePath()), "dockerExecutablePath");
         StableFile dockerBytes = StableFile.capture(dockerExecutable, "dockerExecutablePath");
@@ -771,7 +774,7 @@ public final class FormalBenchmarkPreflight {
         }
     }
 
-    /** One bounded byte view plus the stable identity used to prove it was not swapped. */
+    /** One bounded byte view plus the stable identity used to prove it was not swapped. 中文：有界字节视图与用于证明未被替换的稳定身份。 */
     private record StableBytes(StableFile stableFile, byte[] bytes) {
         private StableBytes {
             Objects.requireNonNull(stableFile, "stableFile");
@@ -884,7 +887,7 @@ public final class FormalBenchmarkPreflight {
         }
     }
 
-    /** Safe execution summary plus only paths that were resolved and verified canonically. */
+    /** Safe execution summary plus only paths that were resolved and verified canonically. 中文：安全执行摘要，仅包含已规范解析验证的路径。 */
     public record VerifiedPreflight(
             Path frozenRoot,
             Path suiteFile,
@@ -953,7 +956,7 @@ public final class FormalBenchmarkPreflight {
         }
     }
 
-    /** Authoritative case execution selection copied only from the verified suite contract. */
+    /** Authoritative case execution selection copied only from the verified suite contract. 中文：仅从已验证套件合同复制的权威用例执行选择。 */
     public record VerifiedCase(
             String id,
             String category,
@@ -1096,7 +1099,7 @@ public final class FormalBenchmarkPreflight {
         DIRECTORY
     }
 
-    /** One verifier dependency bound from exactly one verified freeze-manifest entry. */
+    /** One verifier dependency bound from exactly one verified freeze-manifest entry. 中文：从恰好一个已验证冻结清单条目绑定的验证器依赖。 */
     public record VerifiedVerifierDependency(
             String frozenPath,
             Path canonicalPath,
@@ -1120,7 +1123,7 @@ public final class FormalBenchmarkPreflight {
         }
     }
 
-    /** One freeze-manifest file contributing to a case fixture snapshot. */
+    /** One freeze-manifest file contributing to a case fixture snapshot. 中文：贡献到用例夹具快照的一个冻结清单文件。 */
     public record VerifiedFixtureFile(
             String frozenPath,
             String sha256,
@@ -1138,7 +1141,7 @@ public final class FormalBenchmarkPreflight {
         }
     }
 
-    /** Canonical fixture source plus its complete identity in the verified freeze manifest. */
+    /** Canonical fixture source plus its complete identity in the verified freeze manifest. 中文：规范夹具来源及其在已验证冻结清单中的完整身份。 */
     public record VerifiedFixture(
             String declaredPath,
             String frozenPath,

@@ -155,7 +155,7 @@ public final class BottomStatusBar implements AutoCloseable {
         }
         int rows = TerminalCapabilities.safeSize(terminal).getRows();
         int cols = TerminalCapabilities.safeSize(terminal).getColumns();
-        int dockRows = formatStatusLines(info, cols).size() + 1; // JLine Status border.
+        int dockRows = formatStatusLines(info, cols).size() + 1; // JLine Status border.（中文：JLine 状态栏边框。）
         int inputRow = inputDockRow(rows, dockRows);
         synchronized (out) {
             terminal.puts(InfoCmp.Capability.cursor_address, inputRow, 0);

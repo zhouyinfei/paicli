@@ -1,6 +1,6 @@
 package com.paicli.eval.benchmark;
 
-/** Shared fail-closed provider evidence gate for host and Docker benchmark workers. */
+/** Shared fail-closed provider evidence gate for host and Docker benchmark workers. 中文：主机和 Docker 评测工作进程共享的失败时拒绝供应商证据门禁。 */
 final class BenchmarkProviderEvidenceGate {
     static final String FAILURE_TYPE = "PROVIDER_EVIDENCE_UNAVAILABLE";
     static final String NO_PROVIDER_CALL = "NO_PROVIDER_CALL";
@@ -24,6 +24,8 @@ final class BenchmarkProviderEvidenceGate {
      * Returns a stable, message-free failure type, or {@code null} when all evidence is proven.
      * A zero-call Candidate is deliberately distinct from missing provider evidence: it is a
      * scored Candidate failure, while the UNPROVEN types invalidate the evaluation episode.
+     * 中文：返回稳定且不含消息的失败类型，全部证据得到证明时返回
+     * null。零调用候选与供应商证据缺失明确区分：前者为可评分候选失败，UNPROVEN 类型使回合评测无效。
      */
     static String failureType(
             BenchmarkProtocol.WorkerRequest request,
@@ -38,6 +40,7 @@ final class BenchmarkProviderEvidenceGate {
     /**
      * Secret-free form used by run-level evidence aggregation after worker requests have left
      * scope. This must remain the single policy boundary for episode and aggregate evidence.
+     * 中文：工作进程请求离开作用域后，运行级证据聚合使用的无秘密形式；必须是回合和聚合证据唯一策略边界。
      */
     static String failureType(
             String requestedModel,
@@ -59,6 +62,7 @@ final class BenchmarkProviderEvidenceGate {
     /**
      * Returns only evidence defects that invalidate an evaluation episode. Ordinary provider
      * failures are deliberately excluded so they retain their scored-failure semantics.
+     * 中文：仅返回使评测回合无效的证据缺陷，刻意排除普通供应商失败，以保留其可评分失败语义。
      */
     static String invalidEvaluationFailureType(
             BenchmarkProtocol.WorkerRequest request,

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/** All-or-nothing preparation of the complete registered batch, with no provider calls. */
+/** All-or-nothing preparation of the complete registered batch, with no provider calls. 中文：完整注册批次的全有或全无准备，不调用供应商。 */
 public final class FormalBatchPreparation {
     private FormalBatchPreparation() {}
 
@@ -21,7 +21,7 @@ public final class FormalBatchPreparation {
         Objects.requireNonNull(credentials, "credentials");
         admission.verifyUnchanged();
         var plan = admission.plan();
-        // Never launch the supported subset and silently omit the rest of the frozen suite.
+        // Never launch the supported subset and silently omit the rest of the frozen suite.（中文：不得只启动受支持子集并静默省略冻结套件其余部分。）
         for (var episode : plan.episodes())
             FormalEpisodeRequestFactory.validateCapabilities(plan, episode);
         Map<String, FormalEpisodeRequestFactory.HostCredential> hostCredentials =
@@ -46,7 +46,7 @@ public final class FormalBatchPreparation {
         FormalEpisodeRequestFactory.HostCredential resolve(String provider) throws IOException;
     }
 
-    /** Host-only capability for the executor. There is no public plan/JSON constructor. */
+    /** Host-only capability for the executor. There is no public plan/JSON constructor. 中文：执行器的主机专属能力，不提供公开计划或 JSON 构造器。 */
     public static final class ReadyBatch {
         private final FormalBenchmarkAdmission.AdmittedBatch admission;
         private final List<FormalEpisodeRequestFactory.PreparedRequest> requests;

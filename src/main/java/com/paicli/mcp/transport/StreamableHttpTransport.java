@@ -113,7 +113,7 @@ public class StreamableHttpTransport implements McpTransport {
                 .connectTimeout(2, TimeUnit.SECONDS)
                 .build();
         try (Response ignored = closeClient.newCall(builder.build()).execute()) {
-            // best effort
+            // best effort（中文：尽力处理。）
         } catch (IOException ignored) {
         }
     }

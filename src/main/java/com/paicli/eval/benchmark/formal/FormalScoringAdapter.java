@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/** Converts bounded verifier-report bytes into the closed formal episode outcome taxonomy. */
+/** Converts bounded verifier-report bytes into the closed formal episode outcome taxonomy. 中文：将有界验证器报告字节转为封闭正式回合结果分类。 */
 public final class FormalScoringAdapter {
     private FormalScoringAdapter() {
     }
@@ -24,6 +24,8 @@ public final class FormalScoringAdapter {
      * <p>Runner hard gates are represented only as positive violations. They are OR-ed into the
      * verifier report and therefore can never clear a verifier-observed violation. A required but
      * unavailable judge remains unscored; component points are never re-normalized.</p>
+     * 中文：按用例计划已保留的评分对象解析评分报告。运行器硬门禁仅表示正向违规，与验证器报告取逻辑或，因此不能清除验证器观测到的违规。必需裁判
+     * 不可用时不评分，不重新归一化分项分数。
      */
     public static FormalEpisodeOutcome adapt(
             AttemptKey key,
@@ -74,7 +76,7 @@ public final class FormalScoringAdapter {
                     FormalEpisodeOutcome.InfraCode.JUDGE_UNAVAILABLE,
                     result.evidenceRefs());
         }
-        // A hard-gated or otherwise valid score of zero remains a genuine scored result.
+        // A hard-gated or otherwise valid score of zero remains a genuine scored result.（中文：触发硬门禁或其他有效零分仍是真实已评分结果。）
         return new FormalEpisodeOutcome.Scored(key, result);
     }
 
@@ -143,10 +145,10 @@ public final class FormalScoringAdapter {
         return new FormalEpisodeOutcome.EvaluationDefect(key, code, List.of(evidence));
     }
 
-    /** A runner-owned hard-gate observation. This type cannot represent a clearing value. */
+    /** A runner-owned hard-gate observation. This type cannot represent a clearing value. 中文：运行器拥有的硬门禁观测，此类型不能表示清除违规的值。 */
     public record RunnerHardGateViolation(String id, List<String> evidenceRefs) {
         public RunnerHardGateViolation {
-            // Reuse the strict report schema validation for identifier and evidence syntax.
+            // Reuse the strict report schema validation for identifier and evidence syntax.（中文：复用严格报告模式验证标识符与证据语法。）
             VerifierScoringReport.HardGateResult validated =
                     new VerifierScoringReport.HardGateResult(id, true, evidenceRefs);
             id = validated.id();
@@ -154,7 +156,7 @@ public final class FormalScoringAdapter {
         }
     }
 
-    @SuppressWarnings("serial") // Private in-process validation sentinel.
+    @SuppressWarnings("serial") // Private in-process validation sentinel.（中文：私有进程内验证哨兵。）
     private static final class RunnerGateException extends IllegalArgumentException {
         private RunnerGateException() {
             super("invalid runner hard gate");

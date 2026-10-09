@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** Deterministically derives the only publishable case-level scoring fields. */
+/** Deterministically derives the only publishable case-level scoring fields. 中文：确定性推导唯一可发布的用例级评分字段。 */
 public final class ScoreCalculator {
     private ScoreCalculator() {
     }
@@ -17,6 +17,7 @@ public final class ScoreCalculator {
     /**
      * Validates the verifier report against its frozen contract and calculates the case score.
      * A required unavailable judge is an infrastructure outcome with no component reweighting.
+     * 中文：根据冻结合同验证报告并计算分数；必需裁判不可用时归为基础设施结果，不重新分配分项权重。
      */
     public static Result calculate(ScoringContract contract,
                                    VerifierScoringReport report,
@@ -158,7 +159,7 @@ public final class ScoreCalculator {
         INFRA_UNAVAILABLE
     }
 
-    /** Derived result only; no candidate- or judge-supplied total is accepted. */
+    /** Derived result only; no candidate- or judge-supplied total is accepted. 中文：仅接受推导结果，不接受候选或裁判提供的总分。 */
     public record Result(Integer score,
                          boolean strictSuccess,
                          boolean hardGate,
@@ -192,7 +193,7 @@ public final class ScoreCalculator {
             }
         }
 
-        /** Prevents infrastructure-unavailable outcomes from entering numeric aggregation. */
+        /** Prevents infrastructure-unavailable outcomes from entering numeric aggregation. 中文：防止基础设施不可用结果进入数值聚合。 */
         public int scoreForAggregation() {
             if (score == null) {
                 throw new IllegalStateException("INFRA_UNAVAILABLE result has no numeric score");

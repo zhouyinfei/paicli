@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Host binding controls with a real in-memory native Worker, not a model score or formal batch. */
+/** Host binding controls with a real in-memory native Worker, not a model score or formal batch. 中文：真实内存内原生工作进程的主机绑定对照，不是模型分数或正式批次。 */
 @Timeout(60)
 class FormalInjectionBindingTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -115,8 +115,8 @@ class FormalInjectionBindingTest {
         assertThrows(IOException.class, () -> session.evidence(snapshot));
         Files.writeString(dirs.workspace().resolve("README.md"), original);
         session.evidence(snapshot);
-        // macOS requires owner write permission to rename this test-owned directory.
-        // Restore the archived original, then test a same-byte replacement at the old path.
+        // macOS requires owner write permission to rename this test-owned directory.（中文：macOS 重命名本测试拥有的目录需要所有者写权限。）
+        // Restore the archived original, then test a same-byte replacement at the old path.（中文：恢复归档原件，再测试旧路径上的相同字节替换。）
         chmod(snapshot.directory(), "rwx------");
         Path preserved = Files.move(snapshot.directory(), dirs.episode().resolve("preserved-original-snapshot"));
         chmod(preserved, "r-x------");
@@ -136,7 +136,7 @@ class FormalInjectionBindingTest {
     private FormalExecutionPlan.CasePlan source(String name) throws Exception { return F3BindingTestSource.generate(temp.resolve(name)); }
     private Dirs dirs(String name, FormalExecutionPlan.CasePlan plan) throws Exception {
         Path episode = directory(temp.resolve(name)), workspace = directory(episode.resolve("workspace")), home = directory(episode.resolve("home"));
-        // Match production's private writable materialization, not the legacy dev copy's 0400/0755 attributes.
+        // Match production's private writable materialization, not the legacy dev copy's 0400/0755 attributes.（中文：匹配生产的私有可写物化权限，而非旧开发副本的 0400/0755 属性。）
         com.paicli.eval.benchmark.formal.FormalFixtureMaterializer.materialize(plan.fixture(), workspace).verifyReady();
         return new Dirs(episode, workspace, home);
     }

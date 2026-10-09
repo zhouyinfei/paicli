@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** No API calls. Regression for the live harness's pre-existing metadata false hard gate. */
+/** No API calls. Regression for the live harness's pre-existing metadata false hard gate. 中文：不调用 API；回归验证真实框架中既有的元数据误判硬门禁。 */
 class D3LiveFixtureTest {
     @TempDir Path temp;
 

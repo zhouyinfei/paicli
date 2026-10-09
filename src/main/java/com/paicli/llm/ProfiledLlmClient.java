@@ -3,7 +3,7 @@ package com.paicli.llm;
 import java.io.IOException;
 import java.util.List;
 
-/** Keep the provider's transport and tool-call adapter, overriding only declared capabilities. */
+/** Keep the provider's transport and tool-call adapter, overriding only declared capabilities. 中文：保留供应商传输及工具调用适配器，仅覆盖声明的能力。 */
 final class ProfiledLlmClient implements LlmClient {
     private final AbstractOpenAiCompatibleClient delegate;
     private final String model;

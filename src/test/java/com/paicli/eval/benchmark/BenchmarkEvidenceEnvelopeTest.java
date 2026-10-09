@@ -102,7 +102,7 @@ class BenchmarkEvidenceEnvelopeTest {
                     PosixFilePermission.OWNER_READ,
                     PosixFilePermission.OWNER_WRITE), permissions);
         } catch (UnsupportedOperationException ignored) {
-            // The containing episode remains private on non-POSIX test hosts.
+            // The containing episode remains private on non-POSIX test hosts.（中文：在非 POSIX 测试主机上，所属评测回合仍保持私有。）
         }
     }
 

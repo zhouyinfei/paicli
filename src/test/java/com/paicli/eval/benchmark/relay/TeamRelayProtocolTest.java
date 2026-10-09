@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * TEAM relay protocol semantics over real frames: exact audit binding, acknowledged
  * event/scope correlation, budget denial with preserved attempts, and observation
  * failures that can never complete as clean evidence. No model scores here.
+ * 中文：经真实帧验证 TEAM
+ * 中继协议：精确审计绑定、已确认事件与作用域关联、保留尝试的预算拒绝，以及不能作为干净证据完成的观测失败。不产生模型分数。
  */
 class TeamRelayProtocolTest {
     static final String GOAL = "relay protocol frozen goal PHASE3_PROTOCOL_PRIVATE_甲";
@@ -210,13 +212,13 @@ class TeamRelayProtocolTest {
             serveEvent(harness, provider, () -> worker.observeTeam(new TeamExecutionObserver.ActivationInputPrepared(
                     identity, 3, 1, TextFingerprint.of(USER_TEXT), 0)));
 
-            // Normal request consumes the whole episode budget.
+            // Normal request consumes the whole episode budget.（中文：普通请求消耗整个回合预算。）
             Future<BenchmarkProviderRelay.ServeResult> first = harness.pool.submit(provider::serveNext);
             worker.chat(List.of(LlmClient.Message.system("sys"), LlmClient.Message.user(USER_TEXT)),
                     List.of(), LlmClient.StreamListener.NO_OP);
             assertEquals(BenchmarkProviderRelay.ServeResult.CHAT_SERVED, first.get());
 
-            // The product observes its own budget finalization; the empty-tools closing call is permitted once.
+            // The product observes its own budget finalization; the empty-tools closing call is permitted once.（中文：产品观测自身预算收尾；允许一次空工具收尾调用。）
             serveEvent(harness, provider, () -> worker.observeTeam(new TeamExecutionObserver.BudgetFinalization(
                     identity, 4, 1, "TOKEN_BUDGET_EXCEEDED")));
             Future<BenchmarkProviderRelay.ServeResult> closing = harness.pool.submit(provider::serveNext);
@@ -225,7 +227,7 @@ class TeamRelayProtocolTest {
             assertEquals(BenchmarkProviderRelay.ServeResult.CHAT_SERVED, closing.get());
             assertEquals(2, delegate.calls.get(), "the closing call reaches the provider");
 
-            // A second closing-style call is denied: emptiness alone is never a permit.
+            // A second closing-style call is denied: emptiness alone is never a permit.（中文：拒绝第二次类似收尾调用；空内容本身不构成许可。）
             Future<BenchmarkProviderRelay.ServeResult> second = harness.pool.submit(provider::serveNext);
             IOException denied = assertThrows(IOException.class, () -> worker.chat(
                     List.of(LlmClient.Message.system("sys"), LlmClient.Message.user(USER_TEXT)),
@@ -298,7 +300,7 @@ class TeamRelayProtocolTest {
                         BenchmarkRelayProtocol.MAX_TOOLS));
     }
 
-    /** Deterministic provider stand-in; never a model score. */
+    /** Deterministic provider stand-in; never a model score. 中文：确定性供应商替身，不代表模型分数。 */
     private static final class FakeDelegate implements LlmClient {
         private final java.util.concurrent.atomic.AtomicInteger calls = new java.util.concurrent.atomic.AtomicInteger();
         private final boolean fail;

@@ -15,7 +15,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/** Seeded private D3 source and synthetic reference transcript, never a model score. */
+/** Seeded private D3 source and synthetic reference transcript, never a model score. 中文：带种子的私有 D3 来源和合成参考记录，不是模型分数。 */
 final class D3CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/d3_replay.py", "validators/final/_private/d3_verify.py");
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -71,7 +71,7 @@ final class D3CaseMaterializer {
                 List.of(new ScoringContract.ComponentRule("strictTask", 100, ScoreSource.DETERMINISTIC)), verifierSha, runtimeSha);
     }
 
-    /** A deterministic reference fixture. Native Worker execution is tested separately. */
+    /** A deterministic reference fixture. Native Worker execution is tested separately. 中文：确定性参考夹具，原生工作进程执行另行测试。 */
     private static final class ReferenceTranscript {
         private final D3ApprovalCalendarMock mock;
         private final D3ApprovalCalendarMock.Definition definition;

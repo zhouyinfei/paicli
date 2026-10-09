@@ -22,7 +22,7 @@ import java.util.*;
 import static com.paicli.agent.TeamExecutionObserver.TextFingerprint;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.textSha256;
 
-/** Deterministic private E2 source/reference prototype; catalog registration is not production admission. */
+/** Deterministic private E2 source/reference prototype; catalog registration is not production admission. 中文：确定性私有 E2 来源参考原型，目录注册不等于生产准入。 */
 final class E2CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/e2_team_verify.py");
     private static final ObjectMapper JSON = new ObjectMapper().enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
@@ -34,7 +34,7 @@ final class E2CaseMaterializer {
     private static final List<String> STEP_PATHS = List.of("src/triage.py", "tests/test_triage.py", "docs/notes.md");
     private E2CaseMaterializer() { }
 
-    /** Package-local prototype gate: new, empty, canonical, owner-only and outside every Git tree. */
+    /** Package-local prototype gate: new, empty, canonical, owner-only and outside every Git tree. 中文：包内原型门禁：全新、空、规范、仅所有者可访问且位于全部 Git 目录树之外。 */
     static void materializePrototype(PrivateSourceWriter writer, SeededVariant variant) throws IOException {
         Path root = writer.root();
         if (!"E2".equals(variant.caseId()) || !root.equals(root.toRealPath()) || Files.isSymbolicLink(root)
@@ -61,7 +61,7 @@ final class E2CaseMaterializer {
                         "command-provenance-not-integrated", "reference-is-synthetic-not-provider-evidence"))));
     }
 
-    /** Called after the catalog skeleton wrote the exact prompt and wrapper; never overwrites either. */
+    /** Called after the catalog skeleton wrote the exact prompt and wrapper; never overwrites either. 中文：目录骨架写入精确提示和包装器后调用，不覆盖二者。 */
     static void materializeRegistered(PrivateSourceWriter writer, SeededVariant variant) throws IOException {
         var oracle = oracle(variant);
         if (!"E2".equals(variant.caseId()) || !oracle.prompt().equals(Files.readString(writer.root().resolve("prompts/final/E2.md"))))
@@ -147,7 +147,7 @@ final class E2CaseMaterializer {
                 List.of(new ScoringContract.ComponentRule("strictTask", 100, ScoreSource.DETERMINISTIC)), verifierSha, runtimeSha);
     }
 
-    /** Fabricated, deterministic reference for testing the verifier, never labelled as an observed run. */
+    /** Fabricated, deterministic reference for testing the verifier, never labelled as an observed run. 中文：用于测试验证器的虚构确定性参考，不标记为已观测运行。 */
     private static final class Reference {
         final E2FrozenOracle oracle;
         final String runId;

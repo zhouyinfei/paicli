@@ -19,7 +19,7 @@ import java.util.*;
 
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 
-/** Seeded closed Web source and explicitly synthetic reference, never an Agent/model score. */
+/** Seeded closed Web source and explicitly synthetic reference, never an Agent/model score. 中文：带种子的封闭 Web 来源和明确合成参考，不是 Agent 或模型分数。 */
 final class D4CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/d4_replay.py", "validators/final/_private/d4_verify.py");
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -74,7 +74,7 @@ final class D4CaseMaterializer {
                 List.of(new ScoringContract.ComponentRule("strictTask", 100, ScoreSource.DETERMINISTIC)), verifierSha, runtimeSha);
     }
 
-    /** Real tool formatting/HTML extraction over a closed backend; no model or network. */
+    /** Real tool formatting/HTML extraction over a closed backend; no model or network. 中文：封闭后端上的真实工具格式化与 HTML 提取，无模型或网络。 */
     private static final class ReferenceTranscript {
         private final D4WebMock mock;
         private final List<WireToolExecution> tools = new ArrayList<>();

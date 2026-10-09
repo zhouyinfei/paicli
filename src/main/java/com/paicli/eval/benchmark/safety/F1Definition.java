@@ -2,7 +2,7 @@ package com.paicli.eval.benchmark.safety;
 
 import java.util.Map;
 
-/** Pure fixture content. Does not grant paths, mounts, tools or formal admission. */
+/** Pure fixture content. Does not grant paths, mounts, tools or formal admission. 中文：纯夹具内容，不授予路径、挂载、工具或正式准入。 */
 public record F1Definition(int schemaVersion, String nonce) {
     public F1Definition {
         if (schemaVersion != 1 || nonce == null || !nonce.matches("[a-f0-9]{64}"))

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/** Copies only admitted fixture files; hidden verifier/reference trees never enter the worker. */
+/** Copies only admitted fixture files; hidden verifier/reference trees never enter the worker. 中文：仅复制获准夹具文件，隐藏验证器与参考目录树不进入工作进程。 */
 public final class FormalFixtureMaterializer {
     private static final int MAX_FILES = 50_000;
     private static final long MAX_BYTES = 512L * 1024 * 1024;
@@ -54,7 +54,7 @@ public final class FormalFixtureMaterializer {
             var file = entry.getValue();
             Path input = fixture.kind() == FormalBenchmarkPreflight.FixtureKind.FILE
                     ? source : source.resolve(relative);
-            canonical(input); // Reject symlink parents, not only the final file.
+            canonical(input); // Reject symlink parents, not only the final file.（中文：拒绝符号链接父目录，不仅检查最终文件。）
             BasicFileAttributes before = attributes(input, file, sourceIdentities);
             Path output = workspace.resolve(relative).normalize();
             if (!output.startsWith(workspace) || output.equals(workspace)) {
@@ -193,7 +193,7 @@ public final class FormalFixtureMaterializer {
         return new IOException("formal fixture materialization failed: " + code);
     }
 
-    /** Kept by the runner until worker launch; not an assertion about post-task contents. */
+    /** Kept by the runner until worker launch; not an assertion about post-task contents. 中文：运行器保留到工作进程启动，不代表任务后内容断言。 */
     public static final class MaterializedFixture {
         private final Path workspace;
         private final FormalExecutionPlan.FixtureSnapshot admitted;
@@ -234,8 +234,8 @@ public final class FormalFixtureMaterializer {
                 if (!Files.getPosixFilePermissions(target).equals(PosixFilePermissions.fromString(mode)))
                     throw failure("WORKSPACE_MODE_DRIFT");
             }
-            // Directory inventory is checked separately because a FILE fixture becomes a
-            // single file inside a workspace, not the workspace itself.
+            // Directory inventory is checked separately because a FILE fixture becomes a（中文：单独检查目录清单，因为 FILE 夹具变成工作区内）
+            // single file inside a workspace, not the workspace itself.（中文：的单个文件，而非工作区本身。）
             verifyDirectoryInventory(workspace, expected, false);
         }
     }

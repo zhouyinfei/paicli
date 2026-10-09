@@ -41,7 +41,7 @@ public final class PlainRenderer implements Renderer {
 
     @Override
     public void start() {
-        // no-op
+        // no-op（中文：空操作。）
     }
 
     @Override

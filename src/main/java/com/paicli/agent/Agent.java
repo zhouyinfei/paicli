@@ -5,10 +5,9 @@ import com.paicli.llm.LlmTraceLogger;
 import com.paicli.context.ContextProfile;
 import com.paicli.context.TokenUsageFormatter;
 import com.paicli.history.ConversationLedger;
+import com.paicli.llm.ModelCatalog;
 import com.paicli.lsp.LspDiagnosticReport;
-import com.paicli.memory.AutoCompactionManager;
-import com.paicli.memory.ExplicitMemoryHints;
-import com.paicli.memory.MemoryManager;
+import com.paicli.memory.*;
 import com.paicli.prompt.PromptAssembler;
 import com.paicli.prompt.PromptContext;
 import com.paicli.prompt.PromptMode;
@@ -88,6 +87,7 @@ public class Agent {
      * Attaches the append-only session ledger used by the CLI entry point. Existing
      * in-memory history is not replayed except for the current system prompt, because
      * callers attach the ledger immediately after constructing the Agent.
+     * 中文：挂接 CLI 入口使用的仅追加会话账本。除当前系统提示外，不重放既有内存历史，因为调用方在构建 Agent 后立即挂接账本。
      */
     public void setConversationLedger(ConversationLedger conversationLedger) {
         ConversationLedger next = conversationLedger == null
@@ -161,6 +161,7 @@ public class Agent {
     /**
      * Runs with expanded delivery content while deriving tool authority only from
      * the text the user actually submitted.
+     * 中文：使用展开后的交付内容运行，但工具权限仅源于用户实际提交的文本。
      */
     public String run(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, false);
@@ -170,6 +171,8 @@ public class Agent {
      * Runs an input that a trusted caller has already classified as an explicit task envelope.
      * URL provenance and no-web rules still come from {@code submittedUserInput}; only the
      * bare-title actionability heuristic is bypassed.
+     * 中文：执行已由受信调用方归类为显式任务信封的输入。URL 来源和禁联网规则仍取自
+     * submittedUserInput，仅跳过裸标题可执行性启发式判断。
      */
     public String runExplicitTask(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, true);
@@ -293,8 +296,8 @@ public class Agent {
 
                 // 没有工具调用，直接返回结果
                 appendReasoning(reasoningTranscript, response.reasoningContent());
-                // Keep the delivery view compatible with providers that do not require
-                // final-turn reasoning replay, while the raw ledger preserves the complete response.
+                // Keep the delivery view compatible with providers that do not require（中文：交付视图兼容不要求最终轮次推理重放的供应商，）
+                // final-turn reasoning replay, while the raw ledger preserves the complete response.（中文：同时原始账本保留完整响应。）
                 conversationHistory.add(LlmClient.Message.assistant(response.content()));
                 conversationLedger.appendMessage(
                         "react",
@@ -441,7 +444,7 @@ public class Agent {
     /** 当前状态栏快照：ctx 表示下一轮请求仍会携带的上下文估算，不含累计 in/out 用量。 */
     public StatusInfo currentStatus(String phase) {
         String normalizedPhase = phase == null || phase.isBlank() ? "idle" : phase;
-        String model = llmClient == null ? "—" : com.paicli.llm.ModelCatalog.statusName(llmClient.getProviderName(), llmClient.getModelName());
+        String model = llmClient == null ? "—" : ModelCatalog.statusName(llmClient.getProviderName(), llmClient.getModelName());
         long contextWindow = llmClient == null ? 0L : llmClient.maxContextWindow();
         boolean hitl = Boolean.TRUE.equals(hitlEnabledSupplier.get());
         long contextTokens = estimateCurrentContextTokens();
@@ -496,7 +499,7 @@ public class Agent {
     }
 
     private void reportAutomaticallySavedFacts(String submittedUserInput) {
-        List<com.paicli.memory.MemoryEntry> saved = memoryManager.extractFactsFromUserTurn(submittedUserInput);
+        List<MemoryEntry> saved = memoryManager.extractFactsFromUserTurn(submittedUserInput);
         if (!saved.isEmpty()) {
             renderer().stream().println("💾 自动提取并保存 " + saved.size()
                     + " 条项目事实（待核实；可用 /memory list 查看和删除）。");
@@ -629,7 +632,7 @@ public class Agent {
     }
 
     public String getContextStatus() {
-        com.paicli.context.ContextProfile profile = memoryManager.getContextProfile();
+        ContextProfile profile = memoryManager.getContextProfile();
         int window = profile.maxContextWindow();
         int triggerTokens = profile.compressionTriggerTokens();
 
@@ -637,7 +640,7 @@ public class Agent {
         int systemTokens = 0, userTokens = 0, assistantTokens = 0, toolTokens = 0;
         int systemCount = 0, userCount = 0, assistantCount = 0, toolCount = 0;
         for (LlmClient.Message msg : conversationHistory) {
-            int t = com.paicli.memory.TokenBudget.estimateMessagesTokens(java.util.List.of(msg));
+            int t = TokenBudget.estimateMessagesTokens(java.util.List.of(msg));
             switch (msg.role()) {
                 case "system" -> { systemTokens += t; systemCount++; }
                 case "user" -> { userTokens += t; userCount++; }
@@ -697,7 +700,7 @@ public class Agent {
 
     private int estimateToolsSchemaTokens() {
         try {
-            return com.paicli.memory.MemoryEntry.estimateTokens(
+            return MemoryEntry.estimateTokens(
                     new ObjectMapper().writeValueAsString(toolRegistry.getToolDefinitions()));
         } catch (Exception e) {
             return 0;
@@ -705,7 +708,7 @@ public class Agent {
     }
 
     private long estimateCurrentContextTokens() {
-        long messageTokens = com.paicli.memory.TokenBudget.estimateMessagesTokens(conversationHistory);
+        long messageTokens = TokenBudget.estimateMessagesTokens(conversationHistory);
         return Math.max(0L, messageTokens + estimateToolsSchemaTokens());
     }
 
@@ -723,7 +726,7 @@ public class Agent {
         for (int messageIndex = 0; messageIndex < conversationHistory.size(); messageIndex++) {
             LlmClient.Message msg = conversationHistory.get(messageIndex);
             messages++;
-            int tokens = com.paicli.memory.TokenBudget.estimateMessagesTokens(List.of(msg));
+            int tokens = TokenBudget.estimateMessagesTokens(List.of(msg));
             imageParts += msg.imagePartCount();
             appendImageDetails(imageDetails, msg, messageIndex);
             switch (msg.role()) {
@@ -739,7 +742,7 @@ public class Agent {
         int toolCount = tools == null ? 0 : tools.size();
         if (tools != null && !tools.isEmpty()) {
             try {
-                toolsSchemaTokens = com.paicli.memory.MemoryEntry.estimateTokens(
+                toolsSchemaTokens = MemoryEntry.estimateTokens(
                         new ObjectMapper().writeValueAsString(tools));
             } catch (Exception e) {
                 log.debug("Failed to estimate tools schema tokens", e);
@@ -823,7 +826,7 @@ public class Agent {
     /** 把当前预算/耗时/HITL 状态推送给 renderer 状态栏。 */
     private void pushStatus(AgentBudget budget, long startNanos, String phase) {
         try {
-            String model = llmClient == null ? "—" : com.paicli.llm.ModelCatalog.statusName(llmClient.getProviderName(), llmClient.getModelName());
+            String model = llmClient == null ? "—" : ModelCatalog.statusName(llmClient.getProviderName(), llmClient.getModelName());
             long totalTokens = budget == null ? 0L
                     : (long) (budget.totalInputTokens() + budget.totalOutputTokens());
             long contextWindow = llmClient == null ? 0L : llmClient.maxContextWindow();

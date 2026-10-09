@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Private three-service world plus a separately implemented, deterministic verifier. */
+/** Private three-service world plus a separately implemented, deterministic verifier. 中文：私有三服务环境与独立实现的确定性验证器。 */
 final class D2CaseMaterializer {
     static final String RUNTIME_PATH = "validators/final/_private/d2_verify.py";
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -89,7 +89,7 @@ final class D2CaseMaterializer {
     }
 
     static ScoringContract scoring(String verifierSha, String runtimeSha) {
-        // Same strict task semantics as the pre-existing diagnostic. No post-result partial credit.
+        // Same strict task semantics as the pre-existing diagnostic. No post-result partial credit.（中文：与既有诊断使用相同严格任务语义，不在结果后补给部分分数。）
         return new ScoringContract(ScoringContract.CURRENT_SCHEMA_VERSION, "D2", 100,
                 List.of("audit_binding", "entity_join", "answer", "read_only").stream()
                         .map(id -> new ScoringContract.AssertionRule("D2." + id, "strictTask", true)).toList(),

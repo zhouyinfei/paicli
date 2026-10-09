@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Mode/artifact smoke with host-scoped request fingerprints. Still no full E1 verifier or model API. */
+/** Mode/artifact smoke with host-scoped request fingerprints. Still no full E1 verifier or model API. 中文：带主机作用域请求指纹的模式与产物冒烟检查，仍不含完整 E1 验证器或模型 API。 */
 @EnabledIfSystemProperty(named = "paicli.test.e1.docker", matches = "true")
 @Timeout(150)
 class E1DockerPlanSmokeTest {

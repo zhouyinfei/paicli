@@ -3,12 +3,7 @@ package com.paicli.cli;
 import com.paicli.agent.Agent;
 import com.paicli.agent.AgentOrchestrator;
 import com.paicli.agent.PlanExecuteAgent;
-import com.paicli.browser.BrowserAuditMetadata;
-import com.paicli.browser.BrowserConnectivityCheck;
-import com.paicli.browser.BrowserGuard;
-import com.paicli.browser.BrowserMode;
-import com.paicli.browser.BrowserSession;
-import com.paicli.browser.SensitivePagePolicy;
+import com.paicli.browser.*;
 import com.paicli.config.PaiCliConfig;
 import com.paicli.hitl.*;
 import com.paicli.history.ConversationLedger;
@@ -36,6 +31,7 @@ import com.paicli.runtime.api.RuntimeApiServer;
 import com.paicli.runtime.api.RuntimeThreadStore;
 import com.paicli.runtime.task.DurableTaskManager;
 import com.paicli.runtime.task.TaskCommandFormatter;
+import com.paicli.skill.SkillBuiltinExtractor;
 import com.paicli.skill.SkillStateStore;
 import com.paicli.snapshot.RestoreResult;
 import com.paicli.snapshot.SnapshotService;
@@ -44,17 +40,12 @@ import com.paicli.skill.SkillRegistry;
 import com.paicli.tool.CommandSandboxMode;
 import com.paicli.tool.CommandSandboxStatus;
 import com.paicli.tool.ToolRegistry;
+import com.paicli.tui.TuiBootstrap;
 import com.paicli.util.AnsiStyle;
 import com.paicli.util.TerminalInputLock;
 import com.paicli.util.TerminalTable;
 import com.paicli.util.TerminalMarkdownRenderer;
-import com.paicli.wechat.IlinkClient;
-import com.paicli.wechat.WechatAccount;
-import com.paicli.wechat.WechatAccountStore;
-import com.paicli.wechat.WechatCommandMain;
-import com.paicli.wechat.WechatLoginResult;
-import com.paicli.wechat.WechatMessageLoop;
-import com.paicli.wechat.WechatQrLogin;
+import com.paicli.wechat.*;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.terminal.Attributes;
@@ -98,7 +89,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 /**
- * PaiCLI v16.1.0 - Terminal-First Agent IDE
+ * PaiCLI v16.1.0 - Terminal-First Agent IDE（中文：以终端为主要界面的 Agent 集成开发环境。）
  * 支持 ReAct、Plan-and-Execute、Memory、RAG、Multi-Agent、HITL、并行工具调用、多模型切换、MCP、CDP 会话复用
  * 第 15 期新增：Skill 系统（三层加载 + load_skill 工具 + 同轮正文注入）、内置 web-access skill
  * 第 16 期新增：TUI 界面（Lanterna 3）、文件树浏览、代码高亮、对话历史可视化、配置管理面板
@@ -247,7 +238,7 @@ public class Main {
             hitlToolRegistry.setBrowserGuard(new BrowserGuard(browserSession, new SensitivePagePolicy()));
             McpServerManager mcpServerManager = new McpServerManager(hitlToolRegistry, Path.of("."));
             AtomicReference<SkillRegistry> skillRegistryRef = new AtomicReference<>();
-            hitlToolRegistry.setBrowserConnector(new com.paicli.browser.BrowserConnector() {
+            hitlToolRegistry.setBrowserConnector(new BrowserConnector() {
                 @Override
                 public String status() {
                     return handleBrowserCommand("status", browserSession, browserConnectivityCheck,
@@ -315,7 +306,7 @@ public class Main {
             Path userSkillsDir = home.resolve(".paicli/skills");
             Path projectSkillsDir = Path.of(".paicli/skills").toAbsolutePath();
             try {
-                new com.paicli.skill.SkillBuiltinExtractor(skillsCacheDir).extractAll();
+                new SkillBuiltinExtractor(skillsCacheDir).extractAll();
             } catch (Exception e) {
                 startupNote = appendStartupNote(startupNote, "内置 skill 解压失败: " + e.getMessage());
             }
@@ -365,9 +356,9 @@ public class Main {
 
             // === TUI / CLI 分支判断 ===
             // 旧 PAICLI_TUI=true 路径仍走 Lanterna 全屏 TUI（Day 5 后由 LanternaRenderer 接管）。
-            if (com.paicli.tui.TuiBootstrap.shouldUseTui(terminal)) {
+            if (TuiBootstrap.shouldUseTui(terminal)) {
                 try {
-                    com.paicli.tui.TuiBootstrap.launch(config, llmClient, reactAgent, hitlHandler);
+                    TuiBootstrap.launch(config, llmClient, reactAgent, hitlHandler);
                     return;  // TUI 启动成功，不进入 CLI 循环
                 } catch (Exception e) {
                     hitlHandler.setDelegate(terminalHitlHandler);
@@ -1065,8 +1056,8 @@ public class Main {
     private static String runHeadlessTask(String prompt, LlmClient llmClient) {
         ToolRegistry registry = new ToolRegistry();
         registry.setProjectPath(Path.of(".").toAbsolutePath().normalize().toString());
-        com.paicli.tool.CommandSandboxStatus sandboxStatus = registry.configureCommandSandbox(
-                com.paicli.tool.CommandSandboxMode.fromConfiguration(),
+        CommandSandboxStatus sandboxStatus = registry.configureCommandSandbox(
+                CommandSandboxMode.fromConfiguration(),
                 Path.of(registry.getProjectPath()));
         if (!sandboxStatus.message().isBlank()) {
             System.err.println(sandboxStatus.message());
@@ -1076,7 +1067,7 @@ public class Main {
             agent.setConversationLedger(ConversationLedger.openDefault(
                     Path.of(System.getProperty("user.home"))));
         } catch (IOException ignored) {
-            // A background task should still run if its audit directory is temporarily unavailable.
+            // A background task should still run if its audit directory is temporarily unavailable.（中文：审计目录暂时不可用时，后台任务仍应运行。）
         }
         return agent.run(prompt);
     }
@@ -1153,7 +1144,7 @@ public class Main {
 
             WechatQrLogin qr = client.startQrLogin("3");
             out.println("请用目标微信扫描二维码：");
-            com.paicli.wechat.TerminalQrRenderer.print(out, qr.qrcodeUrl());
+            TerminalQrRenderer.print(out, qr.qrcodeUrl());
             out.println("扫码失败时可打开链接：" + qr.qrcodeUrl());
             out.println("等待扫码确认...");
 
@@ -1552,13 +1543,13 @@ public class Main {
 
             Integer key = keyReadResult.key();
             if (key != null) {
-                // Enter
+                // Enter（中文：回车键。）
                 if (key == '\n' || key == '\r') {
                     out.println();
                     return PlanExecuteAgent.PlanReviewDecision.execute();
                 }
 
-                // ESC (27)
+                // ESC (27)（中文：退出键，字符码 27。）
                 if (key == 27) {
                     out.println();
                     if (expanded) {
@@ -1579,7 +1570,7 @@ public class Main {
                     return mapReviewDecision(supplementDecision);
                 }
 
-                // Ctrl+O
+                // Ctrl+O（中文：展开快捷键 Ctrl+O。）
                 if (key == CTRL_O) {
                     out.println();
                     out.println(plan.visualize());
@@ -2248,7 +2239,7 @@ public class Main {
             return true;
         });
         Reference ref = new Reference("paicli-toggle-foldable");
-        String ctrlO = String.valueOf((char) 15);  // Ctrl+O
+        String ctrlO = String.valueOf((char) 15);  // Ctrl+O（中文：展开快捷键 Ctrl+O。）
         for (String mapName : new String[]{LineReader.MAIN, LineReader.EMACS, LineReader.VIINS}) {
             KeyMap<org.jline.reader.Binding> map = lineReader.getKeyMaps().get(mapName);
             if (map != null) {
@@ -2281,7 +2272,7 @@ public class Main {
             return true;
         });
         Reference ref = new Reference("paicli-paste-clipboard-image");
-        String ctrlV = String.valueOf((char) 22);  // Ctrl+V (SYN)
+        String ctrlV = String.valueOf((char) 22);  // Ctrl+V (SYN)（中文：粘贴快捷键 Ctrl+V，对应 SYN 控制字符。）
         for (String mapName : new String[]{LineReader.MAIN, LineReader.EMACS, LineReader.VIINS}) {
             KeyMap<org.jline.reader.Binding> map = lineReader.getKeyMaps().get(mapName);
             if (map != null) {
@@ -2374,7 +2365,7 @@ public class Main {
 
             md.append("## ").append(capitalizeRole(role)).append("\n\n");
 
-            // reasoning content
+            // reasoning content（中文：推理内容。）
             if (msg.reasoningContent() != null && !msg.reasoningContent().isBlank()) {
                 md.append("> **思考过程**:\n> \n");
                 for (String line : msg.reasoningContent().replace("\r\n", "\n").split("\n")) {
@@ -2383,7 +2374,7 @@ public class Main {
                 md.append("\n");
             }
 
-            // tool calls
+            // tool calls（中文：工具调用。）
             if (msg.toolCalls() != null && !msg.toolCalls().isEmpty()) {
                 md.append("**工具调用**:\n\n");
                 for (LlmClient.ToolCall tc : msg.toolCalls()) {
@@ -2395,7 +2386,7 @@ public class Main {
                 }
             }
 
-            // content
+            // content（中文：正文内容。）
             if (msg.content() != null && !msg.content().isBlank()) {
                 if ("tool".equals(role)) {
                     String content = msg.content();
@@ -2914,7 +2905,7 @@ public class Main {
             lineReader.setOpt(LineReader.Option.DISABLE_EVENT_EXPANSION);
             lineReader.getHistory().load();
         } catch (IOException ignored) {
-            // History is a convenience feature; failed persistence must not block the CLI.
+            // History is a convenience feature; failed persistence must not block the CLI.（中文：历史记录是便利功能，持久化失败不得阻塞 CLI。）
         }
     }
 
@@ -2943,7 +2934,7 @@ public class Main {
         try {
             lineReader.getHistory().purge();
         } catch (IOException ignored) {
-            // Keep command behavior simple: in-memory history may still be reset by JLine.
+            // Keep command behavior simple: in-memory history may still be reset by JLine.（中文：保持命令行为简单，JLine 仍可重置内存历史。）
         }
     }
 

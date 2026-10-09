@@ -13,6 +13,8 @@ import java.util.Objects;
  * text. Only tools that own a structured URL source (currently the built-in
  * {@code web_search} provider) may populate it; callers must never recover URL
  * authority by scraping {@link #text()}.</p>
+ * 中文：工具实现返回的类型化结果。discoveredUrls 与可读正文明确分离，仅拥有结构化 URL 来源的工具可填充；当前为内置
+ * web_search，调用方不得从正文抓取来恢复 URL 权限。
  */
 public record ToolOutput(String text,
                          List<LlmClient.ContentPart> imageParts,
@@ -31,7 +33,7 @@ public record ToolOutput(String text,
                 .toList();
     }
 
-    /** Backward-compatible constructor for successful text/image tools. */
+    /** Backward-compatible constructor for successful text/image tools. 中文：兼容成功文本或图片工具的构造方法。 */
     public ToolOutput(String text, List<LlmClient.ContentPart> imageParts) {
         this(text, imageParts, true, List.of());
     }

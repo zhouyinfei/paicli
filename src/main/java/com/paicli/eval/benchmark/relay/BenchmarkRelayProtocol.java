@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
  *
  * <p>The protocol deliberately has no API-key, endpoint, or host-path field.
  * Those values must remain on the coordinator side of the isolation boundary.
+ * 中文：将 LLM 调用中继到网络隔离工作进程之外的带版本供应商无关协议。明确没有 API
+ * Key、端点或主机路径字段，这些值必须留在隔离边界的协调器侧。
  */
 public final class BenchmarkRelayProtocol {
     public static final int VERSION = 12;
@@ -87,7 +89,7 @@ public final class BenchmarkRelayProtocol {
 
     public enum AgentMode { REACT, PLAN, TEAM }
 
-    /** Closed workflow, not a Candidate-controlled number of turns or arbitrary host callbacks. */
+    /** Closed workflow, not a Candidate-controlled number of turns or arbitrary host callbacks. 中文：封闭工作流，不允许候选控制轮数或任意主机回调。 */
     public enum InteractionMode { SINGLE_TURN, TWO_TURN_APPROVAL }
 
     public enum ToolProfile { REASONING_ONLY, READ_ONLY, CODE_RAG, FILE_ONLY, LOCAL_COMMAND, MOCK_MCP, MOCK_WEB, MOCK_MCP_FILE_ONLY }
@@ -222,7 +224,7 @@ public final class BenchmarkRelayProtocol {
         }
     }
 
-    /** Only the first, completed Agent turn may request the one host-owned continuation. */
+    /** Only the first, completed Agent turn may request the one host-owned continuation. 中文：仅首个已完成 Agent 轮次可请求唯一的主机续接。 */
     public record TurnComplete(Header header, int turn, String answer,
                                List<WireToolExecution> toolExecutions) implements Frame {
         public TurnComplete {
@@ -243,7 +245,7 @@ public final class BenchmarkRelayProtocol {
         @Override public String toString() { return "TurnContinue[header=" + header + ", turn=" + turn + ", userMessage=<redacted>]"; }
     }
 
-    /** Native HITL asks the host; neither the LLM nor an MCP method can grant approval. */
+    /** Native HITL asks the host; neither the LLM nor an MCP method can grant approval. 中文：原生 HITL 向主机请求，LLM 或 MCP 方法均不能授予批准。 */
     public record ApprovalRequest(Header header, int turn, String toolName, String argumentsJson) implements Frame {
         public ApprovalRequest {
             validateHeader(header, Direction.WORKER_TO_COORDINATOR, FrameType.APPROVAL_REQUEST, true, true);
@@ -255,7 +257,7 @@ public final class BenchmarkRelayProtocol {
         @Override public String toString() { return "ApprovalRequest[header=" + header + ", turn=" + turn + ", arguments=<redacted>]"; }
     }
 
-    /** No edited arguments, approve-all flag, or server-wide grant exists on this wire. */
+    /** No edited arguments, approve-all flag, or server-wide grant exists on this wire. 中文：协议不提供修改参数、全部批准标志或服务器级授权。 */
     public record ApprovalComplete(Header header, int turn, String toolName, String argumentsSha256,
                                    boolean approved, String reason) implements Frame {
         public ApprovalComplete {
@@ -292,7 +294,7 @@ public final class BenchmarkRelayProtocol {
         }
     }
 
-    /** Native Team metadata requires a host acknowledgement before an activation may call the provider. */
+    /** Native Team metadata requires a host acknowledgement before an activation may call the provider. 中文：原生团队元数据须获主机确认，激活才可调用供应商。 */
     public record TeamEvent(Header header, String eventType, JsonNode event) implements Frame {
         public TeamEvent {
             validateHeader(header, Direction.WORKER_TO_COORDINATOR, FrameType.TEAM_EVENT, true, true);
@@ -531,7 +533,7 @@ public final class BenchmarkRelayProtocol {
         }
     }
 
-    /** Bounded, private verifier evidence emitted by the trusted Worker wrapper. */
+    /** Bounded, private verifier evidence emitted by the trusted Worker wrapper. 中文：受信工作进程包装器发出的有界私有验证证据。 */
     public record WireToolExecution(int ordinal, String callId, String toolName,
                                     String argumentsJson, String resultPreview,
                                     String resultSha256, long resultChars,
@@ -662,7 +664,7 @@ public final class BenchmarkRelayProtocol {
         }
     }
 
-    /** The selector is an identifier from SessionStart, never an endpoint or host path. */
+    /** The selector is an identifier from SessionStart, never an endpoint or host path. 中文：选择器是 SessionStart 中的标识符，不是端点或主机路径。 */
     public record McpRequest(Header header, String server, JsonNode message) implements Frame {
         public McpRequest(Header header, JsonNode message) { this(header, "benchmark", message); }
         public McpRequest {
@@ -674,7 +676,7 @@ public final class BenchmarkRelayProtocol {
         @Override public JsonNode message() { return message.deepCopy(); }
     }
 
-    /** A JSON null acknowledges a notification without inventing a JSON-RPC response. */
+    /** A JSON null acknowledges a notification without inventing a JSON-RPC response. 中文：JSON null 确认通知，不编造 JSON-RPC 响应。 */
     public record McpComplete(Header header, String server, JsonNode message) implements Frame {
         public McpComplete(Header header, JsonNode message) { this(header, "benchmark", message); }
         public McpComplete {
@@ -691,7 +693,7 @@ public final class BenchmarkRelayProtocol {
             throw new IllegalArgumentException("invalid mock server identifier");
     }
 
-    /** Document identifiers go to a closed host fixture, never to an outbound network proxy. */
+    /** Document identifiers go to a closed host fixture, never to an outbound network proxy. 中文：文档标识符进入封闭主机夹具，不进入外网代理。 */
     public record WebRequest(Header header, WebOperation operation, String input, Integer topK) implements Frame {
         public WebRequest {
             validateHeader(header, Direction.WORKER_TO_COORDINATOR, FrameType.WEB_REQUEST, true, true);
@@ -738,7 +740,7 @@ public final class BenchmarkRelayProtocol {
         }
     }
 
-    /** New Web payloads reject missing fields and scalar coercion without changing legacy frame decoding. */
+    /** New Web payloads reject missing fields and scalar coercion without changing legacy frame decoding. 中文：新 Web 载荷拒绝缺失字段和标量强转，不改变旧帧解码。 */
     private static void validateWebPayload(JsonNode node, boolean response) throws IOException {
         requireKeys(node, response ? java.util.Set.of("header", "operation", "results", "page", "denial")
                 : java.util.Set.of("header", "operation", "input", "topK"));
@@ -932,7 +934,7 @@ public final class BenchmarkRelayProtocol {
         return frame;
     }
 
-    /** Stateful lifecycle and per-call sequence validation, kept separate from JSON decoding. */
+    /** Stateful lifecycle and per-call sequence validation, kept separate from JSON decoding. 中文：有状态生命周期与每次调用序列验证，独立于 JSON 解码。 */
     public static final class Validator {
         private final EndpointRole endpointRole;
         private State state = State.NEW;
@@ -1134,7 +1136,7 @@ public final class BenchmarkRelayProtocol {
                     state = State.TERMINAL;
                 }
                 case WORKER_FAILURE -> {
-                    // A lost/rejected Team ACK may terminate as evidence-invalid, never resume chat.
+                    // A lost/rejected Team ACK may terminate as evidence-invalid, never resume chat.（中文：团队确认丢失或被拒绝时可因证据无效而终止，不得恢复聊天。）
                     if (!(mode == AgentMode.TEAM && state == State.TEAM_EVENT_ACTIVE
                             && "REQUEST_FINGERPRINT_UNPROVEN".equals(((WorkerFailure) frame).errorType())))
                         requireState(State.READY, frame);

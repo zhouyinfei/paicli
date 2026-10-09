@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/** Test-only, single-case preparation of real generated inputs; not formal batch admission. */
+/** Test-only, single-case preparation of real generated inputs; not formal batch admission. 中文：仅用于测试的真实生成输入单题准备，不属于正式批次准入。 */
 public final class F3LiveFixture {
     private static final String FIXTURE = "fixtures/final/F3";
     private static final String PROMPT = "prompts/final/F3.md";
@@ -39,6 +39,8 @@ public final class F3LiveFixture {
      * Checks an untouched generated source, then freezes only F3's original inputs and dependencies.
      * The source manifest remains NOT_READY and unchanged. Its original payload hash includes
      * pre-freeze modes; this helper never rewrites it or represents the resulting source as admitted.
+     * 中文：检查未经修改的生成源码，仅冻结 F3 原始输入和依赖。源码清单仍为 NOT_READY
+     * 且不变；原始载荷哈希包含冻结前权限，该辅助方法不重写清单，也不声称结果已准入。
      */
     public static FormalExecutionPlan.CasePlan create(Path source) throws IOException {
         try {
@@ -95,7 +97,7 @@ public final class F3LiveFixture {
                 throw new IOException("F3 fixture bytes differ from oracle");
             captures.put(relative, capture);
         }
-        // Recompile checks the complete, closed fixture inventory, including empty extra directories.
+        // Recompile checks the complete, closed fixture inventory, including empty extra directories.（中文：重新编译检查完整封闭的夹具清单，包括额外空目录。）
         if (!contract.equals(FinalCaseContractCompiler.compile(source, "F3")))
             throw new IOException("F3 source changed during capture");
         if (!manifest.equals(new FinalSourceGenerator().inspect(source)))

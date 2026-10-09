@@ -43,6 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * (BenchmarkProviderRelay → TeamRequestAudit + TracingLlmClient). Proves request
  * attribution and closed evidence survive the wire. Script providers only, never
  * model scores or admission.
+ * 中文：完整原生 TEAM
+ * 回合经真实中继帧连接生产工作进程与生产主机链路，证明请求归属和封闭证据可完整传输。仅使用脚本供应商，不代表模型分数或准入。
  */
 @ResourceLock(Resources.SYSTEM_PROPERTIES)
 class TeamRelayEvidenceTest {
@@ -71,7 +73,7 @@ class TeamRelayEvidenceTest {
                 String answer;
                 try { answer = host.worker().runExplicitTask(GOAL, GOAL); }
                 finally { host.relay().verifyTeamObservationFailures(host.worker().getExecutionObservationFailures()); }
-                // The trusted worker always sends one terminal frame; a missing one is evidence failure.
+                // The trusted worker always sends one terminal frame; a missing one is evidence failure.（中文：受信工作进程始终发送一个终止帧，缺失终止帧属于证据失败。）
                 host.relay().complete(answer, List.of());
                 return answer;
             });
@@ -99,7 +101,7 @@ class TeamRelayEvidenceTest {
             assertTrue(evidence.contains("PHASE3_E2_PRIVATE_甲"),
                     "private host audit retains actual request bodies");
 
-            // Write attribution: the single write_file belongs to the worker activation; planner/reviewer write nothing.
+            // Write attribution: the single write_file belongs to the worker activation; planner/reviewer write nothing.（中文：写入归属：唯一的 write_file 属于工作角色激活，规划者和审阅者不写入。）
             assertEquals(1, snapshot.writeAttributions().size());
             var write = snapshot.writeAttributions().get(0);
             assertEquals("notes.txt", write.path());
@@ -189,7 +191,7 @@ class TeamRelayEvidenceTest {
         }
     }
 
-    /** Host side: framed channel, provider relay, scripted provider, team audit and tracing. */
+    /** Host side: framed channel, provider relay, scripted provider, team audit and tracing. 中文：主机侧包含分帧通道、供应商中继、脚本供应商、团队审计与追踪。 */
     static final class Host implements AutoCloseable {
         private final Duplex pair;
         private final RelayLlmClient relay;
@@ -246,7 +248,7 @@ class TeamRelayEvidenceTest {
             }
         }
 
-        /** Unblocks the worker after a host rejection; a broken pipe is not evidence. */
+        /** Unblocks the worker after a host rejection; a broken pipe is not evidence. 中文：主机拒绝后解除工作进程阻塞；管道断裂不能充当证据。 */
         void breakWorkerDownstream() throws IOException {
             pair.coordinatorOutput.close();
         }
@@ -265,7 +267,7 @@ class TeamRelayEvidenceTest {
         return new PrintStream(java.io.OutputStream.nullOutputStream(), true, StandardCharsets.UTF_8);
     }
 
-    /** Deterministic planner/worker/reviewer stand-in; never a model score. */
+    /** Deterministic planner/worker/reviewer stand-in; never a model score. 中文：确定性的规划者、工作者与审阅者替身，不代表模型分数。 */
     static final class Script implements LlmClient {
         private final AtomicInteger calls = new AtomicInteger();
         private final boolean sharedWrite;

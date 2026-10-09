@@ -2,7 +2,7 @@ package com.paicli.eval.benchmark.formal;
 
 import java.util.Objects;
 
-/** Stable append-only identity for one execution attempt of one preregistered episode. */
+/** Stable append-only identity for one execution attempt of one preregistered episode. 中文：一个预注册回合单次执行尝试的稳定仅追加身份。 */
 public record AttemptKey(
         String batchSha256,
         int episodeOrdinal,

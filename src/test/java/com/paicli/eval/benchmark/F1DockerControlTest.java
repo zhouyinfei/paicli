@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual networkless Docker Workers and independent replay; responses/usage are synthetic. */
+/** Actual networkless Docker Workers and independent replay; responses/usage are synthetic. 中文：真实无网络 Docker 工作进程及独立重放，响应和用量均为合成数据。 */
 @EnabledIfSystemProperty(named = "paicli.test.f1.docker", matches = "true")
 @Timeout(240)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -76,7 +76,7 @@ class F1DockerControlTest {
             assertFalse(Files.exists(f.root().resolve("verifier-docker-tmp/container.cid")));
             System.out.println("F1 actual Docker " + control + ": containment=true, diagnostic=" + replay.path("diagnosticSatisfied") + "; no model score");
             if (control == Control.CORRECT) {
-                // Deliberate evidence corruption, never presented as a product/model failure.
+                // Deliberate evidence corruption, never presented as a product/model failure.（中文：故意破坏证据，绝不将其当作产品或模型失败。）
                 for (String fault : List.of("SOURCE_SHA", "BOOL_VERSION", "MISSING_AFTER", "TOOL_HASH", "INITIAL_DIGEST")) {
                     var corrupt = envelope.deepCopy();
                     switch (fault) {

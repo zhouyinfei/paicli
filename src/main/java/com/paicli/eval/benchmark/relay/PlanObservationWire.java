@@ -9,7 +9,7 @@ import com.paicli.plan.PlanExecutionObserver;
 import java.io.IOException;
 import java.util.Map;
 
-/** Closed, bounded encoding of native Plan observations. No polymorphic class names from the wire. */
+/** Closed, bounded encoding of native Plan observations. No polymorphic class names from the wire. 中文：原生 Plan 观测的封闭有界编码，不接受传输中的多态类名。 */
 public final class PlanObservationWire {
     private static final ObjectMapper JSON = new ObjectMapper()
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)

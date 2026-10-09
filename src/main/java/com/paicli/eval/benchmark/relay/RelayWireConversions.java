@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-/** Strict, lossless conversion at the provider-relay isolation boundary. */
+/** Strict, lossless conversion at the provider-relay isolation boundary. 中文：供应商中继隔离边界上的严格无损转换。 */
 final class RelayWireConversions {
     private RelayWireConversions() {
     }

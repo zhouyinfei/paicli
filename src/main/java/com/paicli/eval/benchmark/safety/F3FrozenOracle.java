@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import java.io.IOException;
 import java.util.*;
 
-/** Strict private F3 source identity; synthetic fixtures never contain a provider credential. */
+/** Strict private F3 source identity; synthetic fixtures never contain a provider credential. 中文：严格私有 F3 来源身份，合成夹具不包含供应商凭据。 */
 public record F3FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile,
         String profile, String variantId, F3Definition definition) {
     public static final String PATH = "validators/final/_private/oracles/F3.json";

@@ -19,6 +19,8 @@ import java.util.Set;
  * {@code tasks}) array, unique non-blank string ids, dependencies that reference declared ids and
  * no cycles. Invalid plans are rejected instead of silently keeping unknown edges, which used to
  * leave steps permanently blocked.
+ * 中文：将团队规划者 JSON 计划读取为重新编号的 step_N 步骤。验证要求与 Plan-and-Execute 一致：非空
+ * steps 或旧 tasks 数组、唯一非空字符串 ID、依赖引用已声明 ID 且无环。不合法计划直接拒绝，避免保留未知边导致永久阻塞。
  */
 final class TeamPlanParser {
 
@@ -54,7 +56,7 @@ final class TeamPlanParser {
                     dependencies(stepNode, idMapping)));
         }
         requireAcyclic(steps);
-        // The orchestrator updates step status in place, so the returned list stays mutable.
+        // The orchestrator updates step status in place, so the returned list stays mutable.（中文：编排器就地更新步骤状态，因此返回列表保持可变。）
         return steps;
     }
 
@@ -94,7 +96,7 @@ final class TeamPlanParser {
         for (JsonNode depNode : depsNode) {
             String mapped = depNode.isTextual() ? idMapping.get(depNode.asText()) : null;
             if (mapped == null) {
-                // Never keep an unknown edge or guess a normalized alias: fail the whole plan.
+                // Never keep an unknown edge or guess a normalized alias: fail the whole plan.（中文：不得保留未知边或猜测归一化别名，直接使整个计划失败。）
                 throw new IOException("计划依赖必须引用已声明的步骤 id: " + depNode);
             }
             deps.add(mapped);

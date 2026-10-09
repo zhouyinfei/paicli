@@ -103,7 +103,7 @@ class FormalVerifierBundleMaterializerTest {
                 Files.setPosixFilePermissions(parent, PosixFilePermissions.fromString("rwx------"));
                 if ("extra".equals(mutation)) Files.createDirectory(parent.resolve("undeclared"));
                 else {
-                    Files.delete(entry); // Only this test's generated dependency.
+                    Files.delete(entry); // Only this test's generated dependency.（中文：仅处理本测试生成的依赖。）
                     if ("symlink".equals(mutation))
                         Files.createSymbolicLink(entry, first.verifier().dependencies().get(0).sourcePath());
                 }

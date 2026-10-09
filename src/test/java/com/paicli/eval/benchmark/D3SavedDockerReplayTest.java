@@ -19,7 +19,7 @@ import java.util.jar.JarFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Read-only retrospective qualification of saved SCRIPTED Docker episodes. No provider calls, no formal score. */
+/** Read-only retrospective qualification of saved SCRIPTED Docker episodes. No provider calls, no formal score. 中文：对保存的脚本 Docker 回合进行只读回溯资格检查，不调用供应商，也不产生正式分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.d3.saved.replay", matches = "true")
 @Timeout(120)
 class D3SavedDockerReplayTest {
@@ -47,8 +47,8 @@ class D3SavedDockerReplayTest {
                 Path artifacts = original.getParent().resolve("worker-docker-tmp/artifact-staging");
                 assertEquals(saved.path("candidateSha256").asText(), hash(artifacts.resolve("candidate.jar")));
                 assertEquals(saved.path("runnerSha256").asText(), hash(artifacts.resolve("runner.jar")));
-                // Old records lacked an oracle snapshot. A retrospective source is permissible only
-                // with an explicit label, known control seed, and identical preserved mock bytecode.
+                // Old records lacked an oracle snapshot. A retrospective source is permissible only（中文：旧记录缺少预期结果快照；回溯来源只有满足以下条件才可使用：）
+                // with an explicit label, known control seed, and identical preserved mock bytecode.（中文：带明确标签、已知对照种子，且保留的模拟服务字节码完全一致。）
                 assertSameMockBytecode(artifacts.resolve("candidate.jar"));
                 try (var entries = Files.list(original.getParent().resolve("workspace"))) {
                     assertTrue(entries.findAny().isEmpty(), "the saved workspace baseline must actually be empty");

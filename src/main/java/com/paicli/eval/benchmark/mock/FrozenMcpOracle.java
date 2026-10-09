@@ -3,7 +3,7 @@ package com.paicli.eval.benchmark.mock;
 import java.io.IOException;
 import java.util.Map;
 
-/** Closed set of private formal source contracts. No generic mock/plugin deserialization. */
+/** Closed set of private formal source contracts. No generic mock/plugin deserialization. 中文：私有正式来源合同的封闭集合，不提供通用模拟或插件反序列化。 */
 public sealed interface FrozenMcpOracle permits D1FrozenOracle, D2FrozenOracle, D3FrozenOracle, F4FrozenOracle {
     int MAX_BYTES = 32_768;
     String caseId();

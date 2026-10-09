@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-/** Shared fail-closed JSON and validation primitives for formal benchmark contracts. */
+/** Shared fail-closed JSON and validation primitives for formal benchmark contracts. 中文：正式评测合同共享的失败时拒绝 JSON 与验证基础方法。 */
 final class FormalContractSupport {
     static final long MAX_CONTRACT_BYTES = 4L * 1024L * 1024L;
     static final Pattern SHA_256 = Pattern.compile("[0-9a-f]{64}");
@@ -64,7 +64,7 @@ final class FormalContractSupport {
         if (json.length == 0 || json.length > MAX_CONTRACT_BYTES) {
             throw new IOException("formal contract size is outside the accepted bound: " + json.length);
         }
-        // Serialize and parse before publication so invalid record evolution fails closed.
+        // Serialize and parse before publication so invalid record evolution fails closed.（中文：发布前序列化并解析，使无效记录演进在失败时被拒绝。）
         MAPPER.readValue(json, value.getClass());
         Files.write(target, json, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
         return target;

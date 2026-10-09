@@ -250,7 +250,7 @@ public class SubAgent {
         }
     }
 
-    /** Caller-owned branch policy; the same instance may span reviewer retries. */
+    /** Caller-owned branch policy; the same instance may span reviewer retries. 中文：调用方拥有的分支策略，同一实例可跨审阅重试使用。 */
     AgentMessage executeWithPolicy(AgentMessage task, PrintStream out,
                                    TurnToolPolicy activeToolPolicy) {
         return executeWithPolicy(task, out, activeToolPolicy, null);

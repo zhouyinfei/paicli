@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** D1 private source plus independent deterministic Python verifier; no provider calls. */
+/** D1 private source plus independent deterministic Python verifier; no provider calls. 中文：D1 私有来源及独立确定性 Python 验证器，无供应商调用。 */
 final class D1CaseMaterializer {
     static final String RUNTIME_PATH = "validators/final/_private/d1_verify.py";
     private D1CaseMaterializer() {}
@@ -67,7 +67,7 @@ final class D1CaseMaterializer {
     }
 
     static ScoringContract scoring(String verifierSha, String runtimeSha) {
-        // Preserve the original D1 strict all-or-nothing semantics, including the output format.
+        // Preserve the original D1 strict all-or-nothing semantics, including the output format.（中文：保留原 D1 严格全有或全无语义，包括输出格式。）
         return new ScoringContract(ScoringContract.CURRENT_SCHEMA_VERSION, "D1", 100,
                 List.of("audit_binding", "single_correct_call", "parameters", "answer", "read_only").stream()
                         .map(id -> new ScoringContract.AssertionRule("D1." + id, "strictTask", true)).toList(),

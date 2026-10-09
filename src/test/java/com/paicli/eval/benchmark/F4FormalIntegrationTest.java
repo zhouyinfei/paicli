@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** One generated F4 in a synthetic 28-case admission. Actual Docker Worker + verifier when opted in; no API. */
+/** One generated F4 in a synthetic 28-case admission. Actual Docker Worker + verifier when opted in; no API. 中文：合成 28 题准入中的一个生成 F4；显式启用时运行真实 Docker 工作进程和验证器，不调用 API。 */
 @Timeout(180)
 class F4FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -42,7 +42,7 @@ class F4FormalIntegrationTest {
         Files.setPosixFilePermissions(root, PosixFilePermissions.fromString("rwx------"));
     }
     @AfterEach void tempCleanupPermissions() throws Exception {
-        if (!root.startsWith(temp.toRealPath())) return; // Explicit evidence remains sealed and retained.
+        if (!root.startsWith(temp.toRealPath())) return; // Explicit evidence remains sealed and retained.（中文：明确证据仍保持封存并保留。）
         try (var walk = Files.walk(root)) { for (Path p : walk.toList()) if (!Files.isSymbolicLink(p))
             Files.setPosixFilePermissions(p, PosixFilePermissions.fromString(Files.isDirectory(p) ? "rwx------" : "rw-------")); }
     }
@@ -108,7 +108,7 @@ class F4FormalIntegrationTest {
         var report = FormalBatchRunner.run(ready, root.resolve("output"), "f4-tampered-control", worker(dockerWorker(dispatches)),
                 (invocation, workspace, home, evidence, timeout) -> {
                     var e = (ObjectNode)JSON.readTree(evidence.toFile()); assertEquals("F4", e.path("caseId").asText());
-                    ((ObjectNode)e.path("mockMcp")).putArray("providerTurns"); // Intentional test-only evidence corruption.
+                    ((ObjectNode)e.path("mockMcp")).putArray("providerTurns"); // Intentional test-only evidence corruption.（中文：故意进行的仅用于测试的证据破坏。）
                     JSON.writeValue(evidence.toFile(), e);
                     return verifier.verify(invocation, workspace, home, evidence, Duration.ofSeconds(30));
                 }, Clock.systemUTC());

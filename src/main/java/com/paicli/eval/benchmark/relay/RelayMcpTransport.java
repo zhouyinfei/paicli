@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/** Uses PaiCLI's real JSON-RPC/MCP client while the deterministic service stays on the host. */
+/** Uses PaiCLI's real JSON-RPC/MCP client while the deterministic service stays on the host. 中文：使用 PaiCLI 真实 JSON-RPC/MCP 客户端，确定性服务保留在主机。 */
 public final class RelayMcpTransport implements McpTransport {
     private final RelayLlmClient relay;
     private final String server;

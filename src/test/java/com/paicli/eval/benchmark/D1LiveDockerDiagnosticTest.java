@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Explicitly opt-in, paid real-provider diagnostic; never run by ordinary regression. */
+/** Explicitly opt-in, paid real-provider diagnostic; never run by ordinary regression. 中文：必须显式启用的付费真实供应商诊断，普通回归不得运行。 */
 @EnabledIfSystemProperty(named = "paicli.test.d1.live", matches = "true")
 class D1LiveDockerDiagnosticTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -99,7 +99,7 @@ class D1LiveDockerDiagnosticTest {
         write(episode.resolve("result.json"), evidence);
         System.out.println("D1 diagnostic " + provider + ": " + evidence.get("status")
                 + ", satisfied=" + evidence.get("diagnosticSatisfied") + ", publishable=false");
-        // Candidate assertion failures stay in the report. They are not harness test failures.
+        // Candidate assertion failures stay in the report. They are not harness test failures.（中文：候选系统的断言失败保留在报告中，不视为评测框架测试失败。）
         assertTrue(valid, "real episode invalid; inspect private result.json");
     }
 

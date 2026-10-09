@@ -3,7 +3,7 @@ package com.paicli.llm;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-/** User-owned overrides; null fields retain the provider/template behavior. */
+/** User-owned overrides; null fields retain the provider/template behavior. 中文：用户管理的覆盖配置；null 字段保留供应商或模板行为。 */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ModelProfile(String template, Integer contextWindow, Boolean imageInput,

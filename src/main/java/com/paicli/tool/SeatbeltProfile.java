@@ -46,9 +46,9 @@ final class SeatbeltProfile {
                 .append("(deny network*)\n")
                 .append("(allow process*)\n")
                 .append("(allow sysctl-read)\n")
-                // macOS language runtimes use Mach services for basic process/runtime setup.
-                // This remains broader than container/VM IPC isolation; network and filesystem
-                // policy are still independently denied/restricted by this Seatbelt profile.
+                // macOS language runtimes use Mach services for basic process/runtime setup.（中文：macOS 语言运行时使用 Mach 服务完成基础进程及运行时初始化。）
+                // This remains broader than container/VM IPC isolation; network and filesystem（中文：其范围仍宽于容器或虚拟机的进程间通信隔离；网络与文件系统）
+                // policy are still independently denied/restricted by this Seatbelt profile.（中文：仍由此 Seatbelt 配置独立拒绝或限制。）
                 .append("(allow mach-lookup)\n")
                 .append("(allow file-read*\n");
         for (Path readableRoot : readableRoots) {

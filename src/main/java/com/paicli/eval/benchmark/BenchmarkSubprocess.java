@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/** Runs one bounded child process while draining stdout and stderr concurrently. */
+/** Runs one bounded child process while draining stdout and stderr concurrently. 中文：运行一个有界子进程，同时排空标准输出与标准错误。 */
 final class BenchmarkSubprocess {
     private static final AtomicInteger THREAD_SEQUENCE = new AtomicInteger();
 
@@ -140,7 +140,7 @@ final class BenchmarkSubprocess {
         try {
             observed.addAll(process.descendants().toList());
         } catch (RuntimeException ignored) {
-            // Some restricted hosts deny process-tree enumeration. Root termination still proceeds.
+            // Some restricted hosts deny process-tree enumeration. Root termination still proceeds.（中文：部分受限主机禁止枚举进程树，但仍继续终止根进程。）
         }
     }
 
@@ -159,7 +159,7 @@ final class BenchmarkSubprocess {
                     descendant.destroyForcibly();
                 }
             } catch (RuntimeException ignored) {
-                // Best effort only; the manifest states that double-fork isolation is not proven.
+                // Best effort only; the manifest states that double-fork isolation is not proven.（中文：仅尽力处理，清单明确双重派生进程隔离尚未证实。）
             }
         }
     }

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
 
-/** Private source data, bound as an explicit verifier dependency in the v4 case contract. */
+/** Private source data, bound as an explicit verifier dependency in the v4 case contract. 中文：私有来源数据，在 v4 用例合同中绑定为显式验证器依赖。 */
 public record D1FrozenOracle(String caseId, String expectedToolProfile, String variantId,
         Map<String, String> baselineFiles, D1ToolSelectionMock.Definition definition) implements FrozenMcpOracle {
     public static final String PROFILE = "d1-ledger-v1";

@@ -32,6 +32,9 @@ import java.util.Set;
  * into the trusted verifier. This type deliberately has no Candidate/worker integration method.
  * Every copied file is selected solely from {@link FormalExecutionPlan.VerifierDependency}; no
  * directory scan can add an undeclared helper, oracle or hidden check.</p>
+ * 中文：从 v4
+ * 用例计划构建验证器专用依赖树。调用方仅在候选停止后创建，且只挂载给受信验证器；不提供候选或工作进程集成方法。全部复制文件仅由计划的
+ * VerifierDependency 选择，目录扫描不能增加未声明辅助文件、预期结果或隐藏检查。
  */
 public final class FormalVerifierBundleMaterializer {
     private static final String DIRECTORY_NAME = "trusted-verifier";
@@ -53,7 +56,7 @@ public final class FormalVerifierBundleMaterializer {
     private FormalVerifierBundleMaterializer() {
     }
 
-    /** Creates one new owner-only, read-only verifier bundle below an append-only attempt. */
+    /** Creates one new owner-only, read-only verifier bundle below an append-only attempt. 中文：在仅追加尝试下创建全新仅所有者可读验证器依赖包。 */
     public static TrustedVerifierBundle materialize(
             FormalExecutionPlan.CasePlan casePlan,
             BenchmarkArtifactStore.EpisodeArtifacts episode) throws MaterializationException {
@@ -343,7 +346,7 @@ public final class FormalVerifierBundleMaterializer {
         return new MaterializationException(kind, code);
     }
 
-    /** Trusted result intended only for the verifier container/process. */
+    /** Trusted result intended only for the verifier container/process. 中文：仅供验证器容器或进程使用的受信结果。 */
     public static final class TrustedVerifierBundle {
         private final Path root;
         private final Path entry;
@@ -380,7 +383,7 @@ public final class FormalVerifierBundleMaterializer {
             return dependencies;
         }
 
-        /** Recheck the complete mounted tree immediately before and after trusted verification. */
+        /** Recheck the complete mounted tree immediately before and after trusted verification. 中文：受信验证前后立即重新检查完整挂载目录树。 */
         public void verifyUnchanged() throws IOException {
             requireDirectoryNoFollow(root, "bundle-root");
             if (!root.toRealPath().equals(root)) throw failure(FailureKind.SECURITY, "BUNDLE_ROOT_CHANGED");
@@ -423,7 +426,7 @@ public final class FormalVerifierBundleMaterializer {
             if (!seen.equals(expected.keySet())) throw failure(FailureKind.SECURITY, "BUNDLE_MISSING_FILE");
         }
 
-        /** Materializes placeholders while changing cwd from the dataset to this private bundle. */
+        /** Materializes placeholders while changing cwd from the dataset to this private bundle. 中文：将工作目录从数据集改到私有依赖包时物化占位符。 */
         public FormalExecutionPlan.MaterializedVerifier command(Path workspace, Path evidence) {
             Path safeWorkspace = requireAbsolute(workspace, "workspace");
             if (registeredCommand.requiresEvidence() && evidence == null) {
@@ -479,8 +482,8 @@ public final class FormalVerifierBundleMaterializer {
         DATASET
     }
 
-    /** Typed materialization failure with a bounded non-path-bearing reason code. */
-    @SuppressWarnings("serial") // In-process control flow; never serialized into artifacts.
+    /** Typed materialization failure with a bounded non-path-bearing reason code. 中文：带有界且不含路径原因码的类型化物化失败。 */
+    @SuppressWarnings("serial") // In-process control flow; never serialized into artifacts.（中文：进程内控制流，不序列化到产物。）
     public static final class MaterializationException extends IOException {
         private final FailureKind kind;
         private final String code;

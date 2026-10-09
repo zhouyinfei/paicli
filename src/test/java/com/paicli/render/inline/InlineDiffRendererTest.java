@@ -21,7 +21,7 @@ class InlineDiffRendererTest {
         String text = sink.toString(StandardCharsets.UTF_8);
         assertTrue(text.contains("+line A"), text);
         assertTrue(text.contains("+line B"), text);
-        assertTrue(text.contains("@@ -0,0 +1,3 @@"), text);  // includes trailing empty line
+        assertTrue(text.contains("@@ -0,0 +1,3 @@"), text);  // includes trailing empty line（中文：包含末尾空行。）
     }
 
     @Test

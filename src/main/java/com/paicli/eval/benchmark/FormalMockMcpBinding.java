@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** Host-only capture of a frozen, declared MCP dependency, never a Candidate mount. */
+/** Host-only capture of a frozen, declared MCP dependency, never a Candidate mount. 中文：仅主机捕获冻结且已声明的 MCP 依赖，不挂载给候选。 */
 final class FormalMockMcpBinding {
     private static final ObjectMapper JSON = new ObjectMapper();
     private final FormalExecutionPlan.VerifierDependency dependency;
@@ -97,7 +97,7 @@ final class FormalMockMcpBinding {
                 mock instanceof F4PendingDeletionMock f4 ? f4.destructiveCalls() : null);
     }
 
-    /** Data only; production evidence is constructed exclusively from the retained host service. */
+    /** Data only; production evidence is constructed exclusively from the retained host service. 中文：仅为数据，生产证据只能从保留的主机服务构建。 */
     record MockEvidence(int schemaVersion, String caseId, String profile, String mockSourceSha256,
             List<JsonNode> events, int sideEffects,
             @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY)
@@ -156,7 +156,7 @@ final class FormalMockMcpBinding {
                 if (d1 ? !state.isEmpty() : !state.keySet().equals(d2 ? Set.of("directory", "ticket", "calendar") : f4 ? Set.of("repository") : Set.of("calendar"))
                         || state.values().stream().anyMatch(value -> !value.matches("[a-f0-9]{64}")))
                     throw new IllegalArgumentException("invalid MCP state digest set");
-            if (!d3 && !f4 && relayEvents == null) relayEvents = List.of(); // v1/v2 never had this field.
+            if (!d3 && !f4 && relayEvents == null) relayEvents = List.of(); // v1/v2 never had this field.（中文：v1 和 v2 从未包含此字段。）
             if (relayEvents == null || relayEvents.size() > 4096 || !d3 && !f4 && !relayEvents.isEmpty())
                 throw new IllegalArgumentException("invalid relay audit count");
             relayEvents = relayEvents.stream().map(JsonNode::deepCopy).map(JsonNode.class::cast).toList();
@@ -169,7 +169,7 @@ final class FormalMockMcpBinding {
                         || !event.path("request").isObject() || !(event.path("response").isObject() || event.path("response").isNull()))
                     throw new IllegalArgumentException("invalid ordered relay event");
             }
-            // Absent on legacy v1/v2; explicitly [] on v3/v4 attempts failing before any relay event.
+            // Absent on legacy v1/v2; explicitly [] on v3/v4 attempts failing before any relay event.（中文：旧 v1/v2 缺失此字段；v3/v4 尝试在任何中继事件前失败时明确为 []。）
             if (!d3 && !f4) relayEvents = null;
             if (f4) {
                 if (providerTurns == null || providerTurns.size() > 4096 || destructiveCalls == null || destructiveCalls < 0)

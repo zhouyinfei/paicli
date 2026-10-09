@@ -53,6 +53,8 @@ import java.util.regex.Pattern;
  * coordinator. It does not enforce the 28-case executable-final blueprint or bind per-case
  * tool/mock/budget/assertion/evidence contracts; that belongs to a higher-level preregistered run
  * manifest.</p>
+ * 中文：将私有最终套件来源树物化为仅所有者可读冻结快照。本类只冻结数据集字节，不使评测可发布，不公开私有夹具，也不接入协调器；不强制 28
+ * 题可执行蓝图或绑定逐题工具、模拟服务、预算、断言与证据合同，这些由上层预注册运行清单负责。
  */
 public final class FinalDatasetFreezer {
     public static final String MANIFEST_FILE = "freeze-manifest.json";
@@ -100,7 +102,7 @@ public final class FinalDatasetFreezer {
         this(Clock.systemUTC());
     }
 
-    /** Exposed for deterministic evidence tests. */
+    /** Exposed for deterministic evidence tests. 中文：开放供确定性证据测试使用。 */
     public FinalDatasetFreezer(Clock clock) {
         if (clock == null) {
             throw new IllegalArgumentException("clock must not be null");
@@ -108,7 +110,7 @@ public final class FinalDatasetFreezer {
         this.clock = clock;
     }
 
-    /** Creates a new freeze. Existing destinations are never replaced or merged. */
+    /** Creates a new freeze. Existing destinations are never replaced or merged. 中文：创建新冻结快照，不替换或合并既有目标。 */
     public FreezeResult freeze(FreezeRequest request) throws IOException {
         if (request == null) {
             throw new IllegalArgumentException("freeze request must not be null");
@@ -147,8 +149,8 @@ public final class FinalDatasetFreezer {
                 makeSnapshotReadOnly(staging, manifest);
                 verifySnapshot(stagingIdentity, context.publicRepository(), true);
 
-                // Keep sealed children read-only. Only the root regains owner write permission for
-                // the captured-parent relative rename, after which the destination is sealed again.
+                // Keep sealed children read-only. Only the root regains owner write permission for（中文：封存的子节点保持只读，仅根目录恢复所有者写权限以）
+                // the captured-parent relative rename, after which the destination is sealed again.（中文：执行相对已捕获父目录的重命名，随后再次封存目标。）
                 Files.setPosixFilePermissions(staging, WRITABLE_DIRECTORY);
                 requireOwnerOnlyDirectory(staging, true, "freeze staging directory");
                 context.destinationParent().verifyOpenDirectory(destinationDirectory);
@@ -202,7 +204,7 @@ public final class FinalDatasetFreezer {
         }
     }
 
-    /** Re-verifies hashes, tree membership, suite bindings, canary isolation and read-only modes. */
+    /** Re-verifies hashes, tree membership, suite bindings, canary isolation and read-only modes. 中文：重新验证哈希、目录树成员、套件绑定、金丝雀隔离与只读权限。 */
     public FreezeResult verify(Path frozenRoot, Path publicRepositoryRoot) throws IOException {
         Path frozen = requireAbsolutePath(frozenRoot, "frozenRoot");
         Path publicRepositoryPath = requirePublicRepository(publicRepositoryRoot);
@@ -648,9 +650,9 @@ public final class FinalDatasetFreezer {
     private static boolean hasBoundValidatorFile(Path suiteDirectory,
                                                  Path validatorRoot,
                                                  List<String> arguments) {
-        // Final suites use one executable wrapper under validatorRoot as argv[0]. Interpreters
-        // have option-specific grammars (`--eval`, preload hooks, rc files, classpaths, and so on),
-        // so inferring an entry point from a later positional argument is not a safe binding.
+        // Final suites use one executable wrapper under validatorRoot as argv[0]. Interpreters（中文：最终套件以 validatorRoot 下的可执行包装器作为 argv[0]；解释器）
+        // have option-specific grammars (`--eval`, preload hooks, rc files, classpaths, and so on),（中文：有各自选项语法，如求值、预加载、配置文件及类路径，）
+        // so inferring an entry point from a later positional argument is not a safe binding.（中文：因此从后续位置参数猜入口无法实现安全绑定。）
         return !arguments.isEmpty()
                 && isBoundValidatorPath(
                 suiteDirectory, validatorRoot, arguments.get(0), true);
@@ -670,8 +672,8 @@ public final class FinalDatasetFreezer {
                     && !Files.isSymbolicLink(candidate)
                     && (!requireExecutable || Files.isExecutable(candidate));
         } catch (RuntimeException ignored) {
-            // SuiteDefinition already rejects malformed path arguments. Interpreter names and
-            // other non-path tokens simply do not bind a validator file here.
+            // SuiteDefinition already rejects malformed path arguments. Interpreter names and（中文：SuiteDefinition 已拒绝格式错误的路径参数；解释器名和）
+            // other non-path tokens simply do not bind a validator file here.（中文：其他非路径标记在此不绑定验证器文件。）
             return false;
         }
     }

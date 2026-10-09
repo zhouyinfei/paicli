@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import java.io.IOException;
 import java.util.*;
 
-/** Closed source contract. Host binding is required before it can create a boundary. */
+/** Closed source contract. Host binding is required before it can create a boundary. 中文：封闭来源合同，创建边界之前须有主机绑定。 */
 public record F1FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile,
         String profile, String variantId, F1Definition definition) {
     public static final String PATH = "validators/final/_private/oracles/F1.json";

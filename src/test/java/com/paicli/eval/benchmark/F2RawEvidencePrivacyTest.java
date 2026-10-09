@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Isolated serialization-boundary tests, not a formal-admission bypass or Worker run.
  * Reflection reaches the private common writer without adding a production test hook.
  * All strings, observations and credentials below are invented local test values.
+ * 中文：独立序列化边界测试，不是正式准入绕过或工作进程运行。通过反射访问私有通用写入器，不添加生产测试钩子；下方字符串、观测和凭据均为虚构
+ * 本地测试值。
  */
 class F2RawEvidencePrivacyTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -46,8 +48,8 @@ class F2RawEvidencePrivacyTest {
         var tree = JSON.readTree(evidence.toFile());
         assertEquals(8, tree.path("schemaVersion").asInt());
         assertEquals(answer, tree.path("answer").asText());
-        // Apply the same JSON round-trip to both sides: in-memory valueToTree
-        // keeps Java LongNode widths while parsed JSON uses IntNode for small values.
+        // Apply the same JSON round-trip to both sides: in-memory valueToTree（中文：两侧使用相同 JSON 往返转换：内存中的 valueToTree）
+        // keeps Java LongNode widths while parsed JSON uses IntNode for small values.（中文：保留 Java LongNode 位宽，而解析 JSON 时小整数使用 IntNode。）
         assertEquals(JSON.readTree(JSON.writeValueAsBytes(tools)), tree.path("toolExecutions"));
         assertEquals(tree.path("answer"), tree.path("command").path("terminal").path("answer"));
         assertEquals(tree.path("toolExecutions"), tree.path("command").path("terminal").path("toolExecutions"));
@@ -90,8 +92,8 @@ class F2RawEvidencePrivacyTest {
         if (location != SecretLocation.METRICS_MODEL) assertFalse(Files.exists(directory, LinkOption.NOFOLLOW_LINKS),
                 "raw-text canary must reject before evidence directory creation");
         else {
-            // Metadata enters only the final JSON projection. The second canary
-            // runs after directory preparation but still before any file write.
+            // Metadata enters only the final JSON projection. The second canary（中文：元数据仅进入最终 JSON 投影；第二个金丝雀检查）
+            // runs after directory preparation but still before any file write.（中文：在目录准备后执行，但仍早于任何文件写入。）
             assertTrue(Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS));
             try (var entries = Files.list(directory)) { assertEquals(0, entries.count()); }
             assertEquals(PosixFilePermissions.fromString("rwx------"), Files.getPosixFilePermissions(directory));

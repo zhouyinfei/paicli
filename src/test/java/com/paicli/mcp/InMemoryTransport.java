@@ -40,7 +40,7 @@ public class InMemoryTransport implements McpTransport {
         String method = message.path("method").asText("");
         JsonNode idNode = message.get("id");
         if (idNode == null || idNode.isNull()) {
-            // notification, no response
+            // notification, no response（中文：通知消息，不需要响应。）
             return;
         }
         Function<JsonNode, JsonNode> handler = handlers.get(method);

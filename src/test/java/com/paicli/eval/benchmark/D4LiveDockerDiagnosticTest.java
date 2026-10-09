@@ -23,7 +23,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Opt-in paid development sibling. Real providers + Docker Worker + independent verifier, never a formal batch. */
+/** Opt-in paid development sibling. Real providers + Docker Worker + independent verifier, never a formal batch. 中文：显式启用的付费开发变体诊断：真实供应商、Docker 工作进程和独立验证器，不属于正式批次。 */
 @EnabledIfSystemProperty(named = "paicli.test.d4.live", matches = "true")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class D4LiveDockerDiagnosticTest {
@@ -154,7 +154,7 @@ class D4LiveDockerDiagnosticTest {
         assertEquals("DIAGNOSTIC_COMPLETED", report.get("status"), "invalid real episode; preserve and inspect private evidence");
     }
 
-    /** Generator bookkeeping stays outside Candidate input; preserve the complete generated source untouched. */
+    /** Generator bookkeeping stays outside Candidate input; preserve the complete generated source untouched. 中文：生成器管理信息不进入候选输入，完整保留生成的源码。 */
     static FormalExecutionPlan.FixtureSnapshot stageAdmittedFixture(Path source, Path destination) throws Exception {
         String fixturePath = "fixtures/final/D4";
         Path original = source.resolve(fixturePath + "/README.md");

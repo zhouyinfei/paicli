@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Frozen E1 primitive tests. Deliberately no generator registration or FormalBatchRunner admission. */
+/** Frozen E1 primitive tests. Deliberately no generator registration or FormalBatchRunner admission. 中文：冻结的 E1 基础测试，明确不注册生成器，也不进入 FormalBatchRunner 准入。 */
 @Timeout(180)
 class E1FormalBindingTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -118,7 +118,7 @@ class E1FormalBindingTest {
                         1, session, snapshot, bundle, "Use Plan mode"), "an exact canary present only in raw Plan content must be rejected");
                 Path rejected = episode.directory().resolve(BenchmarkEvidenceEnvelope.DIRECTORY_NAME);
                 try (var files = Files.list(rejected)) { assertEquals(0, files.count(), "no secret-bearing envelope may be written"); }
-                Files.move(rejected, episode.directory().resolve("rejected-canary-evidence")); // Preserve the empty rejected attempt.
+                Files.move(rejected, episode.directory().resolve("rejected-canary-evidence")); // Preserve the empty rejected attempt.（中文：保留被拒绝的空尝试。）
             }
             Path evidence = BenchmarkEvidenceEnvelope.writeBoundPlan(episode.directory(), dirs.workspace, dirs.home, 1, session, snapshot, bundle, request.apiKey());
             var tree = JSON.readTree(evidence.toFile()); assertEquals(5, tree.path("schemaVersion").asInt());

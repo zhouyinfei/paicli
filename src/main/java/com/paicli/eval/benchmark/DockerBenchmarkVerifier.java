@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-/** Runs one deterministic verifier in a frozen, networkless Docker image. */
+/** Runs one deterministic verifier in a frozen, networkless Docker image. 中文：在冻结且无网络的 Docker 镜像中运行一个确定性验证器。 */
 final class DockerBenchmarkVerifier implements BenchmarkCoordinatorMain.VerifierExecutor {
     private static final Pattern FROZEN_IMAGE_ID = Pattern.compile("sha256:[0-9a-f]{64}");
     private static final Pattern CONTAINER_ID = Pattern.compile("[0-9a-f]{12,64}");

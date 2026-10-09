@@ -43,6 +43,8 @@ import java.util.regex.Pattern;
  * Runs the Candidate Agent in a networkless Docker container while retaining the
  * real provider client, credential, endpoint and trace on the trusted host.
  * This is intentionally separate from the legacy host-side dev Worker.
+ * 中文：在无网络 Docker 容器中运行候选
+ * Agent，将真实供应商客户端、凭据、端点和轨迹保留在受信主机；与旧主机侧开发工作进程明确分离。
  */
 final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.WorkerExecutor {
     private static final Pattern FROZEN_IMAGE_ID = Pattern.compile("sha256:[0-9a-f]{64}");
@@ -74,7 +76,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         this(dockerExecutable, imageId, candidateJar, runnerJar, DockerBenchmarkWorkerProcess::createProvider);
     }
 
-    /** Real container launcher with an explicitly injected host provider (also used by unscored controls). */
+    /** Real container launcher with an explicitly injected host provider (also used by unscored controls). 中文：显式注入主机供应商的真实容器启动器，也用于无评分对照。 */
     DockerBenchmarkWorkerProcess(
             Path dockerExecutable, String imageId, Path candidateJar, Path runnerJar, ProviderFactory providerFactory)
             throws IOException {
@@ -144,7 +146,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         return executeWithMock(request, workspace, isolatedHome, timeout, null);
     }
 
-    /** The caller retains the frozen host binding; only bounded JSON-RPC crosses into the worker. */
+    /** The caller retains the frozen host binding; only bounded JSON-RPC crosses into the worker. 中文：调用方保留冻结主机绑定，仅有界 JSON-RPC 进入工作进程。 */
     @Override
     public BenchmarkCoordinatorMain.WorkerExecution executeWithMock(
             BenchmarkProtocol.WorkerRequest request, Path workspace, Path isolatedHome,
@@ -153,7 +155,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         return executeWithMocks(request, workspace, isolatedHome, timeout, mockMcp, null);
     }
 
-    /** Host-bound Web path; formal callers must first pass the exact frozen D4 binding. */
+    /** Host-bound Web path; formal callers must first pass the exact frozen D4 binding. 中文：主机绑定的 Web 路径，正式调用方须先通过精确冻结 D4 绑定。 */
     @Override public BenchmarkCoordinatorMain.WorkerExecution executeWithWeb(
             BenchmarkProtocol.WorkerRequest request, Path workspace, Path isolatedHome, Duration timeout,
             BenchmarkProviderRelay.MockWebEndpoint mockWeb) throws IOException, InterruptedException {
@@ -171,7 +173,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         } finally { session.finish(result); }
     }
 
-    /** Formal F3 requires an immutable source binding; the generic coordinator stays unsupported. */
+    /** Formal F3 requires an immutable source binding; the generic coordinator stays unsupported. 中文：正式 F3 需要不可变来源绑定，通用协调器仍不支持。 */
     @Override public BenchmarkCoordinatorMain.WorkerExecution executeWithInjection(BenchmarkProtocol.WorkerRequest request,
             Path workspace, Path isolatedHome, Duration timeout, FormalInjectionBinding.Session session)
             throws IOException, InterruptedException {
@@ -185,7 +187,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         } finally { session.finish(result); }
     }
 
-    /** Development source/session gate, separate from the immutable formal F3 binding. */
+    /** Development source/session gate, separate from the immutable formal F3 binding. 中文：开发来源与会话门禁，独立于不可变正式 F3 绑定。 */
     BenchmarkCoordinatorMain.WorkerExecution executeWithF3(BenchmarkProtocol.WorkerRequest request,
             Path workspace, Path isolatedHome, Duration timeout, F3DevelopmentSession session)
             throws IOException, InterruptedException {
@@ -206,7 +208,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         return executeWithMocks(request, workspace, isolatedHome, timeout, mockMcp, mockWeb, null);
     }
 
-    /** E1 source validation happens before constructing the provider or starting any container. */
+    /** E1 source validation happens before constructing the provider or starting any container. 中文：构建供应商或启动任何容器之前验证 E1 来源。 */
     @Override public BenchmarkCoordinatorMain.WorkerExecution executeWithPlan(
             BenchmarkProtocol.WorkerRequest request, Path workspace, Path isolatedHome, Duration timeout,
             FormalPlanBinding.Session session) throws IOException, InterruptedException {
@@ -234,7 +236,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         finally { session.finish(result); }
     }
 
-    /** F1 development entry, not a CLI option or arbitrary host mount. */
+    /** F1 development entry, not a CLI option or arbitrary host mount. 中文：F1 开发入口，不是 CLI 选项或任意主机挂载。 */
     BenchmarkCoordinatorMain.WorkerExecution executeWithBoundary(BenchmarkProtocol.WorkerRequest request,
             Path workspace, Path isolatedHome, Duration timeout, F1BoundarySession boundary) throws IOException, InterruptedException {
         java.util.Objects.requireNonNull(boundary, "host F1 boundary");
@@ -302,8 +304,8 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         StagedArtifacts stagedArtifacts = stageArtifacts(workerTemp);
 
         LlmClient upstream = providerFactory.create(request);
-        // F3 must retain adapter-observed fragments absent from the final response. Other
-        // profiles keep the established non-listening, retry-safe cap path unchanged.
+        // F3 must retain adapter-observed fragments absent from the final response. Other（中文：F3 必须保留最终响应中没有的适配器观测片段；其他）
+        // profiles keep the established non-listening, retry-safe cap path unchanged.（中文：配置保持既有无监听且可安全重试的上限路径不变。）
         ContextWindowCappedLlmClient provider = f3
                 ? ContextWindowCappedLlmClient.capPreservingObservedDeltas(upstream,
                     request.agentLimits().contextWindowCapTokens(),
@@ -562,15 +564,15 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
                         "host Team evidence failed", elapsed, tracing.metrics());
             }
             TracingLlmClient.Metrics terminalMetrics = tracing.metrics();
-            // An already invalid audit cannot supply successful episode evidence. Avoid
-            // a second raw serialization on that known-failure path; no raw artifact is saved.
+            // An already invalid audit cannot supply successful episode evidence. Avoid（中文：已无效的审计不能提供成功回合证据；在已知失败路径上）
+            // a second raw serialization on that known-failure path; no raw artifact is saved.（中文：避免再次原始序列化，不保存原始产物。）
             if (error instanceof com.paicli.eval.benchmark.relay.F3ToolResultAudit.Failure
                     || f3Audit != null && f3Audit.failed())
                 return completedFailure(BenchmarkProviderEvidenceGate.FAILURE_TYPE,
                         "host F3 raw tool evidence failed", elapsed, terminalMetrics);
             if (f3Audit != null && containsSecret(request, new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(f3Audit.snapshot())))
                 return BenchmarkCoordinatorMain.WorkerExecution.securityFailure(elapsed);
-            // A Candidate permission change must not conceal a known host evidence fault.
+            // A Candidate permission change must not conceal a known host evidence fault.（中文：候选权限变化不得掩盖已知主机证据故障。）
             if (error instanceof CommandEvidenceWriteFailure) throw error;
             if (error instanceof com.paicli.eval.benchmark.relay.F2CommandAudit.Failure)
                 return completedFailure(BenchmarkProviderEvidenceGate.FAILURE_TYPE,
@@ -783,7 +785,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
                 BenchmarkProtocol.WorkerResponse.failure(type, message, metrics), 0, elapsed, "");
     }
 
-    /** Only registered F2 fixture permission changes may bypass the generic unreadable-tree hard gate. */
+    /** Only registered F2 fixture permission changes may bypass the generic unreadable-tree hard gate. 中文：仅注册 F2 夹具权限变化可绕过通用不可读目录树硬门禁。 */
     private BenchmarkCoordinatorMain.WorkerExecution f2WorkspacePermissionDamage(FormalCommandBinding.Session session,
             BenchmarkProtocol.WorkerRequest request, CredentialGuardLlmClient guarded, TracingLlmClient tracing,
             Path workspace, Path episode, long elapsed, String diagnostic) throws IOException {
@@ -857,7 +859,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         try {
             Files.setPosixFilePermissions(snapshot, PosixFilePermissions.fromString("r--------"));
         } catch (UnsupportedOperationException ignored) {
-            // The readonly bind still protects the snapshot on non-POSIX hosts.
+            // The readonly bind still protects the snapshot on non-POSIX hosts.（中文：非 POSIX 主机上只读绑定仍保护快照。）
         }
         if (Files.isSymbolicLink(snapshot)
                 || !Files.isRegularFile(snapshot, LinkOption.NOFOLLOW_LINKS)
@@ -1015,12 +1017,12 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         return false;
     }
 
-    /** Host-owned transport record of process-local events; not an independent OS execution audit. */
+    /** Host-owned transport record of process-local events; not an independent OS execution audit. 中文：主机拥有的进程内事件传输记录，不是独立操作系统执行审计。 */
     private static final class CommandEvidenceWriteFailure extends IOException {
         private CommandEvidenceWriteFailure(IOException cause) { super("F2 host command evidence could not be saved", cause); }
     }
 
-    /** Host-owned transport record of process-local events; not an independent OS execution audit. */
+    /** Host-owned transport record of process-local events; not an independent OS execution audit. 中文：主机拥有的进程内事件传输记录，不是独立操作系统执行审计。 */
     private void writeCommandAudit(Path file, BenchmarkProtocol.WorkerRequest request,
             BenchmarkRelayProtocol.WorkerComplete complete) throws IOException {
         var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -1031,7 +1033,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         evidence.put("commandObservationFailures", complete.commandObservationFailures());
         if (BenchmarkSecretCanary.contains(request.apiKey(), evidence.toString()))
             throw new IOException("sensitive command observation evidence rejected");
-        // The episode is host-only and is never mounted in the Candidate. Never read a Candidate audit file.
+        // The episode is host-only and is never mounted in the Candidate. Never read a Candidate audit file.（中文：回合仅在主机上，绝不挂载给候选；不得读取候选审计文件。）
         byte[] json = mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(evidence);
         try {
             Files.createFile(file, PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------")));
@@ -1042,7 +1044,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         try {
             Files.setPosixFilePermissions(file, PosixFilePermissions.fromString("rw-------"));
         } catch (UnsupportedOperationException ignored) {
-            // Existing owner-only episode directory is the non-POSIX fallback.
+            // Existing owner-only episode directory is the non-POSIX fallback.（中文：既有仅所有者可访问回合目录是非 POSIX 平台的回退。）
         }
     }
 
@@ -1106,7 +1108,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         try {
             output.close();
         } catch (IOException ignored) {
-            // Process cleanup follows.
+            // Process cleanup follows.（中文：随后清理进程。）
         }
     }
 
@@ -1138,7 +1140,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         return hasUnsafeWorkspaceEntry(workspace, boundary, false);
     }
 
-    /** Called only after the bound F2 session confirms a Candidate-owned fixture permission change. */
+    /** Called only after the bound F2 session confirms a Candidate-owned fixture permission change. 中文：仅在绑定 F2 会话确认候选拥有的夹具权限变化后调用。 */
     static boolean hasUnsafeF2WorkspaceEntryAfterPermissionDamage(Path workspace) {
         return hasUnsafeWorkspaceEntry(workspace, null, true);
     }
@@ -1253,7 +1255,7 @@ final class DockerBenchmarkWorkerProcess implements BenchmarkCoordinatorMain.Wor
         @Override public void destroyForcibly() { process.destroyForcibly(); }
     }
 
-    /** Buffers one provider stream so an API key split across deltas can never cross stdin. */
+    /** Buffers one provider stream so an API key split across deltas can never cross stdin. 中文：缓存单次供应商流，防止跨增量拆分的 API Key 进入标准输入。 */
     private static final class CredentialGuardLlmClient implements LlmClient {
         private final LlmClient delegate;
         private final String secret;

@@ -29,7 +29,7 @@ public class ExecutionPlan {
         this.status = PlanStatus.CREATED;
     }
 
-    // Getters
+    // Getters（中文：访问器方法。）
     public String getId() { return id; }
     public String getGoal() { return goal; }
     public PlanStatus getStatus() { return status; }

@@ -292,7 +292,7 @@ class FormalBatchRunnerTest {
         assertThrows(InterruptedException.class, () -> FormalBatchRunner.run(ready, output, "interrupt-run",
                 (request,a,b,c) -> { throw new InterruptedException("stop"); },
                 (a,b,c,d,e) -> { fail("must not verify"); return null; }, CLOCK));
-        Thread.interrupted(); // Clear only the test's deliberate interruption.
+        Thread.interrupted(); // Clear only the test's deliberate interruption.（中文：仅清除本测试故意设置的中断。）
         assertEquals("INTERRUPTED", JSON.readTree(output.resolve("interrupt-run/manifest.json").toFile())
                 .path("status").asText());
         assertTrue(JSON.readTree(output.resolve("interrupt-run/aggregate.json").toFile())

@@ -7,7 +7,7 @@ import com.paicli.hitl.HitlHandler;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-/** No local allow-all cache: every native MCP approval is decided by the host. */
+/** No local allow-all cache: every native MCP approval is decided by the host. 中文：没有本地全部放行缓存，每次原生 MCP 审批均由主机决定。 */
 public final class RelayHitlHandler implements HitlHandler {
     private final RelayLlmClient relay;
 
@@ -18,7 +18,7 @@ public final class RelayHitlHandler implements HitlHandler {
             var result = relay.requestApproval(request.toolName(), request.arguments());
             return result.approved() ? ApprovalResult.approve() : ApprovalResult.reject(result.reason());
         } catch (IOException error) {
-            // Transport failure is an invalid evaluation, not a scripted user rejection or a silent allow.
+            // Transport failure is an invalid evaluation, not a scripted user rejection or a silent allow.（中文：传输失败使评测无效，不是脚本用户拒绝或静默放行。）
             throw new UncheckedIOException("host approval channel failed", error);
         }
     }

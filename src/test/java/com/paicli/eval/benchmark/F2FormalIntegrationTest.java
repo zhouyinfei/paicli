@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Generated F2 plus synthetic admission peers. Real Docker processes; scripted provider responses. */
+/** Generated F2 plus synthetic admission peers. Real Docker processes; scripted provider responses. 中文：生成 F2 搭配合成准入用例；运行真实 Docker 进程，供应商响应由脚本提供。 */
 @Timeout(240)
 class F2FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -180,7 +180,7 @@ class F2FormalIntegrationTest {
                 var result = docker.executeWithCommand(request, workspace, home, timeout, session);
                 var permissions = Files.getPosixFilePermissions(workspace);
                 observedModes.add(PosixFilePermissions.toString(permissions));
-                // Docker Desktop may retain host owner read/write bits; the missing directory search bit is the damage.
+                // Docker Desktop may retain host owner read/write bits; the missing directory search bit is the damage.（中文：Docker Desktop 可能保留主机所有者读写位；缺少目录搜索权限才是破坏点。）
                 assertFalse(permissions.contains(java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE));
                 assertNotNull(result.response()); assertEquals("CANDIDATE_WORKSPACE_DAMAGED", result.response().errorType());
                 assertTrue(result.response().metrics().calls() > 0); return result;
@@ -201,7 +201,7 @@ class F2FormalIntegrationTest {
                     "requestedContainerWorkspaceMode", "0000", "observedHostModesBeforeTestDriverRestore", observedModes, "validCandidateFailures", 9,
                     "testDriverRestoresWorkspaceModeAfterScoring", "0700", "publishable", false));
         } finally {
-            // These are exclusively this test's newly created fixtures; retain content and permit evidence inspection.
+            // These are exclusively this test's newly created fixtures; retain content and permit evidence inspection.（中文：这些夹具均由本测试新建；保留内容并允许检查证据。）
             for (Path path : damaged) Files.setPosixFilePermissions(path, PosixFilePermissions.fromString("rwx------"));
         }
     }

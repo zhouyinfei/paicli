@@ -21,6 +21,8 @@ import static com.paicli.agent.TeamExecutionObserver.*;
  * Decoding alone does not establish trusted host attribution or make an E2 episode scoreable;
  * actual provider requests still require an independently checked, acknowledged activation scope.
  * Text bodies are fingerprints; correlation identifiers remain provider-controlled metadata.
+ * 中文：通过中继 v12 TEAM_EVENT 帧传输原生团队元数据的封闭编解码器。单独解码不能建立受信主机归属或使 E2
+ * 可评分，实际请求仍须独立检查且已确认的激活作用域。正文为指纹，关联标识符仍为供应商控制的元数据。
  */
 public final class TeamObservationWire {
     public static final int SCHEMA_VERSION = 1;
@@ -51,7 +53,7 @@ public final class TeamObservationWire {
 
     private TeamObservationWire() {}
 
-    /** Reject malformed native observations at the same boundary as received observations. */
+    /** Reject malformed native observations at the same boundary as received observations. 中文：在与接收观测相同的边界拒绝格式错误的原生观测。 */
     public static JsonNode encode(TeamExecutionObserver.Event event) throws IOException {
         if (event == null) throw new IOException("missing Team observation");
         byte[] bytes = JSON.writeValueAsBytes(event);
@@ -61,7 +63,7 @@ public final class TeamObservationWire {
         return value;
     }
 
-    /** Raw decoding also rejects duplicate keys and trailing JSON, unlike an already-built tree. */
+    /** Raw decoding also rejects duplicate keys and trailing JSON, unlike an already-built tree. 中文：原始解码还拒绝重复键和尾随 JSON，区别于预先构建的树。 */
     public static TeamExecutionObserver.Event decode(String type, byte[] bytes) throws IOException {
         if (bytes == null || bytes.length == 0 || bytes.length > MAX_EVENT_BYTES)
             throw new IOException("invalid Team observation byte length");
@@ -75,7 +77,7 @@ public final class TeamObservationWire {
             throw new IOException("invalid Team observation type or size");
         try {
             TeamExecutionObserver.Event event = JSON.treeToValue(value, target);
-            // Compare reparsed trees so integral node widths do not depend on caller construction.
+            // Compare reparsed trees so integral node widths do not depend on caller construction.（中文：比较重新解析后的树，使整数节点位宽不依赖调用方构建方式。）
             if (!JSON.readTree(JSON.writeValueAsBytes(event)).equals(JSON.readTree(JSON.writeValueAsBytes(value))))
                 throw new IOException("Team observation fields must be exact and typed");
             validate(event);
@@ -135,7 +137,7 @@ public final class TeamObservationWire {
                 throw new IOException("invalid Team budget finalization reason");
         } else if (event instanceof ToolBatchReturned e) {
             range(e.iteration(), 1, Integer.MAX_VALUE); bounded(e.results());
-            // An empty returned batch can describe a partial/failed product tool path, not success.
+            // An empty returned batch can describe a partial/failed product tool path, not success.（中文：空返回批次可能描述部分或失败的产品工具路径，不代表成功。）
             for (int i = 0; i < e.results().size(); i++) {
                 ToolResult result = e.results().get(i); required(result);
                 if (result.ordinal() != i) throw new IOException("Team tool ordinals must retain original order");

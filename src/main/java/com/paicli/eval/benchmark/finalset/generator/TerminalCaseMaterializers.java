@@ -29,6 +29,8 @@ import java.util.TreeSet;
  * Candidate answer text never has authority over command success, process state, or provenance.
  * These sources remain fail-closed in the generation manifest until the frozen Worker toolchains
  * and stateful process/command evidence are integrated.</p>
+ * 中文：三种终端执行配方的独立参考报告原型。命令证据仅来自受信 toolExecutions，候选答案不能决定命令成功、进程状态或来源。冻
+ * 结工作工具链与有状态命令证据集成前，这些来源在生成清单中保持拒绝状态。
  */
 final class TerminalCaseMaterializers {
     private static final String WRAPPER = """

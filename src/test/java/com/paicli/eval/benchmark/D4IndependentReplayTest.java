@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Independent Python consumes source + host/Worker evidence, never the Java diagnostic verdict. */
+/** Independent Python consumes source + host/Worker evidence, never the Java diagnostic verdict. 中文：独立 Python 程序消费源码及主机和工作进程证据，不采用 Java 诊断结论。 */
 @Timeout(90)
 class D4IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -91,7 +91,7 @@ class D4IndependentReplayTest {
                         calls.add(call("migration", "web_fetch", Map.of("url", d.migrationUrl(), "max_chars", truncate ? 10 : 10000)));
                     }
                     if (step == 3 && !truncate) calls.add(call("extra", "web_fetch", Map.of("url", d.releaseUrl())));
-                    // Deliberate answer-only knowledge: the verifier must prove the supporting facts reached the model.
+                    // Deliberate answer-only knowledge: the verifier must prove the supporting facts reached the model.（中文：故意仅提供答案知识；验证器必须证明支持事实已传给模型。）
                     return new ChatResponse("assistant", calls.isEmpty() ? D4NativeWebTest.reference(d).toString() : "", null, calls, 100, 30, 0, getModelName(), true);
                 }
                 private ToolCall call(String id, String name, Map<String, Object> args) { return new ToolCall(id, new ToolCall.Function(name, JSON.valueToTree(args).toString())); }

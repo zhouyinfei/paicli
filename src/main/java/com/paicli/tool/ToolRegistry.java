@@ -171,12 +171,14 @@ public class ToolRegistry {
      * {@code execute_command}. This is opt-in so normal interactive sessions keep
      * their existing environment behavior, while unattended benchmark workers can
      * prevent model-authentication credentials from leaking into evaluated shells.
+     * 中文：从 execute_command
+     * 启动的子进程移除类似凭据的环境变量。必须显式启用，以保留普通交互环境行为，同时防止无人值守评测中的认证凭据泄露到被评测 shell。
      */
     public void setSanitizeCommandEnvironment(boolean sanitizeCommandEnvironment) {
         this.sanitizeCommandEnvironment = sanitizeCommandEnvironment;
     }
 
-    /** Optional diagnostics only; observer exceptions never change command policy or results. */
+    /** Optional diagnostics only; observer exceptions never change command policy or results. 中文：仅用于可选诊断；观测器异常不改变命令策略或结果。 */
     public void setCommandExecutionObserver(CommandExecutionObserver observer) {
         this.commandExecutionObserver = observer;
     }
@@ -190,6 +192,8 @@ public class ToolRegistry {
      * The sandbox can write only below {@code workspaceRoot}, cannot use the
      * network, and receives isolated HOME/TMPDIR directories below that root.
      * Normal interactive behavior is unchanged until this method is called.
+     * 中文：为 execute_command 启用失败时拒绝的 macOS
+     * 子进程隔离。沙箱仅能写工作区根目录下内容，不可联网，并获得根目录下独立 HOME 和 TMPDIR；调用前交互行为不变。
      */
     public void setCommandSandboxRoot(Path workspaceRoot) {
         this.commandSandbox = CommandSandbox.enable(workspaceRoot);
@@ -1084,6 +1088,7 @@ public class ToolRegistry {
     /**
      * Trusted embedding seam for an offline transport. Install the complete set before any Web use;
      * normal CLI construction retains the production providers and network policy. Not a model tool.
+     * 中文：受信离线传输嵌入入口，使用 Web 前须安装完整集合。普通 CLI 仍使用生产供应商与网络策略，不属于模型工具。
      */
     protected final synchronized void installWebDependencies(SearchProvider search, WebFetcher fetcher,
                                                               NetworkPolicy policy) {
@@ -1134,8 +1139,8 @@ public class ToolRegistry {
                     "top_k", "topK", "max_results", "num_results", "limit", "count");
             ToolOutput output = executeToolOutput(STEP_SEARCH_TOOL, args.toString());
             if (isUsableMcpOutput(output)) {
-                // StepSearch currently returns unstructured MCP prose. Keep it
-                // useful as search text, but do not mint URL authority from it.
+                // StepSearch currently returns unstructured MCP prose. Keep it（中文：StepSearch 当前返回非结构化 MCP 正文，保留其）
+                // useful as search text, but do not mint URL authority from it.（中文：搜索文本用途，但不得据此授予 URL 访问权限。）
                 return ToolOutput.text(
                         "🔍 [StepSearch] " + query.trim() + "\n\n" + output.text().trim());
             }
@@ -1554,6 +1559,8 @@ public class ToolRegistry {
      * Results are immutable and in the original invocation order; this does not execute tools.
      * The default is a no-op. Evidence consumers must use this boundary instead of observing
      * only executeTools(), which receives the policy-authorized subset.
+     * 中文：整个 TurnToolPolicy 批次的完成钩子，包含注册表前的拒绝。结果不可变且保留原调用顺序，不执行工具，默认空操作。证据消
+     * 费者必须使用此边界，不能只观测接收已授权子集的 executeTools。
      */
     public void onPolicyToolResults(List<ToolExecutionResult> results) {
     }
@@ -1949,7 +1956,7 @@ public class ToolRegistry {
             successful = successful && !timedOut;
         }
 
-        /** Backward-compatible constructor for existing registries and tests. */
+        /** Backward-compatible constructor for existing registries and tests. 中文：兼容既有注册表和测试的构造方法。 */
         public ToolExecutionResult(String id, String name, String argumentsJson,
                                    String result, long elapsedMillis, boolean timedOut,
                                    List<com.paicli.llm.LlmClient.ContentPart> imageParts) {

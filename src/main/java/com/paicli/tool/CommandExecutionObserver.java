@@ -9,6 +9,8 @@ import java.util.Objects;
  * be sensitive; consumers own redaction/storage. These events are not OS audit evidence.
  * STARTED means ProcessBuilder.start succeeded; FINISHED means the tool invocation
  * returned, not that every descendant process has exited. No authorization is changed.
+ * 中文：显式启用的进程内命令诊断，默认不持久化。回调在工具线程运行，须快速且线程安全。命令与参数可能敏感，由消费者脱敏和存储；事件不是操作
+ * 系统审计证据。STARTED 表示进程启动成功，FINISHED 表示工具调用返回，不代表全部后代退出，且不改变授权。
  */
 @FunctionalInterface
 public interface CommandExecutionObserver {
@@ -17,7 +19,7 @@ public interface CommandExecutionObserver {
     enum Phase { REJECTED, STARTED, FINISHED }
     enum Outcome { NONE, EMPTY_COMMAND, POLICY_DENIED, EXITED, TIMED_OUT, INTERRUPTED, FAILED }
 
-    /** invocationId is local to one registry, independent of provider call IDs. */
+    /** invocationId is local to one registry, independent of provider call IDs. 中文：invocationId 仅在一个注册表内有效，与供应商调用 ID 独立。 */
     record Event(long invocationId, Phase phase, String command, String workingDirectory,
                  List<String> arguments, long processId, long timestampMillis, Integer exitCode,
                  Outcome outcome, String resultSha256, int resultChars) {

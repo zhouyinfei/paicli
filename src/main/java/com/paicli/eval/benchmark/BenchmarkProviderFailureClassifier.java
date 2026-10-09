@@ -4,7 +4,7 @@ import com.paicli.llm.LlmFailureClassifier;
 
 import java.io.IOException;
 
-/** Maps provider/cap failures to stable benchmark policy categories without retaining messages. */
+/** Maps provider/cap failures to stable benchmark policy categories without retaining messages. 中文：将供应商或上限失败映射到稳定评测策略分类，不保留消息。 */
 public final class BenchmarkProviderFailureClassifier {
     static final String CONTEXT_BUDGET_EXCEEDED = "CONTEXT_BUDGET_EXCEEDED";
 

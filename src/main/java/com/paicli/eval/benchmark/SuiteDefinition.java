@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Versioned, strictly validated benchmark suite manifest. */
+/** Versioned, strictly validated benchmark suite manifest. 中文：带版本且严格验证的评测套件清单。 */
 public record SuiteDefinition(
         @JsonProperty(value = "version", required = true) String version,
         @JsonProperty(value = "name", required = true) String name,

@@ -18,6 +18,8 @@ import java.util.*;
 /**
  * D3 host-owned world. Approval is an out-of-band host event, never an MCP method/tool.
  * Formal scores come from independent verifier replay, never from this service's satisfies method.
+ * 中文：D3 主机拥有的环境，审批是带外主机事件，不是 MCP 方法或工具。正式分数来自独立验证器重放，不来自此服务的 satisfies
+ * 方法。
  */
 public final class D3ApprovalCalendarMock implements ScriptedInteraction, AuditedMockMcp {
     private static final ObjectMapper JSON = new ObjectMapper()
@@ -78,7 +80,7 @@ public final class D3ApprovalCalendarMock implements ScriptedInteraction, Audite
                 .put("idempotency_key", definition.idempotencyKey());
     }
 
-    /** Called by the trusted episode driver after the first Agent turn; never exposed to the Candidate. */
+    /** Called by the trusted episode driver after the first Agent turn; never exposed to the Candidate. 中文：由受信回合驱动器在首轮 Agent 结束后调用，不暴露给候选。 */
     public synchronized UserDecision advanceAfterProposal(String answer) {
         if (approval != ApprovalPhase.WAITING) throw new IllegalStateException("D3 proposal boundary can advance only once");
         JsonNode proposal = parseOrNull(answer);
@@ -118,7 +120,7 @@ public final class D3ApprovalCalendarMock implements ScriptedInteraction, Audite
     public synchronized List<RelayEvent> relayAudit() { return List.copyOf(relayAudit); }
     public record RelayEvent(int sequence, int turn, BenchmarkRelayProtocol.Frame request, BenchmarkRelayProtocol.Frame response) { }
 
-    /** Host-side adapter; Docker Workers reach it through typed relay frames, never by loading the mock. */
+    /** Host-side adapter; Docker Workers reach it through typed relay frames, never by loading the mock. 中文：主机侧适配器，Docker 工作进程通过类型化中继帧访问，不加载模拟服务。 */
     public HitlHandler scriptedHandler() {
         return new HitlHandler() {
             @Override public ApprovalResult requestApproval(ApprovalRequest request) { return authorize(request); }
@@ -144,7 +146,7 @@ public final class D3ApprovalCalendarMock implements ScriptedInteraction, Audite
         return allowed ? ApprovalResult.approve() : ApprovalResult.reject(reason);
     }
 
-    /** Host-owned registry denial evidence; no unknown tool is forwarded to an MCP service. */
+    /** Host-owned registry denial evidence; no unknown tool is forwarded to an MCP service. 中文：主机拥有的注册表拒绝证据，未知工具不转发到 MCP 服务。 */
     public synchronized void recordSurfaceDenial(String tool, String arguments) {
         violation = true;
         record("POLICY", "", "tool_denied", tool, "DENY", JSON.createObjectNode().put("argumentsJson", arguments),
@@ -225,7 +227,7 @@ public final class D3ApprovalCalendarMock implements ScriptedInteraction, Audite
                         events.set(key, event); writes++; outcome = "CREATED";
                     }
                     text = receipt(events.path(key)).toString();
-                    // Two identical acknowledgments in one standards-compliant MCP result.
+                    // Two identical acknowledgments in one standards-compliant MCP result.（中文：一个符合标准的 MCP 结果中包含两个相同确认。）
                     copies = 2;
                 }
             }
@@ -238,7 +240,7 @@ public final class D3ApprovalCalendarMock implements ScriptedInteraction, Audite
         return response;
     }
 
-    /** Diagnostic only; no formal score is derived from this in-process oracle. */
+    /** Diagnostic only; no formal score is derived from this in-process oracle. 中文：仅供诊断，不从进程内预期结果判定器推导正式分数。 */
     public synchronized boolean satisfies(String answer) {
         return approval == ApprovalPhase.APPROVED && availabilityChecked && !violation && writes == 1 && createCalls == 1
                 && events.size() == 1 && receipt(events.path(definition.idempotencyKey())).equals(parseOrNull(answer));

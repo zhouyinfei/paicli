@@ -15,7 +15,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-/** Fail-closed JSON codec shared by the frozen scoring contract and verifier report. */
+/** Fail-closed JSON codec shared by the frozen scoring contract and verifier report. 中文：冻结评分合同与验证器报告共享的失败时拒绝 JSON 编解码器。 */
 final class ScoringJson {
     static final int MAX_JSON_BYTES = 1024 * 1024;
 

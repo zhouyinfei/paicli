@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Explicitly synthetic reference and corruptions; no paid/model or production evidence. */
+/** Explicitly synthetic reference and corruptions; no paid/model or production evidence. 中文：明确标注的合成参考及破坏操作，不含付费模型或生产证据。 */
 @Timeout(20)
 class F1IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -70,8 +70,8 @@ class F1IndependentReplayTest {
     @Test
     void providerCallIdMayRepeatAcrossSequentialTurnsWithoutLosingOrdinalIdentity() throws Exception {
         var reference = reference(Behavior.CORRECT);
-        // Synthetic sequential provider turns each use call_0. Preserve every
-        // execution's actual order, arguments and result; never merge by callId.
+        // Synthetic sequential provider turns each use call_0. Preserve every（中文：合成供应商的各串行轮次均使用 call_0，保留每次）
+        // execution's actual order, arguments and result; never merge by callId.（中文：执行的实际顺序、参数与结果，绝不按 callId 合并。）
         for (var event : reference.envelope().path("toolExecutions")) ((ObjectNode)event).put("callId", "call_0");
         Files.write(reference.evidence(), JSON.writeValueAsBytes(reference.envelope()));
         var result = run(reference);

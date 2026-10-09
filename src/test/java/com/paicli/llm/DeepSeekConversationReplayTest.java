@@ -22,7 +22,7 @@ class DeepSeekConversationReplayTest {
     private static final String SOURCE = "public class Hello {\n"
             + "    public static void main(String[] args) {\n"
             + "        System.out.println(\"Hello World\");\n    }\n}\n";
-    // Same tag spelling, spacing, tool name, and multiline arguments as the incident ledger.
+    // Same tag spelling, spacing, tool name, and multiline arguments as the incident ledger.（中文：标签拼写、空格、工具名和多行参数与事件账本一致。）
     private static final String BLOCK = """
             <｜｜DSML｜｜ calls>
             <｜｜DSML｜｜ invoke name="write_file">
@@ -149,7 +149,7 @@ class DeepSeekConversationReplayTest {
 
     private static MockResponse content(String text) throws Exception {
         StringBuilder sse = new StringBuilder();
-        // One character per SSE delta exercises every possible opening/closing tag boundary.
+        // One character per SSE delta exercises every possible opening/closing tag boundary.（中文：每个 SSE 增量仅含一个字符，以覆盖所有开始和结束标签边界。）
         for (int i = 0; i < text.length(); i++) {
             sse.append("data: ").append(JSON.writeValueAsString(Map.of("choices", List.of(Map.of(
                     "delta", Map.of("content", text.substring(i, i + 1))))))).append("\n\n");

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/** Local development-suite tool surface; both exposure and execution are fail-closed. */
+/** Local development-suite tool surface; both exposure and execution are fail-closed. 中文：本地开发套件工具接口，暴露与执行均在失败时拒绝。 */
 final class BenchmarkToolRegistry extends HitlToolRegistry {
     private final BenchmarkToolProfile profile;
     private Consumer<ToolExecutionResult> executionObserver = ignored -> { };
@@ -61,12 +61,12 @@ final class BenchmarkToolRegistry extends HitlToolRegistry {
         frozenCodeSearch = search;
     }
 
-    /** Only the one catalog discovered through the host relay becomes executable. */
+    /** Only the one catalog discovered through the host relay becomes executable. 中文：只有通过主机中继发现的唯一目录可执行。 */
     void bindMockMcp(McpClient client) throws IOException {
         bindMockMcp(java.util.Map.of("benchmark", client));
     }
 
-    /** Bind the complete host-declared set atomically; never expose a partially loaded catalog. */
+    /** Bind the complete host-declared set atomically; never expose a partially loaded catalog. 中文：原子绑定完整主机声明集合，不暴露部分加载目录。 */
     void bindMockMcp(java.util.Map<String, McpClient> clients) throws IOException {
         if (profile != BenchmarkToolProfile.MOCK_MCP && profile != BenchmarkToolProfile.MOCK_MCP_FILE_ONLY || mockCatalogBound) {
             throw new IOException("mock MCP catalog cannot be rebound");
@@ -114,7 +114,7 @@ final class BenchmarkToolRegistry extends HitlToolRegistry {
         return profile == BenchmarkToolProfile.MOCK_MCP ? mockTools : profile.allowedTools();
     }
 
-    /** Offline native-control path; Docker requires a separate host relay before it can use this profile. */
+    /** Offline native-control path; Docker requires a separate host relay before it can use this profile. 中文：离线原生对照路径，Docker 使用此配置前须有独立主机中继。 */
     synchronized void bindMockWeb(com.paicli.web.SearchProvider search, com.paicli.web.WebFetcher fetcher,
                                   com.paicli.web.NetworkPolicy policy) throws IOException {
         if (profile != BenchmarkToolProfile.MOCK_WEB || mockWebBound)

@@ -14,7 +14,7 @@ import static com.paicli.eval.benchmark.D4WebProtocolTest.*;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Raw hostile Worker frames must not become arbitrary host Web requests. No model/API calls. */
+/** Raw hostile Worker frames must not become arbitrary host Web requests. No model/API calls. 中文：恶意工作进程的原始帧不得转换为任意主机 Web 请求，不调用模型或 API。 */
 class D4WebHostGuardTest {
     private static final String QUERY = "fixture query";
 

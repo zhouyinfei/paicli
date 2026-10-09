@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** New two-model registrations never reinterpret or truncate the legacy three-model cohort. */
+/** New two-model registrations never reinterpret or truncate the legacy three-model cohort. 中文：新的双模型注册不会重新解释或截断旧三模型组。 */
 class FormalTwoModelContractTest {
     @TempDir Path temp;
 

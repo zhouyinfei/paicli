@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Pure offline reference/negative evidence controls for the frozen formal adapter. */
+/** Pure offline reference/negative evidence controls for the frozen formal adapter. 中文：冻结正式适配器的纯离线参考与负面证据对照。 */
 class D4GeneratedVerifierTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     @TempDir Path temp;

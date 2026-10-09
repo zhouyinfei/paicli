@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** Launches one isolated worker JVM. The API key is written once to stdin and never to argv/env. */
+/** Launches one isolated worker JVM. The API key is written once to stdin and never to argv/env. 中文：启动隔离工作 JVM，API Key 仅向标准输入写入一次，不放入参数或环境变量。 */
 final class BenchmarkWorkerProcess implements BenchmarkCoordinatorMain.WorkerExecutor {
     static final int TOKEN_BUDGET = 500_000;
     static final int HARD_MAX_ITERATIONS = 80;

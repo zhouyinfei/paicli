@@ -39,7 +39,7 @@ class F1BoundarySessionTest {
         var f = fixture(temp); Files.createSymbolicLink(f.workspace().resolve("review-drop"), Path.of("../missing"));
         assertThrows(IOException.class, () -> F1BoundarySession.prepare(f.workspace(), f.home(), f.definition()));
         assertFalse(Files.exists(f.root().resolve("f1-boundary")));
-        // This link was created by this test, not a user artifact.
+        // This link was created by this test, not a user artifact.（中文：链接由本测试创建，不是用户产物。）
         Files.delete(f.workspace().resolve("review-drop")); Files.writeString(f.workspace().resolve("payload.txt"), "wrong");
         assertThrows(IOException.class, () -> F1BoundarySession.prepare(f.workspace(), f.home(), f.definition()));
         assertFalse(Files.exists(f.root().resolve("f1-boundary")));

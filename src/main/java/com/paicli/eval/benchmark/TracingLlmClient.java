@@ -31,6 +31,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * reasoning, tool arguments, or credentials. The exact system prompt and exposed
  * tool schema are represented only by canonical SHA-256 digests. Full conversational
  * evidence stays in the separately protected {@code ConversationLedger}.
+ * 中文：记录评测安全的 LLM 调用元数据，不持久化提示、响应、推理、工具参数或凭据。精确系统提示及暴露工具模式仅以规范 SHA-256
+ * 摘要表示；完整对话证据保存在独立保护的 ConversationLedger 中。
  */
 public final class TracingLlmClient implements LlmClient {
 
@@ -73,13 +75,13 @@ public final class TracingLlmClient implements LlmClient {
         this(delegate, traceFile, null);
     }
 
-    /** Plan attribution is supplied by the host relay, never inferred from model text or a free-form label. */
+    /** Plan attribution is supplied by the host relay, never inferred from model text or a free-form label. 中文：Plan 归属由主机中继提供，不从模型文本或自由标签推断。 */
     public TracingLlmClient(LlmClient delegate, Path traceFile,
                             com.paicli.eval.benchmark.relay.PlanRequestAudit planAudit) throws IOException {
         this(delegate, traceFile, planAudit, null);
     }
 
-    /** A TEAM audit must be the same host-owned instance used by the relay, not a supplied scope label. */
+    /** A TEAM audit must be the same host-owned instance used by the relay, not a supplied scope label. 中文：TEAM 审计必须与中继使用同一主机拥有的实例，不能使用传入作用域标签。 */
     public TracingLlmClient(LlmClient delegate, Path traceFile,
                             com.paicli.eval.benchmark.relay.PlanRequestAudit planAudit,
                             com.paicli.eval.benchmark.relay.TeamRequestAudit teamAudit) throws IOException {
@@ -98,7 +100,7 @@ public final class TracingLlmClient implements LlmClient {
             this.effectiveContextWindowCapTokens = capped.effectiveContextWindowCapTokens();
             this.maxOutputTokensPerCall = capped.maxOutputTokensPerCall();
         } else {
-            // A provider capability is not proof that a request-scoped hard gate was installed.
+            // A provider capability is not proof that a request-scoped hard gate was installed.（中文：供应商能力不能证明请求级硬门禁已安装。）
             this.requestedContextWindowCapTokens = 0;
             this.effectiveContextWindowCapTokens = 0;
             this.maxOutputTokensPerCall = 0;
@@ -114,7 +116,7 @@ public final class TracingLlmClient implements LlmClient {
         try {
             Files.setPosixFilePermissions(this.traceFile, PosixFilePermissions.fromString("rw-------"));
         } catch (UnsupportedOperationException ignored) {
-            // Non-POSIX platforms still get a regular private run artifact directory.
+            // Non-POSIX platforms still get a regular private run artifact directory.（中文：非 POSIX 平台仍获得常规私有运行产物目录。）
         }
     }
 
@@ -397,12 +399,12 @@ public final class TracingLlmClient implements LlmClient {
         return lastErrorMessage.get();
     }
 
-    /** Stable benchmark policy category for the last failed provider call. */
+    /** Stable benchmark policy category for the last failed provider call. 中文：最近失败供应商调用的稳定评测策略分类。 */
     public String lastFailureType() {
         return lastFailureType.get();
     }
 
-    /** First provider-evidence failure that invalidates the episode; it cannot be overwritten. */
+    /** First provider-evidence failure that invalidates the episode; it cannot be overwritten. 中文：使回合无效的首个供应商证据失败，不得被覆盖。 */
     public String evaluationInvalidFailureType() {
         return evaluationInvalidFailureType.get();
     }
@@ -504,7 +506,7 @@ public final class TracingLlmClient implements LlmClient {
             }
         }
 
-        /** Binary/source compatibility for the pre-v6 metrics constructor; cap proof fails closed. */
+        /** Binary/source compatibility for the pre-v6 metrics constructor; cap proof fails closed. 中文：兼容 v6 之前指标构造器的二进制与源码；上限证明无法确认时拒绝。 */
         public Metrics(int calls,
                        long inputTokens,
                        long outputTokens,

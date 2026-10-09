@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/** Strict private Web source. Registration with formal admission is a separate integration step. */
+/** Strict private Web source. Registration with formal admission is a separate integration step. 中文：严格私有 Web 来源，正式准入注册是单独集成步骤。 */
 public record D4FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile, String variantId,
                              Map<String, String> baselineFiles, D4WebMock.Definition definition) {
     public static final String PROFILE = "d4-grounded-web-v1";

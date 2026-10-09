@@ -10,7 +10,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-/** Synthetic policy-valid runner artifact for coordinator/worker boundary tests. */
+/** Synthetic policy-valid runner artifact for coordinator/worker boundary tests. 中文：用于协调器与工作进程边界测试的合成产物，符合策略要求。 */
 final class BenchmarkRunnerTestArtifact {
     private static final List<String> REQUIRED_CLASSES = List.of(
             "com/paicli/eval/benchmark/BenchmarkRelayWorkerMain.class",

@@ -464,7 +464,7 @@ class ContextWindowCappedLlmClientTest {
         @Override public String promptCacheMode() { return "automatic-prefix-cache"; }
     }
 
-    /** Deterministically models a provider that retries one interrupted SSE attempt internally. */
+    /** Deterministically models a provider that retries one interrupted SSE attempt internally. 中文：确定性模拟供应商在内部重试一次中断的 SSE 请求。 */
     private static final class RetrySafeDelegate implements LlmClient {
         private final AtomicInteger attempts = new AtomicInteger();
         private final AtomicInteger nonListeningCalls = new AtomicInteger();
@@ -473,8 +473,8 @@ class ContextWindowCappedLlmClientTest {
         @Override
         public ChatResponse chat(List<Message> messages, List<Tool> tools) {
             nonListeningCalls.incrementAndGet();
-            attempts.incrementAndGet(); // interrupted before any externally consumable output
-            attempts.incrementAndGet(); // provider retry succeeds
+            attempts.incrementAndGet(); // interrupted before any externally consumable output（中文：在产生任何外部可消费输出之前中断。）
+            attempts.incrementAndGet(); // provider retry succeeds（中文：供应商重试成功。）
             return new ChatResponse(
                     "assistant", "final", "final thought", List.of(),
                     500, 20, 0, "resolved-model", true);

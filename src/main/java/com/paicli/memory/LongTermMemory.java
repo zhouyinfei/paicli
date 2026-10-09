@@ -140,7 +140,7 @@ public class LongTermMemory implements Memory {
                 : MemoryWriteResult.replaced(entry, target, scope);
     }
 
-    /** Automatic candidates never refresh verification time, replace entries, or bypass conflicts. */
+    /** Automatic candidates never refresh verification time, replace entries, or bypass conflicts. 中文：自动候选不得刷新核实时间、替换条目或绕过冲突。 */
     public synchronized boolean writeAutomatic(MemoryEntry entry) {
         return withStorageLock(() -> {
             if (entries.containsKey(entry.getId()) || entries.values().stream().anyMatch(existing ->

@@ -436,8 +436,8 @@ class FinalDatasetFreezerTest {
     }
 
     private static Layout createLayout(Path tempDir) throws Exception {
-        // macOS exposes JUnit's temporary root through /var -> /private/var. Product paths
-        // intentionally reject every symlink segment, so construct requests from the real root.
+        // macOS exposes JUnit's temporary root through /var -> /private/var. Product paths（中文：macOS 通过 /var 到 /private/var 暴露 JUnit 临时根目录；产品路径）
+        // intentionally reject every symlink segment, so construct requests from the real root.（中文：明确拒绝每个符号链接段，因此从真实根目录构建请求。）
         tempDir = tempDir.toRealPath();
         Assumptions.assumeTrue(Files.getFileAttributeView(
                 tempDir, PosixFileAttributeView.class) != null, "POSIX filesystem required");

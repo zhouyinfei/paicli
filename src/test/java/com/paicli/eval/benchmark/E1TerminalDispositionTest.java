@@ -15,7 +15,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual offline Worker terminal controls, not formal E1 admission or model scores. */
+/** Actual offline Worker terminal controls, not formal E1 admission or model scores. 中文：真实离线工作进程终止对照，不代表正式 E1 准入或模型分数。 */
 @EnabledIfSystemProperty(named="paicli.test.e1.terminal.docker", matches="true")
 @Timeout(180)
 class E1TerminalDispositionTest {

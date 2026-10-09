@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Controls, not model performance: native Agent/relay/MCP + generated D2 + real Docker verifier. */
+/** Controls, not model performance: native Agent/relay/MCP + generated D2 + real Docker verifier. 中文：对照测试而非模型性能：原生 Agent、中继、MCP、生成的 D2 及真实 Docker 验证器。 */
 class D2FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     @TempDir Path temp;
@@ -150,7 +150,7 @@ class D2FormalIntegrationTest {
         try {
             var complete = D2McpRelayTest.runWorker(assertInstanceOf(D2ReadOnlyJoinMock.class, endpoint), control, workspace);
             var limits = request.agentLimits();
-            // Synthetic provider identity is explicit here; this test never calls an upstream model.
+            // Synthetic provider identity is explicit here; this test never calls an upstream model.（中文：这里明确使用合成供应商身份，测试不调用上游模型。）
             var metrics = new TracingLlmClient.Metrics(4, 400, 120, 0, complete.toolExecutions().size(), 1, 4,
                     request.model(), true, true, "a".repeat(64), "b".repeat(64), true,
                     limits.contextWindowCapTokens(), limits.contextWindowCapTokens(), limits.maxOutputTokensPerCall(), 100, 130, true);

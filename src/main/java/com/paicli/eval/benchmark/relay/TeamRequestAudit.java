@@ -28,6 +28,9 @@ import static com.paicli.agent.TeamExecutionObserver.*;
  * per activation and batch, never as global keys. Envelope templates are frozen per contract:
  * they are drift evidence, not a semantic guarantee about model behaviour. A failed audit is
  * missing evidence, not a Candidate zero.
+ * 中文：主机拥有的 TEAM 归属：每个真实供应商请求绑定独立观测且仍活跃的激活，运行必须形成完整闭合生命周期。请求作用域为中继确认的
+ * team 激活 ID，同一激活可发多个请求，重试使用新激活。工具调用 ID
+ * 按激活和批次匹配，不作全局键。信封模板按合同冻结，仅证明漂移，不保证模型语义行为；审计失败属于证据缺失，不是候选零分。
  */
 public final class TeamRequestAudit {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -68,7 +71,7 @@ public final class TeamRequestAudit {
         @Override public JsonNode event() { return event.deepCopy(); }
     }
 
-    /** Private host evidence with actual request/response bodies; not a model score. */
+    /** Private host evidence with actual request/response bodies; not a model score. 中文：包含实际请求与响应正文的私有主机证据，不是模型分数。 */
     public record ProviderAttempt(int ordinal, ActivationIdentity activation, String scope, Binding binding,
                                   boolean providerDispatched, boolean delivered,
                                   LlmClient.ChatResponse returnedResponse, LlmClient.ChatResponse response,
@@ -96,16 +99,18 @@ public final class TeamRequestAudit {
      * One write_file tool call attributed to the activation that issued it: the path comes
      * from the actual provider arguments, successful comes from the post-policy batch.
      * Attribution is host observation, not a verdict; the frozen E2 contract decides scoring.
+     * 中文：将 write_file 调用归属到发起激活：路径来自实际供应商参数，成功标志来自策略后的批次。归属只是主机观测，不是结论，由冻结
+     * E2 合同决定评分。
      */
     public record WriteAttribution(int ordinal, String scope, AgentRole role, String stepId, int attempt,
                                    String toolCallId, String path, boolean successful) { }
 
-    /** The same path successfully written by more than one distinct activation. */
+    /** The same path successfully written by more than one distinct activation. 中文：同一路径被多个不同激活成功写入。 */
     public record WriteConflict(int ordinal, String path, List<String> activationIds) {
         public WriteConflict { activationIds = List.copyOf(activationIds); }
     }
 
-    /** Host evidence failure, never a Candidate execution failure. */
+    /** Host evidence failure, never a Candidate execution failure. 中文：主机证据失败，不是候选执行失败。 */
     public static final class Failure extends IOException {
         public Failure(String message) { super(message); }
         public Failure(String message, Throwable cause) { super(message, cause); }
@@ -114,7 +119,7 @@ public final class TeamRequestAudit {
     public synchronized boolean failed() { return failed; }
     public synchronized void markFailed() { failed = true; }
 
-    /** Binding of the request in flight; {@code null} at rest or once the audit has failed. */
+    /** Binding of the request in flight; {@code null} at rest or once the audit has failed. 中文：正在进行的请求绑定，空闲或审计失败后为 null。 */
     public synchronized Binding currentBinding() {
         return failed || active == null ? null : active.binding;
     }
@@ -124,7 +129,7 @@ public final class TeamRequestAudit {
                 List.copyOf(writeAttributions), List.copyOf(writeConflicts));
     }
 
-    /** Explicit private host evidence; not enabled for ordinary product Team execution. */
+    /** Explicit private host evidence; not enabled for ordinary product Team execution. 中文：显式私有主机证据，普通产品 Team 执行不启用。 */
     public synchronized void writeSnapshot(Path path) throws IOException {
         try (var channel = java.nio.file.Files.newByteChannel(path,
                 java.util.Set.of(java.nio.file.StandardOpenOption.CREATE_NEW, java.nio.file.StandardOpenOption.WRITE),
@@ -135,7 +140,7 @@ public final class TeamRequestAudit {
         }
     }
 
-    /** Validates the closed event lifecycle; rejections fail the audit instead of being skipped. */
+    /** Validates the closed event lifecycle; rejections fail the audit instead of being skipped. 中文：验证封闭事件生命周期，拒绝使审计失败，不得跳过。 */
     public synchronized void accept(Event event) throws IOException {
         try {
             require(event != null, "missing Team event");
@@ -172,6 +177,8 @@ public final class TeamRequestAudit {
      * Binds one actual provider request to the acknowledged activation scope before dispatch.
      * The last user message must be exactly the observed activation input at the observed index,
      * except for the one no-tools closing request after a BudgetFinalization observation.
+     * 中文：派发前将实际供应商请求绑定到已确认激活作用域。最后用户消息必须与观测索引上的激活输入完全一致，唯一例外是预算收尾观测后的一次无工具
+     * 收尾请求。
      */
     public synchronized void begin(String scope, List<LlmClient.Message> messages, List<LlmClient.Tool> tools)
             throws IOException {
@@ -224,7 +231,7 @@ public final class TeamRequestAudit {
         }
     }
 
-    /** True only for the first request of an activation that observed BudgetFinalization. */
+    /** True only for the first request of an activation that observed BudgetFinalization. 中文：仅对已观测预算收尾的激活首个请求返回真。 */
     public synchronized boolean isBudgetFinalizationRequest() {
         return active != null && active.activation.budgetFinalized && !active.activation.finalizationRequestSeen;
     }
@@ -252,7 +259,7 @@ public final class TeamRequestAudit {
         }
     }
 
-    /** Best-effort path extraction from actual provider write arguments; evidence, not a gate. */
+    /** Best-effort path extraction from actual provider write arguments; evidence, not a gate. 中文：尽力从真实供应商写入参数提取路径，作为证据而非门禁。 */
     private static final class WriteToolPaths {
         private static final ObjectMapper STRICT = new ObjectMapper()
                 .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
@@ -266,13 +273,13 @@ public final class TeamRequestAudit {
                     return path.isEmpty() ? null : path;
                 }
             } catch (IOException | RuntimeException ignored) {
-                // Unparseable provider arguments stay visible through the recorded response.
+                // Unparseable provider arguments stay visible through the recorded response.（中文：不可解析的供应商参数仍通过已记录响应可见。）
             }
             return null;
         }
     }
 
-    /** Successful pipe delivery evidence, not proof of semantic consumption by the model. */
+    /** Successful pipe delivery evidence, not proof of semantic consumption by the model. 中文：成功管道交付证据，不证明模型语义使用了内容。 */
     public synchronized void response(LlmClient.ChatResponse response) {
         if (active == null) { failed = true; return; }
         active.delivered = response;
@@ -283,7 +290,7 @@ public final class TeamRequestAudit {
         if (active.failureType == null && failureType != null) active.failureType = failureType;
     }
 
-    /** Closes the request and materializes its immutable attempt record; must never throw. */
+    /** Closes the request and materializes its immutable attempt record; must never throw. 中文：关闭请求并物化不可变尝试记录，绝不应抛异常。 */
     public synchronized void end() {
         if (active == null) return;
         if (active.activation.budgetFinalized) active.activation.finalizationRequestSeen = true;
@@ -294,7 +301,7 @@ public final class TeamRequestAudit {
         active = null;
     }
 
-    /** Requires the full closed lifecycle; any rejection also fails the audit. */
+    /** Requires the full closed lifecycle; any rejection also fails the audit. 中文：要求完整闭合生命周期，任何拒绝也使审计失败。 */
     public synchronized void assertComplete() throws IOException {
         if (failed) throw new Failure("host Team audit already failed");
         try {
@@ -406,7 +413,7 @@ public final class TeamRequestAudit {
         if (writers.size() > 1) {
             WriteConflict conflict = new WriteConflict(writeConflicts.size() + 1,
                     expected.path(), List.copyOf(writers));
-            // One rolling entry per conflicted path keeps the snapshot bounded and idempotent.
+            // One rolling entry per conflicted path keeps the snapshot bounded and idempotent.（中文：每个冲突路径保留一个滚动条目，使快照有界且幂等。）
             if (writeConflicts.stream().noneMatch(existing -> existing.path().equals(expected.path()))) {
                 writeConflicts.add(conflict);
             } else {
@@ -455,7 +462,7 @@ public final class TeamRequestAudit {
                 && stepId.equals(activation.identity.stepId()) && activation.exited != null;
     }
 
-    /** A worker/reviewer retry must follow a rejected review of the previous attempt. */
+    /** A worker/reviewer retry must follow a rejected review of the previous attempt. 中文：工作者或审阅者重试必须发生在上一尝试审阅拒绝之后。 */
     private void requireRetryChain(ActivationIdentity identity) throws IOException {
         if (identity.role() != AgentRole.WORKER && identity.role() != AgentRole.REVIEWER) return;
         if (identity.attempt() <= 1) return;
@@ -487,7 +494,7 @@ public final class TeamRequestAudit {
         }
     }
 
-    /** A worker retry request must carry the previous attempt's actual exit result verbatim. */
+    /** A worker retry request must carry the previous attempt's actual exit result verbatim. 中文：工作者重试请求必须原样携带上一尝试的实际退出结果。 */
     private void requireHistoryCarriesPreviousResult(Activation activation,
                                                      List<LlmClient.Message> messages) throws IOException {
         Activation previous = null;
@@ -521,7 +528,7 @@ public final class TeamRequestAudit {
         if (!condition) throw new Failure(message);
     }
 
-    /** One provider activation: a planner pass, one worker attempt, or one reviewer pass. */
+    /** One provider activation: a planner pass, one worker attempt, or one reviewer pass. 中文：一次供应商激活，即一次规划、一轮工作者尝试或一次审阅。 */
     private static final class Activation {
         final ActivationIdentity identity;
         final String scope;
@@ -553,7 +560,7 @@ public final class TeamRequestAudit {
         }
     }
 
-    /** Mutable in-flight state; materialized into a {@link ProviderAttempt} by {@link #end()}. */
+    /** Mutable in-flight state; materialized into a {@link ProviderAttempt} by {@link #end()}. 中文：可变在途状态，由 end() 物化为 ProviderAttempt。 */
     private static final class RequestState {
         final int ordinal;
         final Activation activation;

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
 
-/** Original seeded fixture, oracle, hidden-test, reference and verifier materializers. */
+/** Original seeded fixture, oracle, hidden-test, reference and verifier materializers. 中文：原始带种子夹具、预期结果、隐藏测试、参考与验证器物化器。 */
 final class ImplementedCaseMaterializers {
     private static final DateTimeFormatter G2_TIMESTAMP =
             DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
@@ -1299,8 +1299,8 @@ final class ImplementedCaseMaterializers {
         evidence.put("mode", "react");
         evidence.put("toolProfile", expectedToolProfile(caseId));
         evidence.put("answer", answer);
-        // Jackson serializes the nullable Metrics fields in a real envelope. LinkedHashMap permits
-        // the same legal null placeholders; these are reference-report prototypes, not run evidence.
+        // Jackson serializes the nullable Metrics fields in a real envelope. LinkedHashMap permits（中文：Jackson 在真实信封中序列化可空 Metrics 字段；LinkedHashMap 允许）
+        // the same legal null placeholders; these are reference-report prototypes, not run evidence.（中文：相同合法 null 占位，这些是参考报告原型，不是运行证据。）
         Map<String, Object> metrics = new LinkedHashMap<>();
         metrics.put("calls", 0);
         metrics.put("inputTokens", 0);

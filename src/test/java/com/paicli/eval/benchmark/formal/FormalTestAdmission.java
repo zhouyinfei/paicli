@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.HexFormat;
 
-/** Synthetic filesystem admission only; not a production freezer attestation or final dataset. */
+/** Synthetic filesystem admission only; not a production freezer attestation or final dataset. 中文：仅为合成文件系统准入，不是生产冻结证明或最终数据集。 */
 public final class FormalTestAdmission {
     private FormalTestAdmission() {}
 
@@ -20,7 +20,7 @@ public final class FormalTestAdmission {
         return create(base, null, true);
     }
 
-    /** Explicit new v4 two-model cohort; legacy entry points continue producing v3/252. */
+    /** Explicit new v4 two-model cohort; legacy entry points continue producing v3/252. 中文：明确的新 v4 双模型组；旧入口继续产出 v3/252。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createTwoModels(Path base, String toolProfile)
             throws Exception {
         return create(base, toolProfile, false, true);
@@ -31,33 +31,33 @@ public final class FormalTestAdmission {
         return create(base, null, true, true);
     }
 
-    /** 27 synthetic cases plus one real generated D1; not a final-dataset attestation. */
+    /** 27 synthetic cases plus one real generated D1; not a final-dataset attestation. 中文：27 个合成用例加一个真实生成 D1，不是最终数据集证明。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedD1(Path base, Path source)
             throws Exception {
         return createWithGeneratedMock(base, source, "D1");
     }
 
-    /** One real generated mock case in an otherwise synthetic 28-case admission. No production attestation. */
+    /** One real generated mock case in an otherwise synthetic 28-case admission. No production attestation. 中文：合成 28 题准入中含一个真实生成模拟用例，无生产证明。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedMock(Path base, Path source, String caseId)
             throws Exception {
         if (!java.util.List.of("D1", "D2", "D3", "D4", "F4").contains(caseId)) throw new IllegalArgumentException("unknown mock control");
         return createWithGeneratedCase(base, source, caseId);
     }
 
-    /** One standalone E1 prototype and 27 synthetic cases; never a production dataset attestation. */
+    /** One standalone E1 prototype and 27 synthetic cases; never a production dataset attestation. 中文：一个独立 E1 原型与 27 个合成用例，不是生产数据集证明。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedE1(Path base, Path source) throws Exception {
         return createWithGeneratedCase(base, source, "E1");
     }
-    /** One generated F1 and 27 synthetic cases; never a production admission. */
+    /** One generated F1 and 27 synthetic cases; never a production admission. 中文：一个生成 F1 与 27 个合成用例，不是生产准入。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedF1(Path base, Path source) throws Exception {
         return createWithGeneratedCase(base, source, "F1");
     }
-    /** One generated F2 with synthetic admission peers; never provider or OS-audit attestation. */
+    /** One generated F2 with synthetic admission peers; never provider or OS-audit attestation. 中文：一个生成 F2 搭配合成准入用例，不是供应商或操作系统审计证明。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedF2(Path base, Path source) throws Exception {
         return createWithGeneratedCase(base, source, "F2");
     }
 
-    /** One generated F3 and 27 synthetic peers; not a completed or publishable dataset. */
+    /** One generated F3 and 27 synthetic peers; not a completed or publishable dataset. 中文：一个生成 F3 与 27 个合成用例，不是完整或可发布数据集。 */
     public static FormalBenchmarkAdmission.AdmittedBatch createWithGeneratedF3(Path base, Path source) throws Exception {
         return createWithGeneratedCase(base, source, "F3");
     }

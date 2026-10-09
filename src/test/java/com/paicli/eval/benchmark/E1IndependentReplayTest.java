@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.textSha256;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native product + independent Python controls. Scripted provider, not an E1 model score. */
+/** Native product + independent Python controls. Scripted provider, not an E1 model score. 中文：原生产品和独立 Python 对照，使用脚本供应商，不是 E1 模型分数。 */
 @Timeout(180)
 class E1IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -48,7 +48,7 @@ class E1IndependentReplayTest {
                 Control.UNICODE_BLANK_MERGE_AFTER_WRITE, Control.NBSP_MERGE_AFTER_WRITE).contains(control);
     }
 
-    /** Test-only local faults, after two branches return; no provider failure or worker hook. */
+    /** Test-only local faults, after two branches return; no provider failure or worker hook. 中文：两个分支返回后注入仅用于测试的本地故障，不是供应商故障或工作进程钩子。 */
     enum LocalFault { MERGE_BEFORE_INPUT, MERGE_BEFORE_REQUEST, MERGE_BEFORE_TOOL, MERGE_AFTER_TOOL }
     enum ReplanFault { LEFT_BEFORE_TOOL, RIGHT_BEFORE_TOOL, RIGHT_AFTER_TOOL, RIGHT_AFTER_ANSWER, RIGHT_TWICE,
         RIGHT_WITH_EXTRA_WRITE, RIGHT_REJECTED_REPLAN }
@@ -87,7 +87,7 @@ class E1IndependentReplayTest {
 
     @Test void replanDoesNotEraseEarlierForbiddenToolEvenIfFinalFileSetIsClean() throws Exception {
         var input = nativeInput(Control.CORRECT, true, null, ReplanFault.RIGHT_WITH_EXTRA_WRITE);
-        Files.delete(input.workspace.resolve("attempt-note.txt")); // Test-owned control artifact only.
+        Files.delete(input.workspace.resolve("attempt-note.txt")); // Test-owned control artifact only.（中文：仅处理测试拥有的对照产物。）
         var report = validReport(input);
         assertFalse(report.path("hardGates").path("workspace_mutation").asBoolean());
         assertTrue(report.path("hardGates").path("forbidden_tool_or_path").asBoolean());
@@ -97,7 +97,7 @@ class E1IndependentReplayTest {
 
     @Test void completedReplanCannotBorrowSourceObservationFromEarlierAttempt() throws Exception {
         var input = nativeInput(Control.MISSING_READ, true, null, ReplanFault.RIGHT_AFTER_ANSWER);
-        // First attempt reads both sources. The completed replan deliberately skips them.
+        // First attempt reads both sources. The completed replan deliberately skips them.（中文：首次尝试读取两个来源，完成的重新规划故意跳过它们。）
         var report = validReport(input);
         assertFalse(report.path("checks").path("source_observed").asBoolean());
         assertTrue(report.path("checks").path("artifact").asBoolean());
@@ -129,7 +129,7 @@ class E1IndependentReplayTest {
         var input = nativeInput(Control.CORRECT, true, null, ReplanFault.RIGHT_BEFORE_TOOL);
         var bad = input.evidence.deepCopy();
         rewriteSecondPlanGoal(bad, g -> g.replace("- task_1: LEFT\n", ""));
-        // Still a legal topological order, but not native insertion-ordered DFS.
+        // Still a legal topological order, but not native insertion-ordered DFS.（中文：仍为合法拓扑顺序，但不是原生按插入顺序执行的深度优先搜索。）
         firstEvent(bad, "PlanStarted").putArray("executionOrder").add("task_2").add("task_1").add("task_3");
         JSON.writeValue(input.evidenceFile.toFile(), bad);
         var result = replay(input); assertEquals(2, result.exitCode(), result.stdout());
@@ -321,7 +321,7 @@ class E1IndependentReplayTest {
         for (String text : List.of("中文 🧪 😀", "quotes\" slash\\ newline\n\r\t", "\\u000B is literal", "control\u000B\u001F", ""))
             values.addObject().put("z", text).put("a", 123).putNull("null").putArray("nested").add(true).add(text);
         var sorted = new ObjectMapper().enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY).enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
-        // JsonNode itself preserves insertion order; recursively sorted maps model TracingLlmClient's canonical input.
+        // JsonNode itself preserves insertion order; recursively sorted maps model TracingLlmClient's canonical input.（中文：JsonNode 本身保留插入顺序；递归排序映射模拟 TracingLlmClient 的规范输入。）
         var expected = JSON.createArrayNode();
         for (var value : values) {
             var map = new TreeMap<String, Object>(); value.fields().forEachRemaining(e -> map.put(e.getKey(), JSON.convertValue(e.getValue(), Object.class)));
@@ -401,9 +401,9 @@ class E1IndependentReplayTest {
                     audit.begin(scopes.get() == null ? "planner" : scopes.get(), normalized, tools);
                     try {
                         var response = tracing.chat(normalized, tools);
-                        // Like the actual Docker relay, deliver WireChatResponse's null-to-empty
-                        // body normalization. Auditing a normalized copy but delivering raw null
-                        // creates contradictory evidence in this in-process test harness.
+                        // Like the actual Docker relay, deliver WireChatResponse's null-to-empty（中文：与真实 Docker 中继一样，传递 WireChatResponse 将 null 转为空字符串的）
+                        // body normalization. Auditing a normalized copy but delivering raw null（中文：正文归一化结果；只审计归一化副本却传递原始 null）
+                        // creates contradictory evidence in this in-process test harness.（中文：会在这个进程内测试框架中产生矛盾证据。）
                         var delivered = new ChatResponse(response.role(), response.content() == null ? "" : response.content(),
                                 response.reasoningContent(), response.toolCalls() == null ? List.of() : response.toolCalls(),
                                 response.inputTokens(), response.outputTokens(), response.cachedInputTokens(), response.resolvedModel(), response.usagePresent());
@@ -605,7 +605,7 @@ class E1IndependentReplayTest {
                     for (String line : user.split("\\R")) if (line.startsWith("{")) {
                         var candidate = JSON.readTree(line); if (candidate.path("branch").asText().equals(side)) branch = (ObjectNode)candidate;
                     }
-                    if (branch == null) branch = summarize(side, oracle.path("files").path(side + ".csv").asText()); // deliberate missing-dependency shortcut
+                    if (branch == null) branch = summarize(side, oracle.path("files").path(side + ".csv").asText()); // deliberate missing-dependency shortcut（中文：故意设置的缺失依赖捷径。）
                     joined.set(side, branch);
                 }
                 joined.put("combined_cents", joined.path("left").path("sum_cents").asInt() + joined.path("right").path("sum_cents").asInt() + (control == Control.WRONG_MERGE ? 1 : 0));
@@ -630,7 +630,7 @@ class E1IndependentReplayTest {
                 return response("", List.of(call("shared", "read_file", Map.of("path", (control == Control.RELATIVE_PATHS ? "./" : "") + side + ".csv"))));
             }
             String csv;
-            if (seen.isEmpty() || control == Control.PARTIAL_READ) csv = oracle.path("files").path(side + ".csv").asText(); // deliberate coverage shortcut
+            if (seen.isEmpty() || control == Control.PARTIAL_READ) csv = oracle.path("files").path(side + ".csv").asText(); // deliberate coverage shortcut（中文：故意设置的覆盖率捷径。）
             else if (control == Control.CHUNKED_READS) {
                 var text = new StringBuilder();
                 for (var result : seen) for (String line : result.content().split("\\R")) {

@@ -74,8 +74,8 @@ public class BrowserGuard {
                     metadata);
         }
 
-        // State is deliberately committed only after a typed successful result.
-        // The parameter remains for source compatibility with preview callers.
+        // State is deliberately committed only after a typed successful result.（中文：只有收到类型明确的成功结果之后才提交状态。）
+        // The parameter remains for source compatibility with preview callers.（中文：保留参数以兼容预览调用方的源码。）
         return BrowserCheckResult.allow(metadata);
     }
 
@@ -118,7 +118,7 @@ public class BrowserGuard {
         }
     }
 
-    /** Backward-compatible overload for callers that already know execution succeeded. */
+    /** Backward-compatible overload for callers that already know execution succeeded. 中文：为已知执行成功的调用方提供向后兼容的重载。 */
     public void applyAfterExecution(String toolName, String argsJson, String result) {
         applyAfterExecution(toolName, argsJson, result, true);
     }
@@ -127,6 +127,7 @@ public class BrowserGuard {
      * Removes shared-tab inventories from tool output before it is returned to the
      * model. Navigation tools receive a compact receipt instead of the MCP
      * server's global {@code # Pages} dump.
+     * 中文：工具输出返回模型之前移除共享标签页清单；导航工具得到简短回执，而非 MCP 服务器的全局 Pages 列表。
      */
     public String sanitizeResult(String toolName, String argsJson, String result, boolean successful) {
         String raw = result == null ? "" : result;

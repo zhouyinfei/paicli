@@ -10,7 +10,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Objects;
 
-/** Transport only: product ToolRegistry still owns formatting, typed URL discovery and HTML extraction. */
+/** Transport only: product ToolRegistry still owns formatting, typed URL discovery and HTML extraction. 中文：仅负责传输，格式化、类型化 URL 发现及 HTML 提取仍由产品 ToolRegistry 负责。 */
 public final class RelayWebDependencies {
     private final RelayLlmClient relay;
     public RelayWebDependencies(RelayLlmClient relay) {

@@ -35,7 +35,7 @@ class InlineRendererTest {
         Mockito.when(terminal.getSize()).thenReturn(new Size(columns, rows));
         ByteArrayOutputStream sink = new ByteArrayOutputStream();
         org.jline.builtins.ScreenTerminal screen = new org.jline.builtins.ScreenTerminal(columns, rows);
-        // Seed the screen with the dock that JLine's diff cache believes is already present.
+        // Seed the screen with the dock that JLine's diff cache believes is already present.（中文：用 JLine 差异缓存认为已存在的底部区域初始化屏幕。）
         screen.write(AnsiSeq.moveCursor(38, 1) + "-- dock border --"
                 + AnsiSeq.moveCursor(39, 1) + "YOLO /hitl default to confirm"
                 + AnsiSeq.moveCursor(40, 1) + "Auto Model · DeepSeek V4.1 Flash  idle  ctx 2%"
@@ -97,7 +97,7 @@ class InlineRendererTest {
         InlineRenderer renderer = new InlineRenderer(terminal);
         try {
             assertFalse(renderer.hasStatusBar());
-            // updateStatus should still not throw
+            // updateStatus should still not throw（中文：updateStatus 仍不应抛出异常。）
             renderer.start();
             renderer.updateStatus(StatusInfo.idle("glm-5.1", 200_000L, false));
         } finally {
@@ -354,10 +354,10 @@ class InlineRendererTest {
 
         InlineRenderer renderer = new InlineRenderer(terminal);
         try {
-            // When run without TTY, fallback PlainRenderer reads from stdin.
-            // Just verify the call doesn't throw and returns a non-null result.
-            // Using `n` as the input is unreliable here, so we skip assertion on actual decision
-            // and just verify the type contract by interrupting via empty stdin → reject.
+            // When run without TTY, fallback PlainRenderer reads from stdin.（中文：没有 TTY 时，回退的 PlainRenderer 从标准输入读取。）
+            // Just verify the call doesn't throw and returns a non-null result.（中文：仅验证调用不抛异常且返回非空结果。）
+            // Using `n` as the input is unreliable here, so we skip assertion on actual decision（中文：这里使用 n 作为输入不可靠，因此不对实际决定进行断言，）
+            // and just verify the type contract by interrupting via empty stdin → reject.（中文：而是通过空标准输入中断并拒绝，仅验证类型契约。）
             ApprovalRequest req = ApprovalRequest.of("write_file", "{}", "test");
             ApprovalResult result = renderer.promptApproval(req);
             assertNotNull(result);

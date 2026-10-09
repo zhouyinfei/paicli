@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.paicli.agent.TeamExecutionObserver.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual offline Team actors plus separately captured provider requests; no model score/admission. */
+/** Actual offline Team actors plus separately captured provider requests; no model score/admission. 中文：真实离线团队角色与单独捕获的供应商请求，不含模型分数或准入。 */
 @ResourceLock(Resources.SYSTEM_PROPERTIES)
 class TeamRequestAuditTest {
     static final ObjectMapper JSON = new ObjectMapper();

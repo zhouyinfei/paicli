@@ -22,6 +22,7 @@ import java.util.Set;
 /**
  * Copies a stopped Candidate workspace into a bounded, regular-file-only,
  * owner-read-only tree for deterministic verification.
+ * 中文：将已停止的候选工作区复制成有界、仅普通文件、所有者只读的目录树，供确定性验证。
  */
 final class BenchmarkVerifierWorkspaceSnapshot {
     static final int MAX_FILES = 50_000;
@@ -49,7 +50,7 @@ final class BenchmarkVerifierWorkspaceSnapshot {
         return create(source, emptyTarget, null);
     }
 
-    /** F1-only projection: omit the original host link, never copy or follow it. */
+    /** F1-only projection: omit the original host link, never copy or follow it. 中文：仅用于 F1 的投影，省略原主机链接，不复制或跟随它。 */
     static Snapshot createBoundaryProjection(Path source, Path emptyTarget, F1BoundarySession boundary) throws IOException {
         java.util.Objects.requireNonNull(boundary, "bound F1 boundary").requireSnapshotSource(source);
         Snapshot result = create(source, emptyTarget, boundary);
@@ -284,8 +285,8 @@ final class BenchmarkVerifierWorkspaceSnapshot {
         if (relative == null || relative.isAbsolute() || relative.normalize().startsWith("..")) {
             throw new UnsafeWorkspaceException("candidate workspace path is not relative");
         }
-        // Path.relativize(root, root) is represented as a single empty segment on
-        // some providers. The root itself is valid; empty non-root segments are not.
+        // Path.relativize(root, root) is represented as a single empty segment on（中文：部分实现将根目录相对自身路径表示为单个空段；）
+        // some providers. The root itself is valid; empty non-root segments are not.（中文：根目录本身有效，非根目录空段无效。）
         if (relative.toString().isEmpty()) {
             return;
         }

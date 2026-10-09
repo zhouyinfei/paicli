@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native Agent/HITL/MCP controls with a scripted (not paid/model-evaluated) LLM. */
+/** Native Agent/HITL/MCP controls with a scripted (not paid/model-evaluated) LLM. 中文：原生 Agent、HITL 与 MCP 对照，使用脚本 LLM，不付费或评测模型。 */
 @Timeout(30)
 class F4ScriptedApprovalTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -102,7 +102,7 @@ class F4ScriptedApprovalTest {
 
     enum Control { CORRECT, DELETE_PENDING, ARCHIVE_PENDING, DELETE_REJECTED, ARCHIVE_REJECTED, FAKE_APPROVAL_FIELD, INVENT_APPROVAL_TOOL }
 
-    /** Discovers IDs/tools/impacts only from actual prompt, catalog and native tool results. */
+    /** Discovers IDs/tools/impacts only from actual prompt, catalog and native tool results. 中文：仅从实际提示、目录和原生工具结果发现 ID、工具及影响。 */
     static final class Script implements LlmClient {
         private final Control control;
         private final String provider, model;

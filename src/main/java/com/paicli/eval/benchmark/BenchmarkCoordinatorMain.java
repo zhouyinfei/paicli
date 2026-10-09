@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-/** Sequential development-suite coordinator. Every case/repeat runs in a fresh worker JVM. */
+/** Sequential development-suite coordinator. Every case/repeat runs in a fresh worker JVM. 中文：串行开发套件协调器，每题每次重复均在全新工作 JVM 中运行。 */
 public final class BenchmarkCoordinatorMain {
     private static final int RUN_EVIDENCE_SCHEMA_VERSION = 3;
     private static final int DEFAULT_REPEATS = 1;
@@ -525,7 +525,7 @@ public final class BenchmarkCoordinatorMain {
                     null,
                     detail));
         } catch (IOException ignored) {
-            // The returned scored hard-gate outcome is still persisted in aggregate.json.
+            // The returned scored hard-gate outcome is still persisted in aggregate.json.（中文：返回的已评分硬门禁结果仍持久化到 aggregate.json。）
         }
         return EpisodeOutcome.hardGate(definition.id(), repeat, detail);
     }
@@ -1130,7 +1130,7 @@ public final class BenchmarkCoordinatorMain {
                           TracingLlmClient.Metrics metrics,
                           String failureType) {
         EpisodeOutcome withFailureType(String type) {
-            // Persist a bounded type, never arbitrary provider error text.
+            // Persist a bounded type, never arbitrary provider error text.（中文：持久化有界类型，不保存任意供应商错误文本。）
             String safeType = type != null && type.matches("[A-Za-z0-9_]{1,80}")
                     ? type : "UNKNOWN_FAILURE";
             return new EpisodeOutcome(caseId, repeat, score, detail, hardGateViolation,
@@ -1227,8 +1227,8 @@ public final class BenchmarkCoordinatorMain {
             boolean observedMetrics = false;
             long maximumObservedTotalTokensPerCall = 0;
             for (EpisodeOutcome outcome : outcomes) {
-                // A capped client may reject a provider response before metrics can contain
-                // its usage. Keep the sticky typed verdict, even after later valid calls.
+                // A capped client may reject a provider response before metrics can contain（中文：受限客户端可能在指标记录用量之前拒绝供应商响应，）
+                // its usage. Keep the sticky typed verdict, even after later valid calls.（中文：即使后续调用有效，也保留不可覆盖的类型化结论。）
                 if (BenchmarkProviderEvidenceGate.isEvaluationInvalidFailureType(
                         outcome.failureType())) {
                     fullProviderEvidenceSatisfied = false;

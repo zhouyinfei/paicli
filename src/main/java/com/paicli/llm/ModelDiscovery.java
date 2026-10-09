@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/** Explicit, bounded model-list GET. Does not send conversation content or run inference. */
+/** Explicit, bounded model-list GET. Does not send conversation content or run inference. 中文：显式且有界的模型列表 GET 请求，不发送对话内容，也不进行推理。 */
 public final class ModelDiscovery {
     private static final int MAX_BODY_BYTES = 1_048_576;
     private final OkHttpClient http = new OkHttpClient.Builder()

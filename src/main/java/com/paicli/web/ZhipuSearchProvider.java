@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  *   <li>价格 0.01–0.05 元/次，比 SerpAPI 便宜 5–10 倍</li>
  * </ul>
  *
- * <p>Endpoint: {@code POST https://open.bigmodel.cn/api/paas/v4/web_search}
+ * <p>Endpoint: {@code POST https://open.bigmodel.cn/api/paas/v4/web_search}（中文：搜索接口端点及请求方法。）
  *
  * <p>支持的搜索引擎：
  * <ul>

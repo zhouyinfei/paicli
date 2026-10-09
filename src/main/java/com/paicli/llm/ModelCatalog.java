@@ -4,7 +4,7 @@ import com.paicli.config.PaiCliConfig;
 import java.io.IOException;
 import java.util.*;
 
-/** Builtin IDs plus user-owned entries. Discovery never replaces an existing profile. */
+/** Builtin IDs plus user-owned entries. Discovery never replaces an existing profile. 中文：内置 ID 加用户管理的条目；发现流程不替换已有配置。 */
 public final class ModelCatalog {
     private static final Map<String, String> DEEPSEEK_ALIASES = Map.of(
             "deepseek-v4-flash", "deepseek-flash",
@@ -24,7 +24,7 @@ public final class ModelCatalog {
     }
     private ModelCatalog() {}
 
-    /** Official legacy names remain callable, but are not separate current models. */
+    /** Official legacy names remain callable, but are not separate current models. 中文：官方旧名称仍可调用，但不作为独立的当前模型。 */
     public static String aliasTarget(String provider, String model) {
         return "deepseek".equals(provider) && model != null ? DEEPSEEK_ALIASES.get(model) : null;
     }
@@ -34,7 +34,7 @@ public final class ModelCatalog {
         return target == null ? model : model + "（兼容旧名 → " + target + "）";
     }
 
-    /** Human-readable UI label only; request IDs, saved configuration and audit data stay unchanged. */
+    /** Human-readable UI label only; request IDs, saved configuration and audit data stay unchanged. 中文：仅用于界面的人类可读标签；请求 ID、保存配置和审计数据保持不变。 */
     public static String statusName(String provider, String model) {
         if (!"deepseek".equals(provider) || model == null) return model;
         if (model.equals("deepseek-flash") || aliasTarget(provider, model) != null) return "DeepSeek V4.1 Flash";
@@ -99,7 +99,7 @@ public final class ModelCatalog {
         settings.setModels(next);
         config.getProviders().put(provider, settings);
         try {
-            // Validate before persisting, including limits inherited from the provider.
+            // Validate before persisting, including limits inherited from the provider.（中文：持久化前进行验证，包括供应商继承的限制。）
             for (String model : additions.keySet()) preview(config, provider, model);
             config.saveOrThrow();
         } catch (IOException | RuntimeException e) {

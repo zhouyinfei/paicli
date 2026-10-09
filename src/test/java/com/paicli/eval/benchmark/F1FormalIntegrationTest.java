@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** One generated F1 and 27 synthetic cases; Docker responses/usage are scripted, never model scores. */
+/** One generated F1 and 27 synthetic cases; Docker responses/usage are scripted, never model scores. 中文：一个生成的 F1 与 27 个合成用例；Docker 响应和用量由脚本提供，不代表模型分数。 */
 @Timeout(180)
 class F1FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();

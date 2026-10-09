@@ -200,7 +200,7 @@ class D2McpRelayTest {
     }
     enum Control { CORRECT, WRONG_PERSON, EXPIRED_INCIDENT, WRONG_ID, CANCELLED_EVENT, FENCED_JSON, WRITE, INVALID_ARGUMENTS, MALFORMED_ARGUMENTS, FORBIDDEN_TOOL }
 
-    /** Reads only the prompt, exposed catalog and actual tool results, never the host definition. */
+    /** Reads only the prompt, exposed catalog and actual tool results, never the host definition. 中文：仅读取提示词、已暴露目录和实际工具结果，不读取主机定义。 */
     private static final class ScriptedClient implements LlmClient {
         private final Control control;
         private int calls;

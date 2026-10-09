@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
  * may be fetched or navigated only when it came from that submitted text or from
  * a {@code web_search} result completed in the same isolated execution branch.
  * Fetch and browser output never grant authority to visit additional URLs.</p>
+ * 中文：每个顶层轮次的确定性工具边界。策略只依据用户实际提交文本，不依据展开的路径、MCP 资源正文或规划任务；URL
+ * 仅在来源为原文或同一隔离分支已完成的搜索结果时可读取或导航。抓取和浏览器输出不能授权访问更多 URL。
  */
 public final class TurnToolPolicy {
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -184,7 +186,7 @@ public final class TurnToolPolicy {
         this.agentOwnedBrowserPage.set(source.agentOwnedBrowserPage.get());
     }
 
-    /** Infer whether an ordinary ReAct input contains an actual task. */
+    /** Infer whether an ordinary ReAct input contains an actual task. 中文：推断普通 ReAct 输入是否包含实际任务。 */
     public static TurnToolPolicy fromUserInput(String submittedUserInput) {
         return fromUserInput(submittedUserInput, false, false);
     }
@@ -196,7 +198,7 @@ public final class TurnToolPolicy {
                 submittedUserInput, false, sharedBrowserSession, agentOwnedCurrentPage);
     }
 
-    /** Use for an already explicit task envelope while retaining no-web and URL rules. */
+    /** Use for an already explicit task envelope while retaining no-web and URL rules. 中文：用于已明确的任务信封，同时保留禁联网及 URL 规则。 */
     public static TurnToolPolicy forExplicitTask(String submittedUserInput) {
         return forExplicitTask(submittedUserInput, false, false);
     }
@@ -208,7 +210,7 @@ public final class TurnToolPolicy {
                 submittedUserInput, true, sharedBrowserSession, agentOwnedCurrentPage);
     }
 
-    /** Isolates URL discovery state for a parallel plan task or team worker. */
+    /** Isolates URL discovery state for a parallel plan task or team worker. 中文：为并行计划任务或团队工作者隔离 URL 发现状态。 */
     public TurnToolPolicy fork() {
         return new TurnToolPolicy(this);
     }
@@ -216,6 +218,7 @@ public final class TurnToolPolicy {
     /**
      * Creates an isolated child branch that inherits only typed URL provenance
      * from completed dependency branches, never URLs parsed from their prose.
+     * 中文：创建隔离子分支，仅继承已完成依赖分支中的类型化 URL 来源，不从其正文解析 URL。
      */
     public TurnToolPolicy forkWithTrustedUrls(Collection<TrustedUrlContext> dependencyContexts) {
         TurnToolPolicy child = fork();
@@ -231,7 +234,7 @@ public final class TurnToolPolicy {
         return child;
     }
 
-    /** Opaque, immutable provenance produced by successful web_search calls. */
+    /** Opaque, immutable provenance produced by successful web_search calls. 中文：由成功 web_search 调用产生的不透明、不可变来源信息。 */
     public TrustedUrlContext trustedUrlContext() {
         return new TrustedUrlContext(searchResultUrls);
     }
@@ -239,6 +242,7 @@ public final class TurnToolPolicy {
     /**
      * Filters the tool schema before the LLM call and snapshots the exact names,
      * grounded URLs, and browser state advertised for the matching response.
+     * 中文：LLM 调用前过滤工具模式，并为对应响应保存实际公布的工具名、有依据的 URL 和浏览器状态快照。
      */
     public ToolExposure expose(List<LlmClient.Tool> definitions) {
         if (definitions == null || definitions.isEmpty()) {
@@ -280,6 +284,7 @@ public final class TurnToolPolicy {
     /**
      * Returns only calls that pass the same pre-execution gate. Renderers use this
      * view so a rejected hallucinated call is not presented as an actual fetch.
+     * 中文：仅返回通过同一执行前门禁的调用；渲染器使用此视图，避免把被拒绝的虚构调用呈现为实际抓取。
      */
     public List<LlmClient.ToolCall> visibleToolCalls(List<LlmClient.ToolCall> toolCalls,
                                                      ToolExposure exposure) {
@@ -297,7 +302,7 @@ public final class TurnToolPolicy {
                 .toList();
     }
 
-    /** Execute allowed calls, return synthetic tool results for denials, and learn typed search-result URLs. */
+    /** Execute allowed calls, return synthetic tool results for denials, and learn typed search-result URLs. 中文：执行允许的调用，为拒绝生成合成工具结果，并收集类型化搜索结果 URL。 */
     public List<ToolExecutionResult> execute(ToolRegistry registry,
                                              List<ToolInvocation> invocations,
                                              ToolExposure exposure) {
@@ -349,7 +354,7 @@ public final class TurnToolPolicy {
         return completed;
     }
 
-    /** Release this branch's browser lease after its complete task lifecycle. */
+    /** Release this branch's browser lease after its complete task lifecycle. 中文：分支完整任务生命周期结束后释放其浏览器租约。 */
     public void releaseBrowserLease() {
         if (!browserLeaseHeld) {
             return;
@@ -503,7 +508,7 @@ public final class TurnToolPolicy {
         observeSearchResultUrls(result);
     }
 
-    /** Trust only URL metadata emitted from a structured search provider. */
+    /** Trust only URL metadata emitted from a structured search provider. 中文：仅信任结构化搜索供应商发出的 URL 元数据。 */
     private void observeSearchResultUrls(ToolExecutionResult result) {
         result.discoveredUrls().stream()
                 .filter(TurnToolPolicy::isHttpUrl)
@@ -846,12 +851,12 @@ public final class TurnToolPolicy {
                 }
             }
         } catch (Exception ignored) {
-            // Invalid JSON is handled by the ordinary tool execution path.
+            // Invalid JSON is handled by the ordinary tool execution path.（中文：无效 JSON 由普通工具执行路径处理。）
         }
         return "";
     }
 
-    /** Extract URLs from decoded JSON string values, not from their escaped wire representation. */
+    /** Extract URLs from decoded JSON string values, not from their escaped wire representation. 中文：从解码后的 JSON 字符串值提取 URL，不从转义后的传输表示提取。 */
     private static List<String> extractInvocationUrls(String json) {
         if (json == null || json.isBlank()) {
             return List.of();
@@ -953,6 +958,7 @@ public final class TurnToolPolicy {
     /**
      * Cannot be instantiated by callers. Its URLs originate only from this
      * policy's sanitized web_search observation path.
+     * 中文：调用方无法自行实例化，其 URL 仅来自本策略净化后的 web_search 观测路径。
      */
     public static final class TrustedUrlContext {
         private final Set<String> urls;

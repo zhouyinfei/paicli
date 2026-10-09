@@ -210,12 +210,12 @@ public class PlanExecuteAgent {
         return conversationLedger;
     }
 
-    /** Opt-in only; callbacks are captured per executed plan, including each replan. */
+    /** Opt-in only; callbacks are captured per executed plan, including each replan. 中文：仅显式启用；按每次执行计划捕获回调，包括每次重新规划。 */
     public void setExecutionObserver(PlanExecutionObserver observer) {
         this.executionObserver = observer;
     }
 
-    /** Cumulative sink failures. A benchmark caller must reject incomplete observation evidence. */
+    /** Cumulative sink failures. A benchmark caller must reject incomplete observation evidence. 中文：累计接收端失败数；评测调用方必须拒绝不完整的观测证据。 */
     public long getExecutionObservationFailures() {
         return executionObservationFailures.get();
     }
@@ -245,7 +245,7 @@ public class PlanExecuteAgent {
             } catch (RuntimeException e) {
                 if (failed.compareAndSet(false, true)) {
                     executionObservationFailures.incrementAndGet();
-                    // Do not log exception text: an observer may include sensitive payloads in it.
+                    // Do not log exception text: an observer may include sensitive payloads in it.（中文：不记录异常文本，观测器可能在其中包含敏感载荷。）
                     log.warn("Plan execution observer failed; observation is incomplete ({})",
                             e.getClass().getName());
                 }
@@ -306,7 +306,7 @@ public class PlanExecuteAgent {
         return run(userInput, userInput);
     }
 
-    /** Use submittedUserInput for policy decisions and userInput for expanded task context. */
+    /** Use submittedUserInput for policy decisions and userInput for expanded task context. 中文：submittedUserInput 用于策略判断，userInput 用于展开后的任务上下文。 */
     public String run(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, false);
     }
@@ -315,6 +315,8 @@ public class PlanExecuteAgent {
      * Runs an input that a trusted caller has already classified as an explicit task envelope.
      * URL provenance and no-web rules still come from {@code submittedUserInput}; only the
      * bare-title actionability heuristic is bypassed.
+     * 中文：执行已由受信调用方归类为显式任务信封的输入。URL 来源和禁联网规则仍取自
+     * submittedUserInput，仅跳过裸标题可执行性启发式判断。
      */
     public String runExplicitTask(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, true);

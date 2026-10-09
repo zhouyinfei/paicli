@@ -11,7 +11,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;
 
-/** E1 frozen-source/host-audit binding. This primitive does not open formal admission. */
+/** E1 frozen-source/host-audit binding. This primitive does not open formal admission. 中文：E1 冻结来源与主机审计绑定，此基础类型不开放正式准入。 */
 final class FormalPlanBinding {
     private static final String FIXTURE = "fixtures/final/E1";
     private final Path root;
@@ -70,7 +70,7 @@ final class FormalPlanBinding {
     }
     Session newSession() throws IOException { verifyUnchanged(); return new Session(this); }
 
-    /** A fresh, single-use host object, never reconstructed from Candidate files or JSON. */
+    /** A fresh, single-use host object, never reconstructed from Candidate files or JSON. 中文：全新一次性主机对象，不从候选文件或 JSON 重建。 */
     static final class Session {
         private final FormalPlanBinding binding;
         private final PlanRequestAudit audit;
@@ -116,7 +116,7 @@ final class FormalPlanBinding {
             if (!started || finished) throw new IllegalStateException("E1 dispatch lifecycle mismatch");
             this.result = result; finished = true;
         }
-        /** Diagnostic snapshot survives launch failure or source drift; not a scoring attestation. */
+        /** Diagnostic snapshot survives launch failure or source drift; not a scoring attestation. 中文：诊断快照在启动失败或来源漂移后仍保留，不是评分证明。 */
         synchronized PlanRequestAudit.Snapshot retainedAudit() { return audit.snapshot(); }
         synchronized void requireReturned(BenchmarkCoordinatorMain.WorkerExecution execution) throws IOException {
             if (!started || !finished || result == null || result != execution)

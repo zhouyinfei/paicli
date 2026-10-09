@@ -10,7 +10,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;
 
-/** F2-only source, readonly diagnostic mount and host-return binding; not a generic mount API. */
+/** F2-only source, readonly diagnostic mount and host-return binding; not a generic mount API. 中文：仅 F2 的来源、只读诊断挂载和主机返回绑定，不是通用挂载 API。 */
 final class FormalCommandBinding {
     private static final String FIXTURE = "fixtures/final/F2";
     static final String CONTAINER_DIAGNOSTIC = "/workspace/diagnose.py";
@@ -128,7 +128,7 @@ final class FormalCommandBinding {
                     || !staged.fileKey().equals(readLocal(diagnostic, "0400", staged.bytes()).fileKey()))
                 throw new IOException("F2 diagnostic source or mount changed");
         }
-        /** Candidate-controlled filesystem damage is a valid failure, never a frozen-source defect. */
+        /** Candidate-controlled filesystem damage is a valid failure, never a frozen-source defect. 中文：候选控制的文件系统破坏是有效失败，不是冻结来源缺陷。 */
         synchronized boolean candidateInputsSnapshotable() throws IOException {
             requireReturned(result);
             return candidateInputsSnapshotableAfterStop();
@@ -140,8 +140,8 @@ final class FormalCommandBinding {
                 for (Path p = workspace.resolve(file).getParent(); p != null && p.startsWith(workspace); p = p.getParent()) directories.add(p);
             }
             for (Path directory : directories) {
-                if (!Files.exists(directory, LinkOption.NOFOLLOW_LINKS)) continue; // Deletion is replayed from the resulting snapshot.
-                if (!Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(directory)) continue; // General boundary checks retain symlink/special-file classification.
+                if (!Files.exists(directory, LinkOption.NOFOLLOW_LINKS)) continue; // Deletion is replayed from the resulting snapshot.（中文：从结果快照重放删除操作。）
+                if (!Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(directory)) continue; // General boundary checks retain symlink/special-file classification.（中文：通用边界检查保留符号链接与特殊文件分类。）
                 try { if (!Files.getPosixFilePermissions(directory).equals(PosixFilePermissions.fromString("rwx------"))) return false; }
                 catch (NoSuchFileException | AccessDeniedException changed) { return false; }
             }
@@ -182,7 +182,7 @@ final class FormalCommandBinding {
                     audit.requestedTools(), new TerminalEvidence(terminal.answer(), result.toolExecutions()));
         }
         synchronized BenchmarkCoordinatorMain.WorkerExecution execution() throws IOException { requireReturned(result); return result; }
-        /** A damaged Candidate tree is not readable evidence. All host-owned siblings still undergo exact canary scanning. */
+        /** A damaged Candidate tree is not readable evidence. All host-owned siblings still undergo exact canary scanning. 中文：损坏的候选目录树不是可读证据，所有主机拥有的同级内容仍须精确金丝雀扫描。 */
         synchronized boolean containsSecretsOutsideDamagedWorkspace(String secret) throws IOException {
             requireReturned(result);
             if (candidateInputsSnapshotableAfterStop()) throw new IOException("F2 damaged workspace exclusion is not justified");

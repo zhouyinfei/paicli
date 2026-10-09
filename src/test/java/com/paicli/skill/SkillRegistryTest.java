@@ -27,7 +27,7 @@ class SkillRegistryTest {
 
         List<Skill> all = registry.allSkills();
         assertEquals(3, all.size());
-        // sorted by name asc
+        // sorted by name asc（中文：按名称升序排序。）
         assertEquals("project-only", all.get(0).name());
         assertEquals("user-only", all.get(1).name());
         assertEquals("web-access", all.get(2).name());

@@ -7,7 +7,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.time.Duration;
 import java.util.*;
 
-/** One-off symmetric verifier replay: never calls a model or edits original artifacts. */
+/** One-off symmetric verifier replay: never calls a model or edits original artifacts. 中文：一次性对称验证器重放：不调用模型，也不修改原始产物。 */
 public class VerifierReplay {
     static final ObjectMapper JSON = new ObjectMapper();
     static Path directory(Path p) throws Exception {

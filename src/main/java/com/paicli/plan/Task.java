@@ -45,7 +45,7 @@ public class Task {
         this.dependencies.addAll(dependencies);
     }
 
-    // Getters
+    // Getters（中文：访问器方法。）
     public String getId() { return id; }
     public String getDescription() { return description; }
     public TaskType getType() { return type; }

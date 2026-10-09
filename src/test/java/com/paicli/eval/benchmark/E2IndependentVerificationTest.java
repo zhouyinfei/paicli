@@ -34,6 +34,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * audit, then {@code e2_team_verify.py} re-derives the lifecycle and write attribution
  * from the raw evidence alone. Consistent-but-wrong behavior is a valid zero; tampered
  * evidence yields evaluation-invalid with no score. Script providers, zero model calls.
+ * 中文：独立 E2 评分路径：主机审计记录真实中继 TEAM 回合，随后 e2_team_verify.py
+ * 仅从原始证据重新推导生命周期和写入归属。自洽但错误的行为可得到有效零分；篡改证据使评测无效且无分数。使用脚本供应商，模型调用为零。
  */
 @ResourceLock(Resources.SYSTEM_PROPERTIES)
 class E2IndependentVerificationTest {
@@ -120,7 +122,7 @@ class E2IndependentVerificationTest {
         return true;
     }
 
-    /** Runs one real relayed TEAM episode and records its private host audit snapshot. */
+    /** Runs one real relayed TEAM episode and records its private host audit snapshot. 中文：运行一个真实中继 TEAM 回合，记录其私有主机审计快照。 */
     private Root episode(Path temp, boolean sharedWrite) throws Exception {
         Root root = new Root();
         root.dir = Files.createDirectory(temp.resolve("e2-" + System.nanoTime()));

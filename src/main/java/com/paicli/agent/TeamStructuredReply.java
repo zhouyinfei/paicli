@@ -15,6 +15,8 @@ import java.util.Locale;
  * is the only tolerated decoration; fences inside the payload are left untouched, duplicate keys
  * and trailing text are rejected. Callers decide what a rejection means (the reviewer treats it
  * as "not approved", the planner as "no plan").
+ * 中文：严格读取团队规划者和审阅者的纯 JSON 回复。回复必须恰为一个 JSON 对象，只允许整个回复外包一层 Markdown
+ * 围栏；载荷内部围栏不动，拒绝重复键和尾随文本。审阅者将拒绝视为未批准，规划者视为无计划。
  */
 final class TeamStructuredReply {
 
@@ -42,7 +44,7 @@ final class TeamStructuredReply {
         return root;
     }
 
-    /** Removes one fence only when it encloses the entire reply, e.g. ```json ... ```. */
+    /** Removes one fence only when it encloses the entire reply, e.g. ```json ... ```. 中文：仅在围栏包住整个回复时移除一层，例如 json 围栏。 */
     private static String unwrapWholeFence(String text) throws IOException {
         if (!text.startsWith(FENCE)) {
             return text;

@@ -25,7 +25,7 @@ import static com.paicli.eval.benchmark.D4NativeWebTest.Control;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Generated D4 -> frozen admission -> native Agent/relay -> Docker verifier. Synthetic LLM only. */
+/** Generated D4 -> frozen admission -> native Agent/relay -> Docker verifier. Synthetic LLM only. 中文：生成的 D4 经冻结准入、原生 Agent 和中继进入 Docker 验证器，仅使用合成 LLM。 */
 @Timeout(120)
 class D4FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -183,7 +183,7 @@ class D4FormalIntegrationTest {
             var terminal = run.terminal();
             if (exhaustBudget) {
                 assertTrue(run.budgetExhausted());
-                assertInstanceOf(WorkerComplete.class, terminal); // Product retains its best-effort partial answer.
+                assertInstanceOf(WorkerComplete.class, terminal); // Product retains its best-effort partial answer.（中文：产品保留尽力生成的部分答案。）
                 assertEquals(3, trace.metrics().calls());
                 return BenchmarkCoordinatorMain.WorkerExecution.completed(BenchmarkProtocol.WorkerResponse.failure(
                         "EPISODE_BUDGET_EXHAUSTED", "candidate budget exhausted", trace.metrics()), 0, 1, "");

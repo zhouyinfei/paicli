@@ -1,6 +1,6 @@
 package com.paicli.eval.benchmark;
 
-/** Central scoring boundary: candidate/model failures score zero; only allowlisted harness faults are infra. */
+/** Central scoring boundary: candidate/model failures score zero; only allowlisted harness faults are infra. 中文：集中评分边界：候选或模型失败记零分，仅白名单框架故障归为基础设施问题。 */
 final class BenchmarkFailureClassifier {
     private BenchmarkFailureClassifier() {
     }

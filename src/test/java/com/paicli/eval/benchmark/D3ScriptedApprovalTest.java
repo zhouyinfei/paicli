@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native Agent + product HITL + native MCP, with a scripted LLM and a host-owned user boundary. No API calls. */
+/** Native Agent + product HITL + native MCP, with a scripted LLM and a host-owned user boundary. No API calls. 中文：原生 Agent、产品 HITL 和原生 MCP，搭配脚本 LLM 与主机管理的用户边界，不调用 API。 */
 @Timeout(30)
 class D3ScriptedApprovalTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -164,8 +164,8 @@ class D3ScriptedApprovalTest {
                 value -> value.replace("\"status\":\"awaiting_approval\"", "\"status\":\"ignored\",\"status\":\"awaiting_approval\""),
                 value -> value.substring(0, value.length() - 1) + ",\"candidate_approved\":true}");
         for (var mutation : mutations) try (var harness = harness(9, Control.CORRECT)) {
-            // Complete the real availability read first: otherwise absence of the read would
-            // reject everything and the test would not actually prove strict JSON parsing.
+            // Complete the real availability read first: otherwise absence of the read would（中文：先完成真实的可用性读取，否则缺少读取操作会导致）
+            // reject everything and the test would not actually prove strict JSON parsing.（中文：全部被拒绝，测试就无法真正证明严格 JSON 解析有效。）
             String valid = harness.agent.runExplicitTask(harness.mock.prompt(), harness.mock.prompt());
             String invalid = mutation.apply(valid);
             assertNotEquals(valid, invalid);
@@ -230,7 +230,7 @@ class D3ScriptedApprovalTest {
         PREMATURE_WRITE, SELF_APPROVE_TOOL, FORGED_APPROVAL_STATUS, CHANGE_KEY, CHANGE_TIME, CANCEL_AFTER_CREATE,
         REPEAT_SAME_KEY, SECOND_KEY, FENCED_FINAL }
 
-    /** Uses only prompt, exposed tool descriptions and native MCP results. Never reads the private Definition. */
+    /** Uses only prompt, exposed tool descriptions and native MCP results. Never reads the private Definition. 中文：仅使用提示词、已暴露的工具说明和原生 MCP 结果，不读取私有 Definition。 */
     static final class ScriptedClient implements LlmClient {
         final Control control;
         int firstCalls, secondCalls, callIds;

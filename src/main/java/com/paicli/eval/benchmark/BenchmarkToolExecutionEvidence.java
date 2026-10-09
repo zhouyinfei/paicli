@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
  * <p>The record intentionally excludes reasoning, system prompts and the full tool result. The
  * exact arguments and a bounded result preview remain private verifier inputs; public reports must
  * only publish aggregate counts or allowlisted fields.</p>
+ * 中文：受信运行器观测到的单次工具执行有界验证证据。记录不包含推理、系统提示或完整工具结果；精确参数与有界结果预览仅供私有验证，公开报告只
+ * 能发布聚合计数或白名单字段。
  */
 public record BenchmarkToolExecutionEvidence(
         int ordinal,

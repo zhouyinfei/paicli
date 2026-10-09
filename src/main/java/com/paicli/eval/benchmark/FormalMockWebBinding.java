@@ -9,7 +9,7 @@ import java.nio.file.attribute.*;
 import java.security.*;
 import java.util.*;
 
-/** Closed D4 host binding. No arbitrary endpoint, Candidate-supplied service or oracle mount. */
+/** Closed D4 host binding. No arbitrary endpoint, Candidate-supplied service or oracle mount. 中文：封闭 D4 主机绑定，不允许任意端点、候选提供的服务或预期结果挂载。 */
 final class FormalMockWebBinding {
     private final FormalExecutionPlan.VerifierDependency dependency;
     private final D4FrozenOracle oracle;
@@ -49,7 +49,7 @@ final class FormalMockWebBinding {
         return new MockEvidence(1, "D4", D4FrozenOracle.PROFILE, BenchmarkRelayProtocol.VERSION, dependency.sha256(), promptSha256,
                 mock.audit(), mock.relayAudit(), mock.providerAudit());
     }
-    /** Immutable typed host evidence; partial traces are retained even when a Worker fails. */
+    /** Immutable typed host evidence; partial traces are retained even when a Worker fails. 中文：不可变类型化主机证据，即使工作进程失败也保留部分轨迹。 */
     record MockEvidence(int schemaVersion, String caseId, String profile, int relayVersion,
             String mockSourceSha256, String promptSha256, List<D4WebMock.AuditEvent> events,
             List<D4WebMock.RelayExchange> relayEvents, List<D4WebMock.ProviderTurn> providerTurns) {

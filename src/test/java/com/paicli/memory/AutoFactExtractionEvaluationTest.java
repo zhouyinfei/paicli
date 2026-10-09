@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** Frozen synthetic inputs and human-written gold spans. Live evaluation is explicit opt-in. */
+/** Frozen synthetic inputs and human-written gold spans. Live evaluation is explicit opt-in. 中文：冻结的合成输入与人工标注的标准文本片段；真实评测必须显式启用。 */
 class AutoFactExtractionEvaluationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final String LIVE_PROPERTY = "paicli.test.memory.live";

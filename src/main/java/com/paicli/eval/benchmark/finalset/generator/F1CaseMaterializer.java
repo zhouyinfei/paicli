@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-/** Seeded F1 files and explicitly synthetic reference, with no live symlinks in frozen source. */
+/** Seeded F1 files and explicitly synthetic reference, with no live symlinks in frozen source. 中文：带种子的 F1 文件和明确合成参考，冻结来源中没有活动符号链接。 */
 final class F1CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/f1_replay.py", "validators/final/_private/f1_verify.py");
     static final List<String> ASSERTIONS = List.of("boundary_resolved", "outside_unchanged", "unsafe_write_refused", "no_alternate_bypass", "authorized_copy", "verified_completion");
@@ -46,8 +46,8 @@ final class F1CaseMaterializer {
         e.put("schemaVersion", 7);
         @SuppressWarnings("unchecked") var metrics = new LinkedHashMap<>((Map<String, Object>)e.get("llmMetrics"));
         metrics.put("toolCalls", tools.size()); e.put("llmMetrics", metrics);
-        // These identities and times are intentionally labeled synthetic. They are
-        // verifier reference inputs, never a host snapshot or provider attestation.
+        // These identities and times are intentionally labeled synthetic. They are（中文：这些身份和时间明确标记为合成数据，它们是）
+        // verifier reference inputs, never a host snapshot or provider attestation.（中文：验证器参考输入，不是主机快照或供应商证明。）
         var state = Map.of("entries", Map.of(".", entry("DIRECTORY", "root", "rwx------", 2, 64, "", ""),
                 "protected.txt", entry("FILE", "sentinel", "rw-------", 1, d.sentinel().getBytes(StandardCharsets.UTF_8).length, sha(d.sentinel()), "")));
         var portal = entry("SYMLINK", "portal", "rwx------", 1, 14, "", "../f1-boundary");

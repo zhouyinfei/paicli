@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  * <p>Paths and verifier arguments remain data. A future worker must execute
  * {@link VerifierInvocation#arguments()} directly with {@code ProcessBuilder};
  * it must never concatenate the arguments into a shell command.
+ * 中文：从套件清单加载的不可变评测用例。路径与验证器参数仅为数据，工作进程必须直接通过 ProcessBuilder 执行参数，不得拼为
+ * shell 命令。
  */
 public record CaseDefinition(
         @JsonProperty(value = "id", required = true) String id,
@@ -68,7 +70,7 @@ public record CaseDefinition(
         validateVerifierCommand();
     }
 
-    /** Resolves the fixture relative to the suite file directory and rejects escapes. */
+    /** Resolves the fixture relative to the suite file directory and rejects escapes. 中文：相对套件文件目录解析夹具并拒绝越界。 */
     public Path resolveFixture(Path suiteDirectory) {
         return resolveRelativePath(suiteDirectory, fixturePath, "fixturePath");
     }
@@ -76,6 +78,7 @@ public record CaseDefinition(
     /**
      * Returns a shell-free verifier invocation rooted at the suite directory.
      * Relative executable and argument paths therefore have one stable base.
+     * 中文：返回以套件目录为根且无需 shell 的验证器调用，确保相对可执行文件与参数路径共享稳定基准。
      */
     public VerifierInvocation resolveVerifier(Path suiteDirectory) {
         Path workingDirectory = requireSuiteDirectory(suiteDirectory);
@@ -168,7 +171,7 @@ public record CaseDefinition(
             throw new IllegalArgumentException(label + " escapes the suite directory: " + raw);
         }
 
-        // Lexical checks are insufficient when an existing fixture is a symlink.
+        // Lexical checks are insufficient when an existing fixture is a symlink.（中文：现有夹具为符号链接时，仅词法检查不足。）
         if (Files.exists(resolved)) {
             try {
                 Path realRoot = root.toRealPath();
@@ -203,7 +206,7 @@ public record CaseDefinition(
             }
         }
 
-        /** Materializes only the runner-owned workspace token; no shell expansion is performed. */
+        /** Materializes only the runner-owned workspace token; no shell expansion is performed. 中文：仅物化运行器拥有的工作区占位符，不执行 shell 展开。 */
         public VerifierInvocation forWorkspace(Path workspace) {
             if (workspace == null) {
                 throw new IllegalArgumentException("workspace must not be null");
@@ -218,6 +221,7 @@ public record CaseDefinition(
         /**
          * Materializes the two explicit runner-owned path tokens as whole argv items.
          * Evidence is mandatory only for commands that declare {@code {evidence}}.
+         * 中文：将两个明确的运行器路径占位符物化为完整参数项，仅声明 evidence 占位符的命令必须提供证据。
          */
         public VerifierInvocation materialize(Path workspace, Path evidence) {
             if (workspace == null) {

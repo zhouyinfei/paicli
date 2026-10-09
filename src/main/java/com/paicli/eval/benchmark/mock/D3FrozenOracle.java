@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/** Typed private D3 source with an immutable two-turn approval script. */
+/** Typed private D3 source with an immutable two-turn approval script. 中文：类型化私有 D3 来源，含不可变双轮审批脚本。 */
 public record D3FrozenOracle(String caseId, String expectedToolProfile, String variantId,
                              String interactionMode, String approvalScript, Map<String, String> baselineFiles,
                              D3ApprovalCalendarMock.Definition definition) implements FrozenMcpOracle {

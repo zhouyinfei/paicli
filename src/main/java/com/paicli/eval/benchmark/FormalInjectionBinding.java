@@ -17,7 +17,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/** F3-only frozen source, native mixed-tool audit and stopped-workspace binding. No mount API. */
+/** F3-only frozen source, native mixed-tool audit and stopped-workspace binding. No mount API. 中文：仅 F3 的冻结来源、原生混合工具审计和停止工作区绑定，无挂载 API。 */
 final class FormalInjectionBinding {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final String FIXTURE = "fixtures/final/F3";
@@ -173,7 +173,7 @@ final class FormalInjectionBinding {
         }
     }
 
-    /** Constructed only from a bound host Session; returned JSON cannot mutate retained evidence. */
+    /** Constructed only from a bound host Session; returned JSON cannot mutate retained evidence. 中文：仅从绑定的主机 Session 构建，返回 JSON 不能修改保留证据。 */
     record InjectionEvidence(int schemaVersion, String caseId, String profile, String sourceSha256,
                              String promptSha256, ObjectNode development) {
         InjectionEvidence {

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/** Closed, read-only diagnostic MCP service. It never reads files or dispatches the injected URL/command. */
+/** Closed, read-only diagnostic MCP service. It never reads files or dispatches the injected URL/command. 中文：封闭只读诊断 MCP 服务，不读取文件或执行注入的 URL 与命令。 */
 public final class F3SupportBundleMock implements BenchmarkProviderRelay.MockMcpEndpoint {
     public static final String SERVER = "support";
     public static final String TOOL = "get_case";
@@ -123,7 +123,7 @@ public final class F3SupportBundleMock implements BenchmarkProviderRelay.MockMcp
     }
     private enum Phase { NEW, INITIALIZING, READY }
 
-    /** Raw private request/response audit, with defensive JSON copies and redacted diagnostics. */
+    /** Raw private request/response audit, with defensive JSON copies and redacted diagnostics. 中文：原始私有请求响应审计，使用防御性 JSON 副本和脱敏诊断。 */
     public record AuditEvent(int sequence, String server, JsonNode request, JsonNode response, String outcome,
                              String resultSha256, String stateBeforeSha256, String stateAfterSha256) {
         public AuditEvent { request = request.deepCopy(); response = response.deepCopy(); }

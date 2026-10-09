@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Locale;
 
-/** Private, stdin/stdout-only protocol between the coordinator and one worker JVM. */
+/** Private, stdin/stdout-only protocol between the coordinator and one worker JVM. 中文：协调器与单个工作 JVM 之间仅经标准输入输出通信的私有协议。 */
 final class BenchmarkProtocol {
     static final int VERSION = 6;
     static final int MAX_REQUEST_BYTES = 1_048_576;
@@ -122,7 +122,7 @@ final class BenchmarkProtocol {
         }
     }
 
-    /** Frozen per-case limits. Formal runs must copy these values from the case contract. */
+    /** Frozen per-case limits. Formal runs must copy these values from the case contract. 中文：冻结的用例级限制，正式运行必须从用例合同复制这些值。 */
     record AgentLimits(
             @JsonProperty(value = "tokenBudget", required = true) int tokenBudget,
             @JsonProperty(value = "hardMaxIterations", required = true) int hardMaxIterations,

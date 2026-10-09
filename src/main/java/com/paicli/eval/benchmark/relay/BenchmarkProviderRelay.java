@@ -9,7 +9,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Objects;
 
-/** Coordinator-side relay that is the only endpoint allowed to own the real provider client. */
+/** Coordinator-side relay that is the only endpoint allowed to own the real provider client. 中文：协调器侧中继，是唯一允许拥有真实供应商客户端的端点。 */
 public final class BenchmarkProviderRelay {
     public enum ServeResult {
         CHAT_SERVED,
@@ -70,7 +70,7 @@ public final class BenchmarkProviderRelay {
         this.f3ToolResultAudit = f3ToolResultAudit;
     }
 
-    /** Host-owned closed mock, never a network endpoint or arbitrary outbound proxy. */
+    /** Host-owned closed mock, never a network endpoint or arbitrary outbound proxy. 中文：主机拥有的封闭模拟服务，不是网络端点或任意外网代理。 */
     @FunctionalInterface
     public interface MockMcpEndpoint {
         JsonNode exchange(JsonNode message) throws IOException;
@@ -81,7 +81,7 @@ public final class BenchmarkProviderRelay {
         }
     }
 
-    /** Closed host-owned fixture only; implementations must not dispatch input URLs onto the public network. */
+    /** Closed host-owned fixture only; implementations must not dispatch input URLs onto the public network. 中文：仅限主机封闭夹具，实现不得把输入 URL 派发到公网。 */
     public interface MockWebEndpoint {
         default void recordProviderTurn(List<BenchmarkRelayProtocol.WireMessage> messages,
                                         BenchmarkRelayProtocol.WireChatResponse response) throws IOException { }
@@ -92,7 +92,7 @@ public final class BenchmarkProviderRelay {
                             BenchmarkRelayProtocol.WebComplete response) throws IOException;
     }
 
-    /** Sends SESSION_START and requires an exact WORKER_READY capability echo. */
+    /** Sends SESSION_START and requires an exact WORKER_READY capability echo. 中文：发送 SESSION_START 并要求 WORKER_READY 精确回显能力。 */
     public static BenchmarkProviderRelay connect(BenchmarkFramedChannel channel,
                                                  BenchmarkRelayProtocol.SessionStart session,
                                                  LlmClient delegate) throws IOException {
@@ -121,7 +121,7 @@ public final class BenchmarkProviderRelay {
         return connect(channel, session, delegate, mockMcp, mockWeb, planAudit, null);
     }
 
-    /** Optional F2-only host association; existing callers retain their exact behavior. */
+    /** Optional F2-only host association; existing callers retain their exact behavior. 中文：可选的仅 F2 主机关联，既有调用方保持原行为。 */
     public static BenchmarkProviderRelay connect(BenchmarkFramedChannel channel,
                                                  BenchmarkRelayProtocol.SessionStart session,
                                                  LlmClient delegate, MockMcpEndpoint mockMcp,
@@ -139,7 +139,7 @@ public final class BenchmarkProviderRelay {
                 session.mode() == BenchmarkRelayProtocol.AgentMode.TEAM ? new TeamRequestAudit(session.prompt()) : null);
     }
 
-    /** Docker shares this exact host audit with tracing; TEAM never borrows PLAN scopes. */
+    /** Docker shares this exact host audit with tracing; TEAM never borrows PLAN scopes. 中文：Docker 与追踪共享同一主机审计，TEAM 从不借用 PLAN 作用域。 */
     public static BenchmarkProviderRelay connect(BenchmarkFramedChannel channel,
                                                  BenchmarkRelayProtocol.SessionStart session,
                                                  LlmClient delegate, MockMcpEndpoint mockMcp,
@@ -206,7 +206,7 @@ public final class BenchmarkProviderRelay {
         return RelayWireConversions.capabilitiesOf(client);
     }
 
-    /** Serves exactly one chat or terminal worker frame. There is no retry loop. */
+    /** Serves exactly one chat or terminal worker frame. There is no retry loop. 中文：恰好处理一个聊天或工作终止帧，不存在重试循环。 */
     public ServeResult serveNext() throws IOException {
         ensureDeadline(session);
         BenchmarkRelayProtocol.Frame frame;
@@ -287,7 +287,7 @@ public final class BenchmarkProviderRelay {
             channel.write(continuation);
             scripted.recordExchange(currentTurn, request, continuation);
             currentTurn = 2;
-            mcpPermits.clear(); // Unused first-turn approvals cannot cross a new user boundary.
+            mcpPermits.clear(); // Unused first-turn approvals cannot cross a new user boundary.（中文：首轮未使用审批不得跨越新用户边界。）
             return ServeResult.INTERACTION_SERVED;
         }
         if (frame instanceof BenchmarkRelayProtocol.ApprovalRequest request) {
@@ -342,8 +342,8 @@ public final class BenchmarkProviderRelay {
                 } catch (F3ToolResultAudit.Failure failure) {
                     throw failure;
                 } catch (IOException | RuntimeException failure) {
-                    // Normal invalid Candidate arguments are an MCP error response. An exception
-                    // from this host-owned service/recording path is missing evidence, not a zero.
+                    // Normal invalid Candidate arguments are an MCP error response. An exception（中文：普通无效候选参数返回 MCP 错误响应；主机拥有的）
+                    // from this host-owned service/recording path is missing evidence, not a zero.（中文：服务或记录路径异常属于证据缺失，不是零分。）
                     throw f3ToolResultAudit.fail("F3 host MCP exchange or observation failed");
                 }
             } else {
@@ -367,17 +367,17 @@ public final class BenchmarkProviderRelay {
         return ServeResult.CHAT_SERVED;
     }
 
-    /** Returns the validated terminal worker frame after {@link #serveNext()} reports one. */
+    /** Returns the validated terminal worker frame after {@link #serveNext()} reports one. 中文：serveNext 报告终止帧后，返回已验证工作进程终止帧。 */
     public BenchmarkRelayProtocol.Frame terminalFrame() {
         return terminalFrame;
     }
 
-    /** Stable host-side category for the last upstream failure; no provider message is retained. */
+    /** Stable host-side category for the last upstream failure; no provider message is retained. 中文：最近上游失败的稳定主机侧分类，不保留供应商消息。 */
     public String providerFailureType() {
         return providerFailureType;
     }
 
-    /** Host-observed budget stop, distinct from a normal answer on the last permitted call. */
+    /** Host-observed budget stop, distinct from a normal answer on the last permitted call. 中文：主机观测的预算停止，区别于最后获准调用的正常答案。 */
     public boolean episodeBudgetExhausted() { return episodeBudgetExhausted; }
 
     private void serveChat(BenchmarkRelayProtocol.ChatRequest request) throws IOException {
@@ -389,7 +389,7 @@ public final class BenchmarkProviderRelay {
         if ((mockMcp instanceof ScriptedInteraction || mockWeb != null || planAudit != null || f2CommandAudit != null || f3ToolResultAudit != null) && (usedTokens >= session.agentLimits().tokenBudget()
                 || chatRequests >= session.agentLimits().hardMaxIterations())) {
             episodeBudgetExhausted = true;
-            // One tool-free best-effort closing call for the whole episode, never a fresh turn budget.
+            // One tool-free best-effort closing call for the whole episode, never a fresh turn budget.（中文：整个回合仅一次无工具尽力收尾调用，不生成新的轮次预算。）
             if (finalizationUsed || !request.tools().isEmpty()) {
                 sendFailure(request.callId(), 1, "EPISODE_BUDGET_EXHAUSTED");
                 return;
@@ -441,7 +441,7 @@ public final class BenchmarkProviderRelay {
                 usedTokens = Math.addExact(usedTokens, (long) response.inputTokens() + response.outputTokens());
                 if (mockWeb != null) {
                     webBatchStart = requestedTools.size();
-                    webFetchPermits.clear(); // An unused/denied prior tool must not shadow a later identical call.
+                    webFetchPermits.clear(); // An unused/denied prior tool must not shadow a later identical call.（中文：此前未使用或被拒绝工具不得遮蔽后续相同调用。）
                 }
                 requestedTools.addAll(complete.response().toolCalls());
                 if (requestedTools.size() > BenchmarkRelayProtocol.MAX_TOOL_EXECUTIONS)
@@ -481,7 +481,7 @@ public final class BenchmarkProviderRelay {
         }
     }
 
-    /** TEAM requests are registered before dispatch, including host-budget denials and provider failures. */
+    /** TEAM requests are registered before dispatch, including host-budget denials and provider failures. 中文：TEAM 请求派发前注册，包括主机预算拒绝与供应商失败。 */
     private void serveTeamChat(BenchmarkRelayProtocol.ChatRequest request) throws IOException {
         Sequence sequence = new Sequence();
         boolean delivered = false;
@@ -493,7 +493,7 @@ public final class BenchmarkProviderRelay {
             if (usedTokens >= session.agentLimits().tokenBudget()
                     || chatRequests >= session.agentLimits().hardMaxIterations()) {
                 episodeBudgetExhausted = true;
-                // Planner/reviewer already have no tools: emptiness alone is never a closing permit.
+                // Planner/reviewer already have no tools: emptiness alone is never a closing permit.（中文：规划者和审阅者本来就无工具，空工具本身不构成收尾许可。）
                 if (finalizationUsed || !tools.isEmpty() || !teamAudit.isBudgetFinalizationRequest()) {
                     teamAudit.providerFailure("EPISODE_BUDGET_EXHAUSTED");
                     sendFailure(request.callId(), sequence.next(), "EPISODE_BUDGET_EXHAUSTED");
@@ -527,7 +527,7 @@ public final class BenchmarkProviderRelay {
             acceptSent(validator, complete);
             channel.write(complete);
             delivered = true;
-            // Successful pipe write is delivery evidence, not proof of semantic consumption by the model.
+            // Successful pipe write is delivery evidence, not proof of semantic consumption by the model.（中文：成功管道写入是交付证据，不证明模型语义使用内容。）
             teamAudit.response(response);
         } catch (TeamRequestAudit.Failure error) {
             throw error;
@@ -565,7 +565,7 @@ public final class BenchmarkProviderRelay {
         }
     }
 
-    /** Host failures are typed so Docker never converts a broken fixture into a Candidate zero. */
+    /** Host failures are typed so Docker never converts a broken fixture into a Candidate zero. 中文：主机失败按类型标记，防止 Docker 把损坏夹具转为候选零分。 */
     public static final class MockWebFailure extends IOException {
         private MockWebFailure(Throwable cause) { super("host Web fixture failed", cause); }
     }
@@ -603,10 +603,10 @@ public final class BenchmarkProviderRelay {
             providerFailureType = "FROZEN_MOCK_FAILURE";
             throw new MockWebFailure(error);
         }
-        channel.write(complete); // A Worker closing its pipe is not a host fixture failure.
+        channel.write(complete); // A Worker closing its pipe is not a host fixture failure.（中文：工作进程关闭自身管道不属于主机夹具失败。）
     }
 
-    /** Match effective product arguments without trusting arbitrary Worker-originated backend calls. */
+    /** Match effective product arguments without trusting arbitrary Worker-originated backend calls. 中文：匹配实际产品参数，不信任工作进程发起的任意后端调用。 */
     private int claimWebTool(BenchmarkRelayProtocol.WebRequest request) throws IOException {
         if (request.operation() == BenchmarkRelayProtocol.WebOperation.FETCH) {
             for (int i = 0; i < webFetchPermits.size(); i++) {

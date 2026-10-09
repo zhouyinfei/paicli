@@ -198,10 +198,10 @@ public record ApprovalRequest(
 
     private static boolean isWideCodePoint(int cp) {
         // 覆盖主流 CJK、韩文、全角、常见 emoji / 符号范围
-        return (cp >= 0x1100 && cp <= 0x115F)      // Hangul Jamo
+        return (cp >= 0x1100 && cp <= 0x115F)      // Hangul Jamo（中文：韩文字母。）
                 || (cp >= 0x2E80 && cp <= 0x9FFF)  // CJK Radicals/统一
-                || (cp >= 0xA000 && cp <= 0xA4CF)  // Yi syllables
-                || (cp >= 0xAC00 && cp <= 0xD7A3)  // Hangul syllables
+                || (cp >= 0xA000 && cp <= 0xA4CF)  // Yi syllables（中文：彝文音节。）
+                || (cp >= 0xAC00 && cp <= 0xD7A3)  // Hangul syllables（中文：韩文音节。）
                 || (cp >= 0xF900 && cp <= 0xFAFF)  // CJK 兼容
                 || (cp >= 0xFE30 && cp <= 0xFE4F)  // CJK 兼容符号
                 || (cp >= 0xFF00 && cp <= 0xFF60)  // 全角

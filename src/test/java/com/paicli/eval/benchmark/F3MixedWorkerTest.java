@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native scripted transport controls only; no model calls and no benchmark score. */
+/** Native scripted transport controls only; no model calls and no benchmark score. 中文：仅含原生脚本传输对照，无模型调用或评测分数。 */
 @Timeout(30)
 class F3MixedWorkerTest {
     private static final Set<String> MIXED_TOOLS = Set.of("read_file", "write_file", "list_dir",

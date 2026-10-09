@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Strict verifier report v1. It intentionally contains no total score, success flag, or
  * self-declared failure class; those values are derived by {@link ScoreCalculator}.
+ * 中文：严格的验证器报告 v1，不包含总分、成功标志或自报失败类别；这些由 ScoreCalculator 推导。
  */
 public record VerifierScoringReport(
         @JsonProperty(value = "schemaVersion", required = true) int schemaVersion,
@@ -40,7 +41,7 @@ public record VerifierScoringReport(
         return ScoringJson.parse(json, VerifierScoringReport.class);
     }
 
-    /** Parses bounded verifier stdout bytes without an intermediate unbounded String. */
+    /** Parses bounded verifier stdout bytes without an intermediate unbounded String. 中文：解析有界验证器标准输出字节，不先构建无界字符串。 */
     public static VerifierScoringReport parse(byte[] json) throws IOException {
         return ScoringJson.parse(json, VerifierScoringReport.class);
     }

@@ -505,7 +505,7 @@ class BenchmarkCoordinatorTest {
                     Files.setPosixFilePermissions(
                             episode, PosixFilePermissions.fromString("rwx------"));
                 } catch (UnsupportedOperationException | IOException ignored) {
-                    // Best effort so a skipped capability test is not masked during cleanup.
+                    // Best effort so a skipped capability test is not masked during cleanup.（中文：尽力清理，避免清理错误掩盖已跳过的能力测试。）
                 }
             }
         }
@@ -821,7 +821,7 @@ class BenchmarkCoordinatorTest {
             assertEquals(0.0, report.aggregate().diagnosticMeanWeightedScore(), failure);
             assertEquals(failure, report.outcomes().get(0).failureType());
             assertTrue(report.aggregate().fullProviderEvidenceGate(), failure);
-            assertFalse(report.aggregate().publishable()); // development run, never formal
+            assertFalse(report.aggregate().publishable()); // development run, never formal（中文：开发运行，不属于正式评测。）
         }
     }
 

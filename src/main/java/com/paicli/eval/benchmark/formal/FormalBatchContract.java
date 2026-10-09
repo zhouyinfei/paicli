@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Frozen environment and symmetric-run contract. V3 retains three models; v4 registers two. */
+/** Frozen environment and symmetric-run contract. V3 retains three models; v4 registers two. 中文：冻结环境与对称运行合同，v3 保留三模型，v4 注册双模型。 */
 public record FormalBatchContract(
         @JsonProperty(value = "contractVersion", required = true) int contractVersion,
         @JsonProperty(value = "format", required = true) String format,
@@ -61,7 +61,7 @@ public record FormalBatchContract(
     private static final List<ModelBinding> CURRENT_MODELS = List.of(
             new ModelBinding("deepseek", "deepseek-v4-flash"),
             new ModelBinding("glm", "glm-5.3-flash"));
-    // Local to this versioned contract: no coercion or parser changes for unrelated contracts.
+    // Local to this versioned contract: no coercion or parser changes for unrelated contracts.（中文：仅适用于此版本合同，不对其他合同做强转或解析器修改。）
     private static final ObjectMapper BATCH_MAPPER = FormalContractSupport.MAPPER.copy()
             .disable(DeserializationFeature.ACCEPT_FLOAT_AS_INT)
             .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS);
@@ -131,8 +131,8 @@ public record FormalBatchContract(
     }
 
     public static FormalBatchContract load(Path file) throws IOException {
-        // Retain the shared bounded regular-file/duplicate/unknown/trailing safeguards, then
-        // reject values such as version 4.0 or "4" instead of silently interpreting them as v4.
+        // Retain the shared bounded regular-file/duplicate/unknown/trailing safeguards, then（中文：保留共享的有界普通文件、重复键、未知字段及尾随内容防护，随后）
+        // reject values such as version 4.0 or "4" instead of silently interpreting them as v4.（中文：拒绝版本 4.0 或字符串 4 等值，不静默解释为 v4。）
         JsonNode json = FormalContractSupport.load(file, JsonNode.class);
         if (json == null || !json.isObject()) throw new IOException("invalid formal batch contract root");
         try {
@@ -142,17 +142,17 @@ public record FormalBatchContract(
         }
     }
 
-    /** Full registered Cartesian product, never a caller-selected executable subset. */
+    /** Full registered Cartesian product, never a caller-selected executable subset. 中文：完整注册笛卡尔积，不允许调用方选择可执行子集。 */
     public int expectedEpisodeCount() {
         return Math.multiplyExact(caseOrder.size(), Math.multiplyExact(models.size(), repeats));
     }
 
-    /** Writes a new batch registration without replacing an existing registration. */
+    /** Writes a new batch registration without replacing an existing registration. 中文：写入新批次注册，不替换既有注册。 */
     public Path write(Path file) throws IOException {
         return FormalContractSupport.writeNew(file, this);
     }
 
-    /** Ensures the pre-registered order is exactly the executable suite order. */
+    /** Ensures the pre-registered order is exactly the executable suite order. 中文：确保预注册顺序与可执行套件顺序完全一致。 */
     public void validateAgainst(FinalExecutableSuiteContract executableSuite) {
         if (executableSuite == null || !caseOrder.equals(executableSuite.orderedCaseIds())) {
             throw new IllegalArgumentException(
@@ -160,7 +160,7 @@ public record FormalBatchContract(
         }
     }
 
-    /** Validates both the registered contract bytes and its exact case order. */
+    /** Validates both the registered contract bytes and its exact case order. 中文：验证注册合同字节及精确用例顺序。 */
     public FinalExecutableSuiteContract validateAgainst(Path executableSuiteContractFile)
             throws IOException {
         String actualSha256 = FormalContractSupport.sha256(executableSuiteContractFile);
@@ -223,7 +223,7 @@ public record FormalBatchContract(
         return digest.substring(0, 12);
     }
 
-    /** One exact provider/model binding. No endpoint or credential is part of this public contract. */
+    /** One exact provider/model binding. No endpoint or credential is part of this public contract. 中文：精确供应商与模型绑定，公开合同不包含端点或凭据。 */
     public record ModelBinding(
             @JsonProperty(value = "provider", required = true) String provider,
             @JsonProperty(value = "model", required = true) String model) {

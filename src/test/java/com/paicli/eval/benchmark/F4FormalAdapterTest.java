@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Strict v6 envelope/scoring adapter checks; references are synthetic, not model outcomes. */
+/** Strict v6 envelope/scoring adapter checks; references are synthetic, not model outcomes. 中文：严格检查 v6 信封与评分适配器；参考为合成数据，不代表模型结果。 */
 class F4FormalAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     @TempDir Path temp;

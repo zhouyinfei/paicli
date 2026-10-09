@@ -20,6 +20,8 @@ import java.util.Set;
  * episode. The only host input is a provider-bound credential. Runner-owned filesystem paths are
  * materialized separately from an {@link BenchmarkArtifactStore.EpisodeArtifacts}; they are not
  * CLI overrides and cannot change model, prompt, mode, tools, limits, date or timeout.</p>
+ * 中文：为支持的执行合同构建失败时拒绝的正式工作请求。所有影响评测的值来自保留执行计划及规范回合，主机唯一输入是绑定供应商的凭据。运行器路
+ * 径从回合产物单独物化，不是 CLI 覆盖，不能改变模型、提示、模式、工具、限制、日期或超时。
  */
 public final class FormalEpisodeRequestFactory {
     private static final Set<String> STANDARD_EVIDENCE = Set.of(
@@ -33,6 +35,7 @@ public final class FormalEpisodeRequestFactory {
 
     /**
      * Creates a non-publishable request without provider/worker calls; MCP captures its frozen host data.
+     * 中文：不调用供应商或工作进程，创建不可发布请求；MCP 捕获冻结主机数据。
      */
     public static PreparedRequest create(
             FormalExecutionPlan plan,
@@ -65,7 +68,7 @@ public final class FormalEpisodeRequestFactory {
                 casePlan.timeoutSeconds(), captureMock(casePlan, key), captureWeb(casePlan, key), capturePlan(casePlan, key), captureBoundary(casePlan, key), captureCommand(casePlan, key), captureInjection(casePlan, key));
     }
 
-    /** Check the complete batch's runtime needs before even loading host credentials. */
+    /** Check the complete batch's runtime needs before even loading host credentials. 中文：加载主机凭据之前，先检查完整批次运行时需求。 */
     static AttemptKey validateCapabilities(FormalExecutionPlan plan,
             FormalExecutionPlan.EpisodePlan episode) throws PreparationException {
         AttemptKey key = AttemptKey.from(plan, episode, 1);
@@ -116,7 +119,7 @@ public final class FormalEpisodeRequestFactory {
                                 || injection && Set.of("mock_audit", "mock_state", "provider_turns", "raw_tool_results", "stream_deltas").contains(value)), key,
                 FormalEpisodeOutcome.EvaluationDefectCode.UNSUPPORTED_EVIDENCE,
                 "plan:unsupported-evidence");
-        captureMock(casePlan, key); // Entire batch is checked before any credentials are loaded.
+        captureMock(casePlan, key); // Entire batch is checked before any credentials are loaded.（中文：加载任何凭据之前检查整个批次。）
         captureWeb(casePlan, key);
         capturePlan(casePlan, key);
         captureBoundary(casePlan, key);
@@ -215,7 +218,7 @@ public final class FormalEpisodeRequestFactory {
         };
     }
 
-    /** Host-only provider credential. Its string representation never reveals endpoint or key. */
+    /** Host-only provider credential. Its string representation never reveals endpoint or key. 中文：主机专属供应商凭据，字符串表示不透露端点或密钥。 */
     public static final class HostCredential {
         private final String provider;
         private final String baseUrl;
@@ -269,7 +272,7 @@ public final class FormalEpisodeRequestFactory {
         }
     }
 
-    /** Plan-derived limits retained without exposing the package-private worker protocol type. */
+    /** Plan-derived limits retained without exposing the package-private worker protocol type. 中文：保留计划派生限制，不暴露包私有工作协议类型。 */
     public record FormalBatchLimits(
             int tokenBudget,
             int hardMaxIterations,
@@ -302,6 +305,7 @@ public final class FormalEpisodeRequestFactory {
     /**
      * Immutable request configuration. The secret remains encapsulated until runner-owned paths
      * are supplied inside this package immediately before starting the worker.
+     * 中文：不可变请求配置，秘密保持封装，直到本包在启动工作进程前提供运行器路径。
      */
     public static final class PreparedRequest {
         private final AttemptKey key;
@@ -430,7 +434,7 @@ public final class FormalEpisodeRequestFactory {
         }
     }
 
-    /** Runner-owned directories; construction is only possible from an episode artifact handle. */
+    /** Runner-owned directories; construction is only possible from an episode artifact handle. 中文：运行器拥有的目录，仅能从回合产物句柄构建。 */
     static final class WorkerPaths {
         private final Path workspace;
         private final Path home;
@@ -472,8 +476,8 @@ public final class FormalEpisodeRequestFactory {
         }
     }
 
-    /** Checked, typed preparation failure. It contains no credential or endpoint text. */
-    @SuppressWarnings("serial") // In-process control flow; never crosses the worker wire.
+    /** Checked, typed preparation failure. It contains no credential or endpoint text. 中文：受检类型化准备失败，不包含凭据或端点文本。 */
+    @SuppressWarnings("serial") // In-process control flow; never crosses the worker wire.（中文：进程内控制流，绝不进入工作进程传输协议。）
     public static final class PreparationException extends Exception {
         private final FormalEpisodeOutcome.EvaluationDefect defect;
 

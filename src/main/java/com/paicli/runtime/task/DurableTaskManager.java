@@ -198,7 +198,7 @@ public class DurableTaskManager implements Closeable {
                 Thread.currentThread().interrupt();
                 return;
             } catch (Exception ignored) {
-                // Worker loop must stay alive; individual failures are recorded on the task row when possible.
+                // Worker loop must stay alive; individual failures are recorded on the task row when possible.（中文：工作循环必须持续运行，尽可能在任务行记录单个失败。）
             }
         }
     }

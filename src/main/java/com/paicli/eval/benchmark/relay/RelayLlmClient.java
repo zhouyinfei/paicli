@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongSupplier;
 
-/** Worker-side LLM client backed by the coordinator relay. It never retries calls. */
+/** Worker-side LLM client backed by the coordinator relay. It never retries calls. 中文：基于协调器中继的工作侧 LLM 客户端，从不重试调用。 */
 public final class RelayLlmClient implements LlmClient {
     private final BenchmarkFramedChannel channel;
     private final BenchmarkRelayProtocol.Validator validator;
@@ -29,14 +29,14 @@ public final class RelayLlmClient implements LlmClient {
 
     public synchronized void markF3ToolObservationFailed() { f3ObservationFailed = true; }
 
-    /** One native Team instance owns this session. The counter also detects failures before the callback. */
+    /** One native Team instance owns this session. The counter also detects failures before the callback. 中文：一个原生 Team 实例拥有此会话，计数器也检测回调前失败。 */
     public synchronized void setTeamObservationFailureSupplier(LongSupplier supplier) {
         if (session.mode() != BenchmarkRelayProtocol.AgentMode.TEAM || teamObservationFailureSupplier != null)
             throw new IllegalStateException("Team observation counter cannot be bound");
         teamObservationFailureSupplier = Objects.requireNonNull(supplier, "supplier");
     }
 
-    /** Worker finally-path cross-check; a missing terminal event must not hide a native observer failure. */
+    /** Worker finally-path cross-check; a missing terminal event must not hide a native observer failure. 中文：工作进程 finally 路径交叉检查，缺失终止事件不得掩盖原生观测器失败。 */
     public synchronized void verifyTeamObservationFailures(long failures) {
         if (session.mode() != BenchmarkRelayProtocol.AgentMode.TEAM || failures != 0)
             teamObservationFailed = true;
@@ -53,7 +53,7 @@ public final class RelayLlmClient implements LlmClient {
         }
     }
 
-    /** Closed, acknowledged Team metadata. Never exposed as a model tool or a planner fallback. */
+    /** Closed, acknowledged Team metadata. Never exposed as a model tool or a planner fallback. 中文：封闭且已确认的团队元数据，不暴露为模型工具或规划回退。 */
     public synchronized void observeTeam(com.paicli.agent.TeamExecutionObserver.Event event) {
         try {
             refreshTeamObservationFailures();
@@ -74,7 +74,7 @@ public final class RelayLlmClient implements LlmClient {
             var response = requireFrame(channel.read(), "Team event acknowledgement");
             acceptReceived(validator, response);
             if (!(response instanceof BenchmarkRelayProtocol.TeamEventAck)) throw new IOException("expected Team event acknowledgement");
-            // The current thread acquires/releases its scope only after the exact host ACK.
+            // The current thread acquires/releases its scope only after the exact host ACK.（中文：当前线程仅在精确主机确认后获取或释放作用域。）
             if (event instanceof com.paicli.agent.TeamExecutionObserver.ActivationEntered entered)
                 teamActivation.set(entered.activation());
             if (event instanceof com.paicli.agent.TeamExecutionObserver.ActivationExited) teamActivation.remove();
@@ -90,7 +90,7 @@ public final class RelayLlmClient implements LlmClient {
         }
     }
 
-    /** Native post-policy result, before the terminal preview is truncated. Not a model-callable tool. */
+    /** Native post-policy result, before the terminal preview is truncated. Not a model-callable tool. 中文：终止预览截断前的原生策略后结果，不是模型可调用工具。 */
     public synchronized void observeF3ToolResult(com.paicli.tool.ToolRegistry.ToolExecutionResult result) {
         try {
             if (session.toolProfile() != BenchmarkRelayProtocol.ToolProfile.MOCK_MCP_FILE_ONLY || f3ObservationFailed)
@@ -114,7 +114,7 @@ public final class RelayLlmClient implements LlmClient {
         }
     }
 
-    /** Called only by the trusted worker's native Plan observer; not exposed as a model tool. */
+    /** Called only by the trusted worker's native Plan observer; not exposed as a model tool. 中文：仅由受信工作进程原生 Plan 观测器调用，不暴露为模型工具。 */
     public synchronized void observePlan(com.paicli.plan.PlanExecutionObserver.Event event) {
         try {
             ensureDeadline(session);
@@ -142,7 +142,7 @@ public final class RelayLlmClient implements LlmClient {
         this.session = session;
     }
 
-    /** Reads and validates SESSION_START, then answers with WORKER_READY. */
+    /** Reads and validates SESSION_START, then answers with WORKER_READY. 中文：读取验证 SESSION_START，再以 WORKER_READY 回复。 */
     public static RelayLlmClient accept(BenchmarkFramedChannel channel) throws IOException {
         Objects.requireNonNull(channel, "channel");
         BenchmarkRelayProtocol.Validator validator =
@@ -167,7 +167,7 @@ public final class RelayLlmClient implements LlmClient {
         return session;
     }
 
-    /** Episode totals include both user turns and compaction/finalization calls. */
+    /** Episode totals include both user turns and compaction/finalization calls. 中文：回合总量包含两轮用户输入以及压缩和收尾调用。 */
     public synchronized long remainingTokens() { return Math.max(0, session.agentLimits().tokenBudget() - usedTokens); }
     public synchronized int remainingCalls() { return Math.max(0, session.agentLimits().hardMaxIterations() - chatCalls); }
 
@@ -184,7 +184,7 @@ public final class RelayLlmClient implements LlmClient {
         return next.userMessage();
     }
 
-    /** Called by the native HITL handler, not exposed as a model tool. All wire exchanges share this lock. */
+    /** Called by the native HITL handler, not exposed as a model tool. All wire exchanges share this lock. 中文：由原生 HITL 处理器调用，不暴露为模型工具；全部传输交换共享此锁。 */
     public synchronized BenchmarkRelayProtocol.ApprovalComplete requestApproval(String name, String arguments) throws IOException {
         ensureDeadline(session);
         var request = new BenchmarkRelayProtocol.ApprovalRequest(
@@ -202,7 +202,7 @@ public final class RelayLlmClient implements LlmClient {
         return new BenchmarkRelayProtocol.Header(BenchmarkRelayProtocol.Direction.WORKER_TO_COORDINATOR, type, id, 0);
     }
 
-    /** Shares the LLM wire lock so parallel product tools cannot interleave frame exchanges. */
+    /** Shares the LLM wire lock so parallel product tools cannot interleave frame exchanges. 中文：共享 LLM 传输锁，防止并行产品工具交错交换帧。 */
     public synchronized JsonNode exchangeMcp(JsonNode message) throws IOException {
         return exchangeMcp("benchmark", message);
     }
@@ -228,7 +228,7 @@ public final class RelayLlmClient implements LlmClient {
         return complete.message();
     }
 
-    /** All native search/fetch/policy calls share the LLM/MCP wire lock; no parallel frame interleaving. */
+    /** All native search/fetch/policy calls share the LLM/MCP wire lock; no parallel frame interleaving. 中文：全部原生搜索、抓取及策略调用共享 LLM/MCP 传输锁，禁止并行帧交错。 */
     public synchronized BenchmarkRelayProtocol.WebComplete exchangeWeb(
             BenchmarkRelayProtocol.WebOperation operation, String input, int topK) throws IOException {
         ensureDeadline(session);
@@ -243,19 +243,19 @@ public final class RelayLlmClient implements LlmClient {
         return complete;
     }
 
-    /** Sends the worker's one terminal success frame. No further chat call is valid afterwards. */
+    /** Sends the worker's one terminal success frame. No further chat call is valid afterwards. 中文：发送工作进程唯一终止成功帧，此后任何聊天调用均无效。 */
     public synchronized void complete(String answer) throws IOException {
         complete(answer, List.of());
     }
 
-    /** Sends terminal success together with bounded trusted tool-execution evidence. */
+    /** Sends terminal success together with bounded trusted tool-execution evidence. 中文：发送终止成功以及有界受信工具执行证据。 */
     public synchronized void complete(
             String answer,
             List<BenchmarkRelayProtocol.WireToolExecution> toolExecutions) throws IOException {
         complete(answer, toolExecutions, List.of(), 0);
     }
 
-    /** Command observations are opt-in process-local diagnostics, not independent host OS audit. */
+    /** Command observations are opt-in process-local diagnostics, not independent host OS audit. 中文：命令观测是显式启用的进程内诊断，不是独立主机操作系统审计。 */
     public synchronized void complete(String answer,
             List<BenchmarkRelayProtocol.WireToolExecution> toolExecutions,
             List<com.paicli.tool.CommandExecutionObserver.Event> commandObservations,
@@ -283,7 +283,7 @@ public final class RelayLlmClient implements LlmClient {
         channel.write(complete);
     }
 
-    /** Sends a bounded, provider-neutral worker failure without exposing exception details. */
+    /** Sends a bounded, provider-neutral worker failure without exposing exception details. 中文：发送有界且供应商无关的工作失败，不暴露异常细节。 */
     public synchronized void fail(String errorType, String errorMessage) throws IOException {
         refreshTeamObservationFailures();
         if (f3ObservationFailed) {
@@ -307,7 +307,7 @@ public final class RelayLlmClient implements LlmClient {
         return chat(messages, tools, StreamListener.NO_OP);
     }
 
-    /** Synchronization serializes concurrent callers into distinct logical relay calls. */
+    /** Synchronization serializes concurrent callers into distinct logical relay calls. 中文：同步机制将并发调用方串行为不同逻辑中继调用。 */
     @Override
     public synchronized ChatResponse chat(List<Message> messages, List<Tool> tools,
                                           StreamListener listener) throws IOException {

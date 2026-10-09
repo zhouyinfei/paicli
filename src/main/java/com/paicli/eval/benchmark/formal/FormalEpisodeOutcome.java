@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
  * <p>Only {@link Scored} has a numeric score. Infrastructure, security, dataset and
  * evaluation-definition failures are deliberately non-numeric and therefore cannot silently
  * enter aggregation. The current formal runner still requires a separate publication gate.</p>
+ * 中文：正式回合尝试的封闭结果分类。只有 Scored
+ * 含数值分数；基础设施、安全、数据集和评测定义失败刻意非数值，不能静默进入聚合。当前正式运行器仍要求独立发布门禁。
  */
 public sealed interface FormalEpisodeOutcome permits
         FormalEpisodeOutcome.Scored,
@@ -26,7 +28,7 @@ public sealed interface FormalEpisodeOutcome permits
         return false;
     }
 
-    /** A valid verifier result, including a legitimate score of zero. */
+    /** A valid verifier result, including a legitimate score of zero. 中文：有效验证器结果，包括合法零分。 */
     record Scored(AttemptKey key, ScoreCalculator.Result result)
             implements FormalEpisodeOutcome {
         public Scored {

@@ -9,7 +9,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 
-/** Copies a fixture into a fresh workspace without following or accepting symbolic links. */
+/** Copies a fixture into a fresh workspace without following or accepting symbolic links. 中文：复制夹具到新工作区，不跟随或接受符号链接。 */
 final class BenchmarkFixtureCopier {
     private BenchmarkFixtureCopier() {
     }

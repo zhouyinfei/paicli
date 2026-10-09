@@ -65,7 +65,7 @@ public final class AnsiSeq {
         return ESC + "[" + n + "B";
     }
 
-    /** Erase only the preceding rows and leave the cursor at their start, preserving the dock. */
+    /** Erase only the preceding rows and leave the cursor at their start, preserving the dock. 中文：仅擦除前面的行，将光标留在其起点并保留底部区域。 */
     public static String erasePreviousLines(int rows) {
         if (rows <= 0) {
             return "";

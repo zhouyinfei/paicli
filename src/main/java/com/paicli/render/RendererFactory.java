@@ -11,7 +11,7 @@ import org.jline.terminal.Terminal;
  * <ul>
  *   <li>{@code -Dpaicli.renderer} > {@code PAICLI_RENDERER} 环境变量 > 默认 inline</li>
  *   <li>{@code lanterna} → Lanterna 全屏 TUI（由 {@code TuiBootstrap} 在 CLI 循环前接管）</li>
- *   <li>{@code plain} → {@link PlainRenderer}</li>
+ *   <li>{@code plain} → {@link PlainRenderer}（中文：纯文本模式使用纯文本渲染器。）</li>
  *   <li>{@code inline}（默认）→ {@link InlineRenderer}，终端不支持 ANSI 时回退 plain</li>
  *   <li>兼容：{@code PAICLI_TUI=true} → 等价 {@code lanterna}，打 deprecation 提示</li>
  * </ul>

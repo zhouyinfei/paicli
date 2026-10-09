@@ -56,7 +56,7 @@ public class DeepSeekClient extends AbstractOpenAiCompatibleClient {
         this(apiKey, model, API_URL, null);
     }
 
-    /** Creates an immutable provider instance for a frozen benchmark output limit. */
+    /** Creates an immutable provider instance for a frozen benchmark output limit. 中文：按冻结的评测输出上限创建不可变供应商实例。 */
     public DeepSeekClient(String apiKey, String model, int benchmarkMaxOutputTokens) {
         this(apiKey, model, API_URL,
                 Integer.valueOf(requireBenchmarkMaxOutputTokens(benchmarkMaxOutputTokens)));
@@ -127,10 +127,10 @@ public class DeepSeekClient extends AbstractOpenAiCompatibleClient {
             return normalizeDsml(super.chat(messages, tools, target), tools);
         }
 
-        // DeepSeek V4 may encode tool calls as DSML in the content stream. Keep only the shortest
-        // suffix that could become an opening tag across SSE chunk boundaries, so ordinary content
-        // remains genuinely streaming. Once an opening tag is observed, hold that raw tail until
-        // the completed response can be classified and either remove or replay it exactly once.
+        // DeepSeek V4 may encode tool calls as DSML in the content stream. Keep only the shortest（中文：DeepSeek V4 可能在内容流中用 DSML 编码工具调用，仅保留最短的）
+        // suffix that could become an opening tag across SSE chunk boundaries, so ordinary content（中文：可能跨 SSE 分块形成开始标签的后缀，使普通内容）
+        // remains genuinely streaming. Once an opening tag is observed, hold that raw tail until（中文：仍然流式输出；发现开始标签后暂存原始尾部，直到）
+        // the completed response can be classified and either remove or replay it exactly once.（中文：完整响应可被分类，再将其删除或仅重放一次。）
         RollingDsmlStreamListener filtering = new RollingDsmlStreamListener(target);
         ChatResponse raw = super.chat(messages, tools, filtering);
         ChatResponse normalized = normalizeDsml(raw, tools);
@@ -146,7 +146,7 @@ public class DeepSeekClient extends AbstractOpenAiCompatibleClient {
 
     @Override
     public boolean supportsImageInput() {
-        // The official API routes both retired Flash aliases to V4.1 Flash.
+        // The official API routes both retired Flash aliases to V4.1 Flash.（中文：官方 API 将两个已退役的 Flash 别名路由到 V4.1 Flash。）
         return switch (model.trim().toLowerCase(Locale.ROOT)) {
             case "deepseek-flash", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp" -> true;
             default -> false;
@@ -362,6 +362,8 @@ public class DeepSeekClient extends AbstractOpenAiCompatibleClient {
      * Streams text until a DSML tag begins. The candidate block and everything after
      * it stay ordered in {@code pendingTail}; completion either drops the block after a successful
      * strict parse or replays the untouched tail when the payload is malformed or unauthorized.
+     * 中文：流式输出文本直到 DSML 标签开始；候选块及后续内容按序保留在 pendingTail
+     * 中。完成时，严格解析成功则删除该块，内容格式错误或未获授权则原样重放尾部。
      */
     private static final class RollingDsmlStreamListener implements StreamListener {
         private final StreamListener target;
@@ -414,8 +416,8 @@ public class DeepSeekClient extends AbstractOpenAiCompatibleClient {
             if (block.find()) {
                 emit(pendingTail.substring(block.end()));
             } else {
-                // normalizeDsml() currently cannot convert without a closing tag. Keep this
-                // fail-safe in case the parser evolves independently from the stream filter.
+                // normalizeDsml() currently cannot convert without a closing tag. Keep this（中文：normalizeDsml() 当前无法转换缺少结束标签的内容，保留此）
+                // fail-safe in case the parser evolves independently from the stream filter.（中文：保守兜底，以防解析器与流过滤器独立演进。）
                 emit(pendingTail.toString());
             }
             pendingTail.setLength(0);

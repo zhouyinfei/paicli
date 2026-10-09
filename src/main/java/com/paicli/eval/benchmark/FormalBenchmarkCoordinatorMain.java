@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/** Formal CLI: locations only, with no model/case/budget/worker override or subset mode. */
+/** Formal CLI: locations only, with no model/case/budget/worker override or subset mode. 中文：正式 CLI 仅接收位置，不允许覆盖模型、用例、预算或工作进程，也无子集模式。 */
 public final class FormalBenchmarkCoordinatorMain {
     private FormalBenchmarkCoordinatorMain() {}
 
@@ -48,7 +48,7 @@ public final class FormalBenchmarkCoordinatorMain {
             err.println("Formal execution interrupted; no publishable score produced.");
             return 130;
         } catch (Exception error) {
-            // No raw exception messages: paths and provider-controlled text may be private.
+            // No raw exception messages: paths and provider-controlled text may be private.（中文：不输出原始异常消息，路径及供应商文本可能私密。）
             err.println("Formal benchmark rejected (" + error.getClass().getSimpleName()
                     + "); check frozen artifacts, capabilities and local credentials.");
             err.println(usage());
@@ -61,8 +61,8 @@ public final class FormalBenchmarkCoordinatorMain {
             throw new IllegalArgumentException("unsupported formal provider");
         String key = config.getApiKey(provider);
         if (key == null || key.isBlank()) return null;
-        // DeepSeek/GLM use the same fixed official clients as the dev coordinator.
-        // Hunyuan's configurable endpoint still has to pass the factory's official-origin gate.
+        // DeepSeek/GLM use the same fixed official clients as the dev coordinator.（中文：DeepSeek 和 GLM 使用与开发协调器相同的固定官方客户端。）
+        // Hunyuan's configurable endpoint still has to pass the factory's official-origin gate.（中文：混元可配置端点仍须通过工厂的官方来源检查。）
         String baseUrl = "hunyuan".equals(provider) ? config.getBaseUrl(provider) : null;
         if (baseUrl != null) baseUrl = baseUrl.trim().replaceAll("/+$", "");
         return new FormalEpisodeRequestFactory.HostCredential(provider, baseUrl, key);

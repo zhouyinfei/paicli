@@ -15,6 +15,7 @@ import java.util.Set;
 /**
  * Loads PaiCLI project memory files that are intended to be versioned and
  * injected into the system prompt at session start.
+ * 中文：加载应纳入版本控制并在会话启动时注入系统提示的 PaiCLI 项目记忆文件。
  */
 public class ProjectMemoryLoader {
     private static final Logger log = LoggerFactory.getLogger(ProjectMemoryLoader.class);

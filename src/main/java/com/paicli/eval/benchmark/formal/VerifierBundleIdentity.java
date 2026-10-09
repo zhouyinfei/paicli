@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.List;
 
-/** Deterministic identity for one preregistered verifier dependency bundle. */
+/** Deterministic identity for one preregistered verifier dependency bundle. 中文：一个预注册验证器依赖包的确定性身份。 */
 public final class VerifierBundleIdentity {
     private static final String DOMAIN = "paicli-formal-verifier-bundle-v1";
 

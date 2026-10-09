@@ -30,6 +30,8 @@ import java.security.NoSuchAlgorithmException;
  * <p>The document content is carried inside the index. A loaded index never
  * resolves {@link Document#path()} against a workspace, so an indexed result
  * cannot be changed by unregistered workspace files after the freeze.</p>
+ * 中文：仅评测离线代码搜索使用的不可变内容寻址输入。索引包含文档正文；已加载索引不相对工作区解析文档路径，因此冻结后未注册工作区文件无法改
+ * 变索引结果。
  */
 public final class FrozenCodeSearchIndex {
     public static final String VERSION = "paicli-benchmark-frozen-code-index-v1";
@@ -102,7 +104,7 @@ public final class FrozenCodeSearchIndex {
         return documents;
     }
 
-    /** Loads only the registered index file. Document paths are never opened. */
+    /** Loads only the registered index file. Document paths are never opened. 中文：仅加载注册索引文件，不打开文档路径。 */
     public static FrozenCodeSearchIndex load(Path indexFile) throws IOException {
         if (indexFile == null) {
             throw new IOException("frozen code index path must not be null");
@@ -148,6 +150,7 @@ public final class FrozenCodeSearchIndex {
      * Computes the versioned digest over an unambiguous length-prefixed binary
      * representation. JSON whitespace and object field order are intentionally
      * outside the identity; document and semantic-term array order are inside it.
+     * 中文：基于无歧义长度前缀二进制表示计算带版本摘要。JSON 空白和字段顺序不影响身份，文档及语义词数组顺序则影响身份。
      */
     public static String computeIndexDigest(List<Document> documents) {
         if (documents == null) {
@@ -180,7 +183,7 @@ public final class FrozenCodeSearchIndex {
         return hex(sha256().digest(content.getBytes(StandardCharsets.UTF_8)));
     }
 
-    /** One frozen code slice and its precomputed semantic aliases. */
+    /** One frozen code slice and its precomputed semantic aliases. 中文：一个冻结代码片段及预计算语义别名。 */
     public record Document(String path,
                            int startLine,
                            int endLine,

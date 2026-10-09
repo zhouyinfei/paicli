@@ -192,7 +192,7 @@ public class Planner {
             if (depsNode.isArray()) {
                 for (JsonNode depNode : depsNode) {
                     if (!depNode.isTextual() || !idMapping.containsKey(depNode.asText())) {
-                        // Never silently remove an edge or resolve a guessed normalized alias.
+                        // Never silently remove an edge or resolve a guessed normalized alias.（中文：不得静默删边或解析猜测的归一化别名。）
                         throw new IOException("计划依赖必须引用已声明的任务 id");
                     }
                     String originalDepId = depNode.asText();

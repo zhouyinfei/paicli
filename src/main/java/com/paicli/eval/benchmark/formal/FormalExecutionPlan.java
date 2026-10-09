@@ -22,6 +22,8 @@ import java.util.Set;
  * captured during admission: prompt bytes, scoring policy, complete fixture snapshot identity and
  * complete verifier argv and manifest-derived verifier dependency bundle. Building this plan
  * never reloads the suite file or any other mutable path.</p>
+ * 中文：仅从获准正式预检派生的不可变零 I/O 执行计划。原样保留三个预注册合同，增加准入捕获的套件值：提示字节、评分策略、完整夹具身份、
+ * 验证器参数及清单派生依赖包。构建计划不重载套件文件或任何可变路径。
  */
 public record FormalExecutionPlan(
         int planVersion,
@@ -39,7 +41,7 @@ public record FormalExecutionPlan(
     public static final int CURRENT_VERSION = 5;
     public static final String FORMAT = "paicli-formal-execution-plan-v5";
     public static final String EXECUTION_ORDER = "MODEL_REPEAT_CASE";
-    /** Legacy v4/v3 three-model count. Runtime validation must use the retained batch contract. */
+    /** Legacy v4/v3 three-model count. Runtime validation must use the retained batch contract. 中文：旧 v4/v3 三模型计数，运行时验证须使用保留的批次合同。 */
     @Deprecated
     public static final int REQUIRED_EPISODE_COUNT =
             FinalExecutableSuiteContract.REQUIRED_CASE_COUNT * 3 * 3;
@@ -86,6 +88,7 @@ public record FormalExecutionPlan(
 
     /**
      * Converts an admitted preflight without opening, statting or hashing any filesystem path.
+     * 中文：转换获准预检，不打开、查询属性或计算任何文件系统路径哈希。
      */
     public static FormalExecutionPlan from(
             FormalBenchmarkPreflight.VerifiedPreflight verified) {
@@ -299,7 +302,7 @@ public record FormalExecutionPlan(
         return List.copyOf(episodes);
     }
 
-    /** Runtime paths and digests admitted by the preflight; construction performs no I/O. */
+    /** Runtime paths and digests admitted by the preflight; construction performs no I/O. 中文：预检准入的运行时路径与摘要，构建不执行 I/O。 */
     public record ArtifactBindings(
             Path frozenRoot,
             Path suiteFile,
@@ -394,7 +397,7 @@ public record FormalExecutionPlan(
         }
     }
 
-    /** Complete executable case selection; the exact preregistered case contract is retained. */
+    /** Complete executable case selection; the exact preregistered case contract is retained. 中文：完整可执行用例选择，保留精确预注册用例合同。 */
     public record CasePlan(
             int ordinal,
             FinalExecutableSuiteContract.CaseContract contract,
@@ -479,7 +482,7 @@ public record FormalExecutionPlan(
             return contract.scoringContractPath();
         }
 
-        /** Frozen digest only; it is not inferred to equal any container image identity. */
+        /** Frozen digest only; it is not inferred to equal any container image identity. 中文：仅冻结摘要，不推断其等于任何容器镜像身份。 */
         public String toolchainSha256() {
             return scoringContract.toolchainSha256();
         }
@@ -546,7 +549,7 @@ public record FormalExecutionPlan(
         }
     }
 
-    /** Complete manifest-derived fixture identity; no fixture bytes are reread while planning. */
+    /** Complete manifest-derived fixture identity; no fixture bytes are reread while planning. 中文：完整清单派生夹具身份，规划时不重新读取夹具字节。 */
     public record FixtureSnapshot(
             String declaredPath,
             String frozenPath,
@@ -632,7 +635,7 @@ public record FormalExecutionPlan(
         }
     }
 
-    /** Registered shell-free verifier argv plus its complete frozen dependency identity. */
+    /** Registered shell-free verifier argv plus its complete frozen dependency identity. 中文：已注册的无 shell 验证器参数及完整冻结依赖身份。 */
     public record VerifierCommand(
             Path workingDirectory,
             List<String> registeredArguments,
@@ -702,7 +705,7 @@ public record FormalExecutionPlan(
                     CaseDefinition.EVIDENCE_PLACEHOLDER::equals);
         }
 
-        /** Replaces only the two whole-argument runner-owned placeholders; no shell is involved. */
+        /** Replaces only the two whole-argument runner-owned placeholders; no shell is involved. 中文：仅替换两个作为完整参数的运行器占位符，不涉及 shell。 */
         public MaterializedVerifier materialize(Path workspace, Path evidence) {
             Path safeWorkspace = requireAbsoluteNormalized(workspace, "workspace");
             if (requiresEvidence() && evidence == null) {
@@ -734,7 +737,7 @@ public record FormalExecutionPlan(
         }
     }
 
-    /** Immutable verifier dependency copied from preflight without filesystem access. */
+    /** Immutable verifier dependency copied from preflight without filesystem access. 中文：无需文件系统访问，从预检复制的不可变验证器依赖。 */
     public record VerifierDependency(
             String frozenPath,
             Path sourcePath,
@@ -776,7 +779,7 @@ public record FormalExecutionPlan(
         }
     }
 
-    /** One deterministic episode in model-major, repeat-major, case-major order. */
+    /** One deterministic episode in model-major, repeat-major, case-major order. 中文：按模型、重复次数、用例依次排序的确定性回合。 */
     public record EpisodePlan(
             int ordinal,
             int modelOrdinal,

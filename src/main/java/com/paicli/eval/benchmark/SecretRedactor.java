@@ -3,12 +3,12 @@ package com.paicli.eval.benchmark;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Conservative text redaction for benchmark traces and public artifacts. */
+/** Conservative text redaction for benchmark traces and public artifacts. 中文：用于评测轨迹和公开产物的保守文本脱敏。 */
 public final class SecretRedactor {
     public static final String REDACTED = "[REDACTED]";
 
-    // Match a field once from its lexical boundary, not each of its overlapping suffixes.
-    // The unbounded prefix also keeps long environment-variable names protected.
+    // Match a field once from its lexical boundary, not each of its overlapping suffixes.（中文：从字段词法边界匹配一次，不逐一匹配重叠后缀。）
+    // The unbounded prefix also keeps long environment-variable names protected.（中文：无界前缀也保护较长的环境变量名。）
     private static final String SECRET_FIELD_NAME =
             "(?<![A-Z0-9_.-])[A-Z0-9_.-]*(?:API[_-]?KEY|ACCESS[_-]?KEY|TOKEN|AUTH|CLIENT[_-]?SECRET|"
                     + "SECRET(?:[_-]?ACCESS)?[_-]?KEY|PRIVATE[_-]?KEY|PASSWORD|PASSWD|COOKIE|"

@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
-/** Exact-match canary used to prove the provider credential never reached an artifact. */
+/** Exact-match canary used to prove the provider credential never reached an artifact. 中文：用于证明供应商凭据未进入产物的精确匹配金丝雀。 */
 final class BenchmarkSecretCanary {
     private BenchmarkSecretCanary() {
     }

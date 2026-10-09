@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** One catalog-generated E1 and 27 synthetic cases; no production admission, provider calls or model scores. */
+/** One catalog-generated E1 and 27 synthetic cases; no production admission, provider calls or model scores. 中文：一个目录生成的 E1 与 27 个合成用例，不代表生产准入、供应商调用或模型分数。 */
 @Timeout(180)
 class E1FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();

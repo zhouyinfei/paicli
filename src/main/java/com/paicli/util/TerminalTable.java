@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/** Compact CLI tables. Names remain complete; narrow terminals use labelled records. */
+/** Compact CLI tables. Names remain complete; narrow terminals use labelled records. 中文：紧凑的 CLI 表格；保留完整名称，窄终端使用带标签的记录。 */
 public final class TerminalTable {
     private TerminalTable() {}
 

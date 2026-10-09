@@ -54,7 +54,7 @@ public class WechatAgentSession implements AutoCloseable {
             this.agent.setConversationLedger(ConversationLedger.openDefault(
                     Path.of(System.getProperty("user.home"))));
         } catch (IOException ignored) {
-            // Keep the remote channel available if local audit storage is temporarily unavailable.
+            // Keep the remote channel available if local audit storage is temporarily unavailable.（中文：本地审计存储暂时不可用时，保持远程通道可用。）
         }
         this.agent.setRenderer(renderer);
         this.agent.setReturnFinalResponseWhenStreamed(true);

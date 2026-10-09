@@ -179,7 +179,7 @@ class D1McpRelayTest {
                 BenchmarkFramedChannel.MAX_FRAME_BYTES, BenchmarkFramedChannel.MAX_SESSION_BYTES, 512, 128));
     }
 
-    /** Deterministic control, not a model result or benchmark score. */
+    /** Deterministic control, not a model result or benchmark score. 中文：确定性对照，不代表模型结果或评测分数。 */
     private static final class ScriptedClient implements LlmClient {
         private final String select;
         private int calls;

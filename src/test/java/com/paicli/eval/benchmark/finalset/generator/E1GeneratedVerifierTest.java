@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Source/scoring prototype tests, not catalog registration or formal execution authority. */
+/** Source/scoring prototype tests, not catalog registration or formal execution authority. 中文：源码与评分原型测试，不代表目录注册或正式执行权限。 */
 @Timeout(90)
 class E1GeneratedVerifierTest {
     static final ObjectMapper JSON = new ObjectMapper();

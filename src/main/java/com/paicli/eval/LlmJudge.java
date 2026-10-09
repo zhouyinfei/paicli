@@ -15,6 +15,8 @@ import java.util.Map;
  * The model only supplies per-dimension evidence and scores; Java computes the
  * weighted total and pass/fail decision so that prompt output cannot override
  * the evaluation policy.
+ * 中文：使用 LLM 按明确量表评价非确定性 Agent 输出。模型仅提供各维证据和分数，由 Java
+ * 计算加权总分及通过决定，避免提示输出覆盖评测策略。
  */
 public final class LlmJudge {
 

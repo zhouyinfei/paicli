@@ -73,6 +73,7 @@ public class MemoryManager {
     /**
      * After a completed top-level turn, extract only source-backed facts from the submitted
      * user text. No assistant, tool, expanded resource, or compressed-summary text is used.
+     * 中文：顶层轮次完成后，仅从用户提交原文提取有来源依据的事实，不使用助手、工具、展开资源或压缩摘要文本。
      */
     public List<MemoryEntry> extractFactsFromUserTurn(String submittedUserInput) {
         if (!autoFactExtractionEnabled || blocksAutomaticMemory()) return List.of();
@@ -256,7 +257,7 @@ public class MemoryManager {
                 tokenBudget.getUsageReport();
     }
 
-    // Getter
+    // Getter（中文：访问器方法。）
     public LongTermMemory getLongTermMemory() { return longTermMemory; }
     public TokenBudget getTokenBudget() { return tokenBudget; }
     public ContextProfile getContextProfile() { return contextProfile; }

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Deterministically aggregates one complete model/repeat result for a suite. */
+/** Deterministically aggregates one complete model/repeat result for a suite. 中文：确定性聚合某套件一个完整模型及重复运行结果。 */
 public final class ScoreAggregator {
     private ScoreAggregator() {
     }

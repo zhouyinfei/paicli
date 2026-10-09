@@ -6,7 +6,7 @@ import com.paicli.util.AnsiStyle;
  * 代码高亮器（基于正则表达式的轻量级实现）。
  *
  * <p>支持：
- * - Java / Kotlin / Python / JavaScript / TypeScript / Go / Rust
+ * - Java / Kotlin / Python / JavaScript / TypeScript / Go / Rust（中文：支持高亮的编程语言。）
  * - 关键字、字符串、注释、数字高亮
  * - 零第三方依赖，复刻 CodeChunker 的分块策略
  */

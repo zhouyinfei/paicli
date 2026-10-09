@@ -3,7 +3,7 @@ package com.paicli.eval.benchmark;
 import java.util.Locale;
 import java.util.Set;
 
-/** Frozen tool surfaces used by every worker in one benchmark run. */
+/** Frozen tool surfaces used by every worker in one benchmark run. 中文：一次评测运行中全部工作进程使用的冻结工具接口。 */
 public enum BenchmarkToolProfile {
     REASONING_ONLY(Set.of(), false),
     MOCK_MCP(Set.of(), false),

@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 import static com.paicli.plan.PlanExecutionObserver.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native, offline controls for E1 groundwork; these are not a generated E1 recipe or model scores. */
+/** Native, offline controls for E1 groundwork; these are not a generated E1 recipe or model scores. 中文：用于 E1 基础工作的原生离线对照，不是生成的 E1 配方或模型分数。 */
 class PlanExecutionObservationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final String GOAL = "并行读取 left.txt 与 right.txt 两个独立文件，最后合并完整结果到 merged.txt；不要联网。";
@@ -105,7 +105,7 @@ class PlanExecutionObservationTest {
         assertTrue(overlap(events, "task_1", "task_2") <= 0);
         assertEquals(client.outputs.get("LEFT") + "\n===\n" + client.outputs.get("RIGHT"),
                 Files.readString(tempDir.resolve("merged.txt")));
-        // A correct final file alone cannot pass the frozen E1 parallelism requirement.
+        // A correct final file alone cannot pass the frozen E1 parallelism requirement.（中文：仅有正确的最终文件无法满足冻结的 E1 并行性要求。）
     }
 
     @Test
@@ -332,7 +332,7 @@ class PlanExecutionObservationTest {
         int calls;
         boolean mergeConsumedBoth;
         MergeClient(boolean serialized) { this.serialized = serialized; }
-        // Match the real relay's serialized provider exchange; overlap must occur in local tools.
+        // Match the real relay's serialized provider exchange; overlap must occur in local tools.（中文：模拟真实中继的串行供应商交换；重叠必须发生在本地工具中。）
         @Override public synchronized ChatResponse chat(List<Message> messages, List<Tool> tools, StreamListener listener)
                 throws IOException {
             calls++;

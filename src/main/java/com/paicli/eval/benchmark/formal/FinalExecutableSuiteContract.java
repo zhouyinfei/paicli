@@ -19,6 +19,8 @@ import java.util.Set;
  * <p>Every execution-affecting value is case-local. A formal runner must consume these values
  * verbatim and must reject any global CLI override for mode, tool profile, budgets, mocks,
  * evidence or verifier selection.</p>
+ * 中文：28 题私有最终套件的预注册逐题执行合同。所有影响执行的值均为题目局部值，正式运行器必须原样使用并拒绝全局 CLI
+ * 覆盖模式、工具配置、预算、模拟服务、证据或验证器选择。
  */
 public record FinalExecutableSuiteContract(
         @JsonProperty(value = "contractVersion", required = true) int contractVersion,
@@ -59,7 +61,7 @@ public record FinalExecutableSuiteContract(
         return FormalContractSupport.load(file, FinalExecutableSuiteContract.class);
     }
 
-    /** Writes a new contract without replacing an existing registration. */
+    /** Writes a new contract without replacing an existing registration. 中文：写入新合同，不替换既有注册。 */
     public Path write(Path file) throws IOException {
         return FormalContractSupport.writeNew(file, this);
     }
@@ -124,7 +126,7 @@ public record FinalExecutableSuiteContract(
         }
     }
 
-    /** One immutable case-level execution selection; no field may be replaced by a batch CLI flag. */
+    /** One immutable case-level execution selection; no field may be replaced by a batch CLI flag. 中文：不可变用例级执行选择，任何字段都不能由批次 CLI 参数替换。 */
     public record CaseContract(
             @JsonProperty(value = "id", required = true) String id,
             @JsonProperty(value = "category", required = true) String category,
@@ -201,7 +203,7 @@ public record FinalExecutableSuiteContract(
                     verifierBundleSha256, "verifierBundleSha256");
         }
 
-        /** A case contract alone is data, not a 28-case admission or execution capability. */
+        /** A case contract alone is data, not a 28-case admission or execution capability. 中文：单个用例合同仅为数据，不是 28 题准入或执行能力。 */
         public static CaseContract load(Path file) throws IOException {
             return FormalContractSupport.load(file, CaseContract.class);
         }

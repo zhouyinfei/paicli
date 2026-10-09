@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** Exercises the real public verifier against the production read-only snapshot shape. */
+/** Exercises the real public verifier against the production read-only snapshot shape. 中文：针对生产只读快照结构验证真实公开验证器。 */
 class DevSafeBundleVerifierTest {
     private static final Path SUITE = Path.of("benchmarks/paicli-native-agentbench-v0.1")
             .toAbsolutePath();
@@ -61,7 +61,7 @@ class DevSafeBundleVerifierTest {
                 if (process.isAlive()) process.destroyForcibly();
             }
         } finally {
-            // Restore only this test-owned tree so JUnit can clean it up.
+            // Restore only this test-owned tree so JUnit can clean it up.（中文：仅恢复本测试拥有的目录树，便于 JUnit 清理。）
             try (var paths = Files.walk(frozen)) {
                 for (Path path : paths.toList()) {
                     Files.setPosixFilePermissions(path, PosixFilePermissions.fromString(

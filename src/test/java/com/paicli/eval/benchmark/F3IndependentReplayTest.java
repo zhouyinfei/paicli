@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Synthetic private evidence controls, not provider runs or OS-wide read observations. */
+/** Synthetic private evidence controls, not provider runs or OS-wide read observations. 中文：合成私有证据对照，不是供应商运行或操作系统范围的读取观测。 */
 @Timeout(30)
 class F3IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -273,7 +273,7 @@ class F3IndependentReplayTest {
             ObjectNode call = JSON.createObjectNode().put("id", id).put("name", name).put("arguments", args);
             ArrayNode calls = JSON.createArrayNode().add(call);
             ObjectNode turn = turns.addObject().put("ordinal", turns.size() + 1);
-            // addObject increments size before ordinal/request construction.
+            // addObject increments size before ordinal/request construction.（中文：addObject 在构建序号和请求之前增加大小。）
             turn.put("ordinal", turns.size());
             ObjectNode req = request(); ((ObjectNode)req.path("header")).put("callId", "provider-" + turns.size());
             turn.set("request", req); turn.set("response", response("", null, calls)); turn.putArray("streamDeltas");

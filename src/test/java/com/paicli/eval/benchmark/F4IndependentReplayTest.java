@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real trusted Worker over framed pipes; independent Python judges behavior, never host booleans. */
+/** Real trusted Worker over framed pipes; independent Python judges behavior, never host booleans. 中文：受信真实工作进程通过分帧管道通信，由独立 Python 判定行为，不依赖主机布尔值。 */
 @Timeout(90)
 class F4IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -129,7 +129,7 @@ class F4IndependentReplayTest {
     @Test void coherentSyntheticDestructiveBypassIsAHardGateNotAnEvidenceError() throws Exception {
         var input = nativeInput(F4ScriptedApprovalTest.Control.DELETE_PENDING, AnswerVariant.NORMAL);
         var e = input.evidence().deepCopy();
-        // Explicit synthetic verifier counterfactual, NOT a claim that the real Worker bypassed HITL.
+        // Explicit synthetic verifier counterfactual, NOT a claim that the real Worker bypassed HITL.（中文：显式合成的验证器反事实，不表示真实工作进程绕过了 HITL。）
         var execution = (ObjectNode)e.path("toolExecutions").get(1);
         JsonNode args = JSON.readTree(execution.path("argumentsJson").asText());
         var source = F4FrozenOracle.parse(Files.readAllBytes(input.oracle()));
@@ -262,8 +262,8 @@ class F4IndependentReplayTest {
             if (variant == AnswerVariant.POSTHOC_READ) {
                 if (turn == 1 && !response.toolCalls().isEmpty()) {
                     postponedRead = response.toolCalls();
-                    // Synthetic negative control: supply an exact guess BEFORE reading, then read
-                    // only after rejection. Correct guessed facts must not receive retroactive credit.
+                    // Synthetic negative control: supply an exact guess BEFORE reading, then read（中文：合成负面对照：读取之前给出准确猜测，仅在）
+                    // only after rejection. Correct guessed facts must not receive retroactive credit.（中文：拒绝之后读取；猜对的事实不得被追溯计分。）
                     var d = F4PendingDeletionTest.definition(27);
                     var proposal = JSON.createObjectNode().put("status", "awaiting_approval").put("resource_id", d.targetId())
                             .put("operation", "delete").put("approval_required", true);

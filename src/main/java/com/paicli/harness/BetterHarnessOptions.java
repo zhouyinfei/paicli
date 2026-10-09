@@ -4,6 +4,7 @@ import java.util.Locale;
 
 /**
  * User-facing options for the native PaiCLI Better Harness review.
+ * 中文：原生 PaiCLI Better Harness 审阅的用户选项。
  */
 public record BetterHarnessOptions(Depth depth, boolean inline) {
 

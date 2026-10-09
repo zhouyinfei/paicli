@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 
-/** Networkless Candidate Worker entry point. Stdout is reserved exclusively for relay frames. */
+/** Networkless Candidate Worker entry point. Stdout is reserved exclusively for relay frames. 中文：无网络候选工作进程入口，标准输出专用于中继帧。 */
 public final class BenchmarkRelayWorkerMain {
     static final Path CONTAINER_WORKSPACE = Path.of("/workspace");
 
@@ -118,7 +118,7 @@ public final class BenchmarkRelayWorkerMain {
         String next = relay.continueTurn(proposal, evidence.snapshot());
         runtime.set("paicli.react.token.budget", Long.toString(relay.remainingTokens()));
         runtime.set("paicli.react.hard.max.iterations", Integer.toString(relay.remainingCalls()));
-        // Reuse the actual product Agent and its conversationHistory, not a reconstructed transcript.
+        // Reuse the actual product Agent and its conversationHistory, not a reconstructed transcript.（中文：复用真实产品 Agent 及其 conversationHistory，不重建对话记录。）
         String answer = agent.runExplicitTask(next, next);
         relay.complete(answer, evidence.snapshot());
     }

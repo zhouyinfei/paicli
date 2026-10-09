@@ -12,7 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-/** Deterministic synthetic reference only: never calls a provider, Worker, or test helper. */
+/** Deterministic synthetic reference only: never calls a provider, Worker, or test helper. 中文：仅确定性合成参考，不调用供应商、工作进程或测试辅助方法。 */
 final class F3ReferenceEvidence {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final ObjectMapper SORTED = new ObjectMapper().enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
@@ -46,7 +46,7 @@ final class F3ReferenceEvidence {
         return new Reference(development, List.copyOf(tools), Collections.unmodifiableMap(metrics));
     }
 
-    /** Convert nodes to recursive maps before sorting; ObjectNode insertion order is not a fingerprint. */
+    /** Convert nodes to recursive maps before sorting; ObjectNode insertion order is not a fingerprint. 中文：排序前将节点转换为递归映射，ObjectNode 插入顺序不能充当指纹。 */
     private static String canonicalHash(JsonNode node) throws IOException {
         return hash(SORTED.writeValueAsBytes(SORTED.convertValue(node, Object.class)));
     }

@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.paicli.eval.benchmark.D3ScriptedApprovalTest.Control;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Generated D3 + real native Worker/Agent/HITL/MCP + real Docker verifier. Synthetic LLM, no API. */
+/** Generated D3 + real native Worker/Agent/HITL/MCP + real Docker verifier. Synthetic LLM, no API. 中文：生成的 D3、真实原生工作进程、Agent、HITL、MCP 与真实 Docker 验证器，使用合成 LLM，不调用 API。 */
 @Timeout(120)
 class D3FormalIntegrationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -186,7 +186,7 @@ class D3FormalIntegrationTest {
             var limits = request.agentLimits();
             var complete = assertInstanceOf(BenchmarkRelayProtocol.WorkerComplete.class,
                     D3McpRelayTest.runWorker(mock, client, limits.tokenBudget(), limits.hardMaxIterations(), workspace));
-            // Explicit synthetic identity: this integration test never calls a real provider.
+            // Explicit synthetic identity: this integration test never calls a real provider.（中文：显式使用合成身份，该集成测试不调用真实供应商。）
             var metrics = new TracingLlmClient.Metrics(client.calls, client.calls * 100, client.calls * 30, 0, complete.toolExecutions().size(), 1, client.calls,
                     request.model(), true, true, "a".repeat(64), "b".repeat(64), true,
                     limits.contextWindowCapTokens(), limits.contextWindowCapTokens(), limits.maxOutputTokensPerCall(), 100, 130, true);

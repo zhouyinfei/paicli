@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-/** Small validation primitives for the public scoring protocol records. */
+/** Small validation primitives for the public scoring protocol records. 中文：公开评分协议记录的小型验证基础方法。 */
 final class ScoringValidation {
     private static final Pattern IDENTIFIER =
             Pattern.compile("[A-Za-z0-9][A-Za-z0-9._:-]{0,127}");

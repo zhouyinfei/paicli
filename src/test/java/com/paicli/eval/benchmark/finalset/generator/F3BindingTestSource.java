@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 
-/** One synthetic generated F3 descriptor for binding tests; never a complete suite admission. */
+/** One synthetic generated F3 descriptor for binding tests; never a complete suite admission. 中文：用于绑定测试的单个合成生成 F3 描述符，不是完整套件准入。 */
 public final class F3BindingTestSource {
     private F3BindingTestSource() { }
     static Path materialize(Path root) throws Exception {

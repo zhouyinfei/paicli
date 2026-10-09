@@ -124,7 +124,7 @@ public class RootPane extends Panel {
         statusPane.setPreferredSize(new TerminalSize(statusWidth, rows - 5));
 
         // 对话流填充剩余
-        int centerWidth = cols - fileTreeWidth - statusWidth - 2;  // -2 for borders
+        int centerWidth = cols - fileTreeWidth - statusWidth - 2;  // -2 for borders（中文：为边框扣除两个位置。）
         centerPane.setPreferredSize(new TerminalSize(Math.max(20, centerWidth), rows - 5));
 
         // 刷新布局

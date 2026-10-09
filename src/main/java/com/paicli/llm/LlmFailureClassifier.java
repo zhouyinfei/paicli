@@ -7,7 +7,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-/** Stable, message-free failure categories for benchmark and runtime orchestration. */
+/** Stable, message-free failure categories for benchmark and runtime orchestration. 中文：用于评测与运行时编排的稳定失败分类，不含消息正文。 */
 public final class LlmFailureClassifier {
     private LlmFailureClassifier() {
     }

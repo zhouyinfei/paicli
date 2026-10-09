@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/** Executes the entire admitted schedule, or stops with an explicit unscored invalid batch. */
+/** Executes the entire admitted schedule, or stops with an explicit unscored invalid batch. 中文：执行完整准入日程，或停止并明确返回无分数的无效批次。 */
 public final class FormalBatchRunner {
     private FormalBatchRunner() {}
 
-    /** Production entry: only Docker relay is available; no HOST_DEV/worker override parameter. */
+    /** Production entry: only Docker relay is available; no HOST_DEV/worker override parameter. 中文：生产入口仅允许 Docker 中继，不提供 HOST_DEV 或工作进程覆盖参数。 */
     public static RunReport run(FormalBatchPreparation.ReadyBatch batch, Path output, String runId)
             throws IOException, InterruptedException {
         Objects.requireNonNull(batch, "batch");
@@ -45,7 +45,7 @@ public final class FormalBatchRunner {
         return run(batch, output, runId, worker, verifier, Clock.systemUTC());
     }
 
-    // Deterministic local tests inject workers/verifiers only from this trusted package.
+    // Deterministic local tests inject workers/verifiers only from this trusted package.（中文：确定性本地测试仅从此受信包注入工作进程和验证器。）
     static RunReport run(FormalBatchPreparation.ReadyBatch batch, Path output, String runId,
                          BenchmarkCoordinatorMain.WorkerExecutor worker,
                          BenchmarkCoordinatorMain.VerifierExecutor verifier, Clock clock)
@@ -88,11 +88,11 @@ public final class FormalBatchRunner {
             var result = context.record(outcome, outcome.getClass().getSimpleName().toUpperCase());
             artifact.writeRun(result);
             results.add(result);
-            // Each full episode is already durable in its own run.json. Rewriting every
-            // previous episode on each checkpoint makes serialization/redaction quadratic.
+            // Each full episode is already durable in its own run.json. Rewriting every（中文：每个完整回合已持久化到自身 run.json；每次检查点都重写）
+            // previous episode on each checkpoint makes serialization/redaction quadratic.（中文：此前全部回合会使序列化和脱敏成本呈平方增长。）
             store.writeAggregate(progress(plan, results));
-            // Valid low scores continue. Invalid attempts stop spending and require a new
-            // all-model run; there is deliberately no best-of, subset, or automatic retry loop.
+            // Valid low scores continue. Invalid attempts stop spending and require a new（中文：有效低分继续执行，无效尝试停止消耗且要求新建）
+            // all-model run; there is deliberately no best-of, subset, or automatic retry loop.（中文：全模型运行；明确不支持择优、子集或自动重试循环。）
             if (!(outcome instanceof FormalEpisodeOutcome.Scored)) break;
         }
         BatchSummary summary = aggregate(plan, results);
@@ -153,7 +153,7 @@ public final class FormalBatchRunner {
                     : mock == null ? executor.execute(request, paths.workspace(), paths.home(), timeout)
                     : executor.executeWithMock(request, paths.workspace(), paths.home(), timeout, mock);
         } catch (IOException error) {
-            // Capture the retained host audit and check integrity before classifying launch failure.
+            // Capture the retained host audit and check integrity before classifying launch failure.（中文：分类启动失败前，捕获保留的主机审计并检查完整性。）
         } finally {
             context.event("worker_dispatch_finished");
             if (injectionBinding != null) {
@@ -278,7 +278,7 @@ public final class FormalBatchRunner {
         context.workspaceSha256 = snapshot.treeSha256();
         FormalVerifierBundleMaterializer.TrustedVerifierBundle bundle;
         try {
-            // Hidden verifier dependencies are materialized only after the Candidate exits.
+            // Hidden verifier dependencies are materialized only after the Candidate exits.（中文：候选退出之后才物化隐藏验证器依赖。）
             bundle = FormalVerifierBundleMaterializer.materialize(casePlan, context.artifact);
         } catch (FormalVerifierBundleMaterializer.MaterializationException error) {
             return switch (error.kind()) {
@@ -341,8 +341,8 @@ public final class FormalBatchRunner {
                 || BenchmarkSecretCanary.containsInTree(context.artifact.directory(), secret))
             return security(context, "verifier:credential-canary");
         context.artifact.writeVerifier(verification);
-        // Formal assertions live in structured JSON, not the process exit code. A crashed
-        // wrapper cannot silently turn a failed setup operation into a Candidate zero.
+        // Formal assertions live in structured JSON, not the process exit code. A crashed（中文：正式断言位于结构化 JSON，而非进程退出码；崩溃的）
+        // wrapper cannot silently turn a failed setup operation into a Candidate zero.（中文：包装器不得静默把初始化失败转为候选零分。）
         if (verification.status() != BenchmarkVerifier.Status.PASSED)
             return new FormalEpisodeOutcome.Infra(key, FormalEpisodeOutcome.InfraCode.VERIFIER_UNAVAILABLE,
                     List.of("verifier:nonzero-or-timeout"));
@@ -378,7 +378,7 @@ public final class FormalBatchRunner {
     }
 
     private static FormalEpisodeOutcome security(EpisodeContext context, String evidence) {
-        // Metrics strings are provider-controlled too. Never serialize a canary in metadata.
+        // Metrics strings are provider-controlled too. Never serialize a canary in metadata.（中文：指标字符串也由供应商控制，不得将金丝雀序列化到元数据。）
         context.metrics = null;
         return new FormalEpisodeOutcome.Security(context.key,
                 FormalEpisodeOutcome.SecurityCode.SANDBOX_BOUNDARY_VIOLATION, List.of(evidence));

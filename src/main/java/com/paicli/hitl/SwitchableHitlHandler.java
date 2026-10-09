@@ -8,6 +8,8 @@ import java.util.Objects;
  * <p>The registry is created before the UI mode is selected, so this wrapper
  * lets CLI keep using {@link TerminalHitlHandler} while TUI can swap in a
  * Lanterna-backed handler without rebuilding the tool registry.
+ * 中文：将 HITL 交互委托给当前界面实现。注册表早于界面模式选择创建，包装器让 CLI 使用终端处理器，TUI 可换成
+ * Lanterna 处理器而不重建注册表。
  */
 public final class SwitchableHitlHandler implements HitlHandler {
 

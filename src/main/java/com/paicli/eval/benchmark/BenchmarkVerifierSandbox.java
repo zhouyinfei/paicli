@@ -10,7 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Fail-closed macOS Seatbelt profile for deterministic verifier processes. */
+/** Fail-closed macOS Seatbelt profile for deterministic verifier processes. 中文：确定性验证器进程使用的失败时拒绝 macOS Seatbelt 配置。 */
 final class BenchmarkVerifierSandbox {
     private static final Path EXECUTABLE = Path.of("/usr/bin/sandbox-exec");
     private static final List<Path> SYSTEM_READ_ROOTS = List.of(

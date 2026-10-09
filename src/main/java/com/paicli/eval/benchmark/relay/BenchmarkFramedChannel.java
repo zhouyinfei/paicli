@@ -8,9 +8,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-/** Binary framing around strict relay JSON: 4-byte magic, 4-byte BE length, payload. */
+/** Binary framing around strict relay JSON: 4-byte magic, 4-byte BE length, payload. 中文：严格中继 JSON 外层二进制分帧：4 字节魔数、4 字节大端长度及载荷。 */
 public final class BenchmarkFramedChannel {
-    public static final int MAGIC = 0x50414942; // "PAIB"
+    public static final int MAGIC = 0x50414942; // "PAIB"（中文：协议魔数 PAIB。）
     public static final int MAX_FRAME_BYTES = 16 * 1_048_576;
     public static final long MAX_SESSION_BYTES = 256L * 1_048_576;
 
@@ -41,7 +41,7 @@ public final class BenchmarkFramedChannel {
         this.maxSessionBytes = maxSessionBytes;
     }
 
-    /** Returns {@code null} only for a clean EOF before any byte of a new frame. */
+    /** Returns {@code null} only for a clean EOF before any byte of a new frame. 中文：仅在新帧任何字节到来之前正常结束时返回 null。 */
     public BenchmarkRelayProtocol.Frame read() throws IOException {
         synchronized (readLock) {
             byte[] header = new byte[HEADER_BYTES];
@@ -70,7 +70,7 @@ public final class BenchmarkFramedChannel {
         }
     }
 
-    /** Writes one frame atomically with respect to other channel writers. */
+    /** Writes one frame atomically with respect to other channel writers. 中文：相对于通道其他写入器，原子写入一个帧。 */
     public void write(BenchmarkRelayProtocol.Frame frame) throws IOException {
         byte[] payload = BenchmarkRelayProtocol.encode(frame);
         if (payload.length > maxFrameBytes) {

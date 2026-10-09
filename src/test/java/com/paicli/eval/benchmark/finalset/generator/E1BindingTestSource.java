@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 
-/** Single generated E1 case descriptor for binding tests, not a 28-case formal admission. */
+/** Single generated E1 case descriptor for binding tests, not a 28-case formal admission. 中文：用于绑定测试的单个生成 E1 描述符，不是 28 题正式准入。 */
 public final class E1BindingTestSource {
     private E1BindingTestSource() { }
     public static FormalExecutionPlan.CasePlan generate(Path root) throws Exception {
@@ -36,7 +36,7 @@ public final class E1BindingTestSource {
         var fixture = new FormalExecutionPlan.FixtureSnapshot(fixturePath, fixturePath, root.resolve(fixturePath), FormalBenchmarkPreflight.FixtureKind.DIRECTORY,
                 hash(snapshotText.toString().getBytes(StandardCharsets.UTF_8)), files.size(), files.stream().mapToLong(FormalExecutionPlan.FixtureFile::size).sum(), files);
         String prompt = Files.readString(root.resolve("prompts/final/E1.md"));
-        // Test-only descriptor for the synthetic 28-slot admission harness, not catalog registration.
+        // Test-only descriptor for the synthetic 28-slot admission harness, not catalog registration.（中文：仅用于合成 28 槽准入框架的测试描述符，不是目录注册。）
         Path descriptor = root.resolve("provenance/final/E1/execution-contract.json");
         Files.createDirectories(descriptor.getParent());
         json.writeValue(descriptor.toFile(), contract);

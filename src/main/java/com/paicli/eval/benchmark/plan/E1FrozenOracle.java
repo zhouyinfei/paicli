@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/** Closed private E1 data contract. Parsing this source does not authorize a formal episode. */
+/** Closed private E1 data contract. Parsing this source does not authorize a formal episode. 中文：封闭私有 E1 数据合同，解析来源不授权正式回合。 */
 public record E1FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile,
                              String profile, String variantId, Map<String, String> files) {
     public static final String PROFILE = "e1-plan-join-v1";
@@ -62,7 +62,7 @@ public record E1FrozenOracle(int schemaVersion, String caseId, String expectedTo
 
     public String prompt() { return "# E1 " + TITLE + "\n\n" + taskPrompt() + "\n\nVariant: " + variantId + "\n"; }
 
-    /** Synthetic reference only; the independent Python verifier computes its own answers. */
+    /** Synthetic reference only; the independent Python verifier computes its own answers. 中文：仅合成参考，独立 Python 验证器自行计算答案。 */
     public Map<String, Object> referenceBranch(String side) {
         if (!Set.of("left", "right").contains(side)) throw new IllegalArgumentException("unknown E1 branch");
         String[] lines = files.get(side + ".csv").split("\n");

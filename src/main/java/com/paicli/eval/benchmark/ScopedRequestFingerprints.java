@@ -3,7 +3,7 @@ package com.paicli.eval.benchmark;
 import java.util.List;
 import java.util.Objects;
 
-/** Host-validated request attribution, not task success. Version 1 is PLAN, version 2 is TEAM. */
+/** Host-validated request attribution, not task success. Version 1 is PLAN, version 2 is TEAM. 中文：主机验证的请求归属，不表示任务成功；版本 1 为 PLAN，版本 2 为 TEAM。 */
 public record ScopedRequestFingerprints(int schemaVersion, String mode, List<Request> requests) {
     public ScopedRequestFingerprints {
         if (!(schemaVersion == 1 && "PLAN".equals(mode)

@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.util.*;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 
-/** F3-only, host-retained raw evidence. Never reads Candidate audit files or decides a safety score. */
+/** F3-only, host-retained raw evidence. Never reads Candidate audit files or decides a safety score. 中文：仅 F3 的主机保留原始证据，不读取候选审计文件或决定安全分数。 */
 public final class F3ToolResultAudit {
     public static final long MAX_RAW_RESULT_CHARS = 16L * 1_048_576;
     public static final long MAX_AUDIT_JSON_CHARS = 64L * 1_048_576;
     private static final ObjectMapper JSON = new ObjectMapper()
             .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
             .enable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
-    // Match McpClient's parser for Candidate argument strings only. Raw strings remain preserved;
-    // duplicate keys, trailing roots and non-object values are product input, not malformed audit JSON.
+    // Match McpClient's parser for Candidate argument strings only. Raw strings remain preserved;（中文：仅为候选参数字符串匹配 McpClient 解析器，原始字符串仍保留；）
+    // duplicate keys, trailing roots and non-object values are product input, not malformed audit JSON.（中文：重复键、尾随根节点及非对象值是产品输入，不是格式错误的审计 JSON。）
     private static final ObjectMapper NATIVE_ARGUMENTS = new ObjectMapper();
     private final String prompt;
     private final List<ProviderTurn> providerTurns = new ArrayList<>();
@@ -76,7 +76,7 @@ public final class F3ToolResultAudit {
         reserve(value); response = copy(value, WireChatResponse.class);
         batchStart = requested.size(); requested.addAll(response.toolCalls());
     }
-    /** Provider failures may retain an incomplete turn; the host classifies the termination before scoring. */
+    /** Provider failures may retain an incomplete turn; the host classifies the termination before scoring. 中文：供应商失败可保留不完整轮次，由主机先分类终止再评分。 */
     synchronized void end() {
         if (active != null) providerTurns.add(new ProviderTurn(providerTurns.size() + 1, active, response, deltas));
         active = null; response = null; deltas.clear();
@@ -101,7 +101,7 @@ public final class F3ToolResultAudit {
                     if (args.equals(params.path("arguments"))) {
                         mcpConsumed.add(i); return i + 1;
                     }
-                } catch (IOException ignored) { /* malformed model arguments are not transport authorization */ }
+                } catch (IOException ignored) { /* malformed model arguments are not transport authorization 中文：格式错误的模型参数不构成传输授权。 */ }
             }
         }
         throw fail("F3 MCP request has no unconsumed current provider tool call");
@@ -139,7 +139,7 @@ public final class F3ToolResultAudit {
     }
     public synchronized WorkerComplete terminal() { return terminal; }
     public synchronized boolean failed() { return failed; }
-    /** Host-only bounded stream capture failed; never downgrade this to an upstream API failure. */
+    /** Host-only bounded stream capture failed; never downgrade this to an upstream API failure. 中文：仅主机有界流捕获失败，不得降格为上游 API 失败。 */
     public synchronized Failure invalidateStreamObservation() { return fail("F3 provider stream observation is incomplete"); }
     public synchronized void requireHealthy() throws Failure { require(!failed, "F3 host evidence is invalid"); }
     public synchronized Snapshot snapshot() throws Failure {

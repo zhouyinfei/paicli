@@ -85,7 +85,7 @@ public class PaiCliConfig {
         return loadModelFromEnv(provider);
     }
 
-    /** Explicit launch configuration wins over the last model saved by /model. */
+    /** Explicit launch configuration wins over the last model saved by /model. 中文：显式启动配置优先于 /model 最近保存的模型。 */
     public String getStartupModel(String provider) {
         if (provider == null) return null;
         String explicit = loadModelFromEnv(provider);
@@ -128,7 +128,7 @@ public class PaiCliConfig {
         }
     }
 
-    /** Model management only reports success after an atomic config replacement. */
+    /** Model management only reports success after an atomic config replacement. 中文：模型管理仅在原子替换配置成功后报告成功。 */
     public void saveOrThrow() throws IOException {
         saveOrThrow(CONFIG_FILE);
     }

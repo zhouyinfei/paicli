@@ -9,6 +9,8 @@ import java.util.Objects;
  * Single-use host association for a bound F2 episode. Records actual provider
  * tool requests and the original terminal frame, not reconstructed Candidate files.
  * Command callbacks remain process-local diagnostics, not independent OS audit.
+ * 中文：绑定 F2
+ * 回合的一次性主机关联，记录真实供应商工具请求与原始终止帧，不重建候选文件。命令回调仍为进程内诊断，不是独立操作系统审计。
  */
 public final class F2CommandAudit {
     private final String prompt;
@@ -26,7 +28,7 @@ public final class F2CommandAudit {
             throw new IllegalArgumentException("invalid frozen F2 prompt");
     }
 
-    /** Called by the host relay before transmitting the session or contacting the provider. */
+    /** Called by the host relay before transmitting the session or contacting the provider. 中文：主机中继在传输会话或联系供应商前调用。 */
     synchronized void bind(BenchmarkRelayProtocol.SessionStart session) throws Failure {
         require(!failed && !bound && session != null, "F2 audit cannot be rebound");
         require(session.mode() == BenchmarkRelayProtocol.AgentMode.REACT
@@ -40,7 +42,7 @@ public final class F2CommandAudit {
         begin(request, false);
     }
 
-    /** The relay alone identifies its one admitted, tool-free budget closing request. */
+    /** The relay alone identifies its one admitted, tool-free budget closing request. 中文：仅中继识别唯一获准的无工具预算收尾请求。 */
     synchronized void begin(BenchmarkRelayProtocol.ChatRequest request, boolean hostBudgetFinalization) throws Failure {
         require(!failed && bound && !activeRequest && terminal == null && request != null,
                 "F2 provider request lifecycle mismatch");
@@ -67,7 +69,7 @@ public final class F2CommandAudit {
         responseSeen = true;
     }
 
-    /** A provider exception may end a request without a response; that is not an audit defect. */
+    /** A provider exception may end a request without a response; that is not an audit defect. 中文：供应商异常可使请求无响应结束，这不是审计缺陷。 */
     synchronized void endRequest() {
         activeRequest = false;
         responseSeen = false;
@@ -78,9 +80,9 @@ public final class F2CommandAudit {
                 "F2 terminal lifecycle mismatch");
         var executions = complete.toolExecutions();
         int requiredTools = budgetFinalizationToolsFrom < 0 ? requestedTools.size() : budgetFinalizationToolsFrom;
-        // ReAct ignores any tools returned by its tool-free budget closing call. Preserve those
-        // actual provider requests, but do not fabricate their execution or erase prior obligations.
-        // The host still classifies this episode as a budget failure, never a scoring success.
+        // ReAct ignores any tools returned by its tool-free budget closing call. Preserve those（中文：ReAct 忽略无工具预算收尾调用返回的工具，保留这些）
+        // actual provider requests, but do not fabricate their execution or erase prior obligations.（中文：实际供应商请求，但不编造执行或抹去此前义务。）
+        // The host still classifies this episode as a budget failure, never a scoring success.（中文：主机仍将此回合归为预算失败，绝不视为评分成功。）
         require(executions.size() >= requiredTools && executions.size() <= requestedTools.size(),
                 "F2 terminal omitted or invented provider tools");
         for (int i = 0; i < executions.size(); i++) {
@@ -89,7 +91,7 @@ public final class F2CommandAudit {
             require(requested.id().equals(actual.callId()) && requested.name().equals(actual.toolName())
                     && requested.arguments().equals(actual.argumentsJson()), "F2 terminal tool differs from provider request");
         }
-        // Preserve object identity for the owning Session; command pairing is independently replayed later.
+        // Preserve object identity for the owning Session; command pairing is independently replayed later.（中文：为所属 Session 保留对象身份，随后独立重放命令配对。）
         terminal = complete;
     }
 
@@ -97,7 +99,7 @@ public final class F2CommandAudit {
     public synchronized BenchmarkRelayProtocol.WorkerComplete terminal() { return terminal; }
     public synchronized boolean failed() { return failed; }
 
-    /** No terminal requirement: provider/budget/process failures are classified by the host first. */
+    /** No terminal requirement: provider/budget/process failures are classified by the host first. 中文：不要求终止记录，先由主机分类供应商、预算或进程失败。 */
     public synchronized void requireHealthy() throws Failure {
         require(!failed, "F2 host audit is invalid");
     }
@@ -111,7 +113,7 @@ public final class F2CommandAudit {
         if (!condition) throw fail(message);
     }
 
-    /** Host binding/audit defects must not be reclassified as provider or Candidate failures. */
+    /** Host binding/audit defects must not be reclassified as provider or Candidate failures. 中文：主机绑定或审计缺陷不得重新分类为供应商或候选失败。 */
     public static final class Failure extends IOException {
         private Failure(String message) { super(message); }
     }

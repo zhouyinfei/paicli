@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/** Private typed source, never returned in the tool catalog or mounted into the Candidate. */
+/** Private typed source, never returned in the tool catalog or mounted into the Candidate. 中文：私有类型化来源，不在工具目录返回，也不挂载给候选。 */
 public record D2FrozenOracle(String caseId, String expectedToolProfile, String variantId,
         Map<String, String> baselineFiles, D2ReadOnlyJoinMock.Definition definition) implements FrozenMcpOracle {
     public static final String PROFILE = "d2-readonly-join-v1";

@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-/** Domain-separated deterministic entropy for one private sibling variant. */
+/** Domain-separated deterministic entropy for one private sibling variant. 中文：单个私有同类变体的域分离确定性熵。 */
 record SeededVariant(String caseId, String variantId, byte[] entropy) {
     static SeededVariant derive(byte[] seed, String caseId, String recipeVersion) {
         byte[] entropy = digest(("paicli-final-source/v1/case/" + caseId + "/recipe/"

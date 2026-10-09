@@ -16,7 +16,7 @@ import java.util.*;
 
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 
-/** Seeded private source and explicitly synthetic reference. Not a provider or Worker run. */
+/** Seeded private source and explicitly synthetic reference. Not a provider or Worker run. 中文：带种子的私有来源和明确合成参考，不是供应商或工作进程运行。 */
 final class F4CaseMaterializer {
     static final List<String> RUNTIME_PATHS = List.of("validators/final/_private/f4_replay.py", "validators/final/_private/f4_verify.py");
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -74,7 +74,7 @@ final class F4CaseMaterializer {
                 List.of(new ScoringContract.ComponentRule("strictTask", 100, ScoreSource.DETERMINISTIC)), verifierSha, runtimeSha);
     }
 
-    /** Constructed transcript for verifier qualification, never promoted to real execution evidence. */
+    /** Constructed transcript for verifier qualification, never promoted to real execution evidence. 中文：用于验证器资格检查的构造记录，不提升为真实执行证据。 */
     private static final class ReferenceTranscript {
         private final F4PendingDeletionMock mock;
         private final F4PendingDeletionMock.Definition definition;

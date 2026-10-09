@@ -66,7 +66,7 @@ class D1FormalIntegrationTest {
         Path alias = temp.resolve("oracle-alias");
         Files.createLink(alias, oracle);
         assertThrows(IOException.class, () -> requests.get(0).mockBinding().verifyUnchanged());
-        Files.delete(alias); // This test's hardlink only; original is retained.
+        Files.delete(alias); // This test's hardlink only; original is retained.（中文：仅处理本测试创建的硬链接，保留原文件。）
     }
 
     @Test void frozenMockDriftAfterDispatchInvalidatesBatchAndRetainsHostAudit() throws Exception {
@@ -153,7 +153,7 @@ class D1FormalIntegrationTest {
                 provider -> new FormalEpisodeRequestFactory.HostCredential(provider, null, "private-test-credential"));
     }
 
-    /** Scripted controls exercise the runner, not model ability. No API calls are made. */
+    /** Scripted controls exercise the runner, not model ability. No API calls are made. 中文：脚本对照验证运行器而非模型能力，不调用 API。 */
     private static BenchmarkCoordinatorMain.WorkerExecution scriptedControl(BenchmarkProtocol.WorkerRequest request,
             BenchmarkProviderRelay.MockMcpEndpoint mock, int control) throws IOException {
         mock.exchange(JSON.valueToTree(Map.of("jsonrpc", "2.0", "id", 1, "method", "initialize",

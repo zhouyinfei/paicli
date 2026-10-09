@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Test-only adapter that gives the existing 28/252 synthetic preflight fixture its real A1 id. */
+/** Test-only adapter that gives the existing 28/252 synthetic preflight fixture its real A1 id. 中文：仅用于测试的适配器，为既有 28/252 合成预检夹具赋予真实 A1 ID。 */
 public final class FormalA1TestPlan {
     private FormalA1TestPlan() {
     }

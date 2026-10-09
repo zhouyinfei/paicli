@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Offline tests of the actual live diagnostic preparation path; never reads credentials. */
+/** Offline tests of the actual live diagnostic preparation path; never reads credentials. 中文：真实诊断准备路径的离线测试，不读取凭据。 */
 class E1LiveFixtureTest {
     @TempDir Path temp;
 

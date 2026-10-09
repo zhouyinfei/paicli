@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  *
  * <p>The manifest deliberately contains only portable relative paths and content metadata. Private
  * source and destination paths must never be serialized into the freeze.</p>
+ * 中文：一个仅所有者可访问且不可变的最终数据集快照内容清单。仅包含可移植相对路径及内容元数据，私有源和目标路径不得序列化进冻结产物。
  */
 public record FinalDatasetFreezeManifest(
         @JsonProperty(value = "manifestVersion", required = true) int manifestVersion,
@@ -166,7 +167,7 @@ public record FinalDatasetFreezeManifest(
         }
     }
 
-    /** One regular source file after owner-only, read-only mode normalization. */
+    /** One regular source file after owner-only, read-only mode normalization. 中文：规范化为仅所有者可读模式后的一个普通源文件。 */
     public record FileEntry(
             @JsonProperty(value = "path", required = true) String path,
             @JsonProperty(value = "sha256", required = true) String sha256,

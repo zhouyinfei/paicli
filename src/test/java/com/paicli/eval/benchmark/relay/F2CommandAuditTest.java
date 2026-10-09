@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 import static com.paicli.eval.benchmark.relay.BenchmarkRelayProtocol.*;
 
-/** Host relay association only: no Docker, command subprocess, or provider API. */
+/** Host relay association only: no Docker, command subprocess, or provider API. 中文：仅验证主机中继关联，不使用 Docker、命令子进程或供应商 API。 */
 class F2CommandAuditTest {
     private static final String PROMPT = "F2 frozen diagnostic task";
 

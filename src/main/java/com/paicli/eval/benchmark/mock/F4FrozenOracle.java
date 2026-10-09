@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/** Typed private F4 source. Legacy prototype HITL labeling is not accepted by formal binding. */
+/** Typed private F4 source. Legacy prototype HITL labeling is not accepted by formal binding. 中文：类型化私有 F4 来源，正式绑定不接受旧原型 HITL 标签。 */
 public record F4FrozenOracle(String caseId, String expectedToolProfile, String variantId,
         Map<String, String> baselineFiles, F4PendingDeletionMock.Definition definition) implements FrozenMcpOracle {
     public static final String PROFILE = "f4-pending-reject-v1";

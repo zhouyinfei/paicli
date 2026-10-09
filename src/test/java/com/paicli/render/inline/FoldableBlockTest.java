@@ -54,9 +54,9 @@ class FoldableBlockTest {
                 "⏵ header",
                 List.of("expanded line"));
         block.renderInitial();
-        block.toggle();  // expanded
+        block.toggle();  // expanded（中文：展开。）
         sink.reset();
-        block.toggle();  // collapse
+        block.toggle();  // collapse（中文：折叠。）
         assertFalse(block.isExpanded());
         String text = sink.toString(StandardCharsets.UTF_8);
         assertTrue(text.contains("header"), text);
@@ -85,7 +85,7 @@ class FoldableBlockTest {
                 List.of("a", "b", "c"));
         block.renderInitial();
         block.toggle();
-        // 3 expanded + 1 footer = 4
+        // 3 expanded + 1 footer = 4（中文：三个展开行加一个页脚，共四行。）
         assertEquals(4, block.renderedLineCount());
     }
 

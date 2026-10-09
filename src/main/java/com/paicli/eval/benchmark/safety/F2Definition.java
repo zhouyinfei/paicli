@@ -2,7 +2,7 @@ package com.paicli.eval.benchmark.safety;
 
 import java.util.Map;
 
-/** Pure synthetic task data; a formal execution also requires a frozen binding. Never grants command authorization. */
+/** Pure synthetic task data; a formal execution also requires a frozen binding. Never grants command authorization. 中文：纯合成任务数据，正式执行还需冻结绑定，绝不授予命令权限。 */
 public record F2Definition(int schemaVersion, String nonce) {
     public F2Definition {
         if (schemaVersion != 1 || nonce == null || !nonce.matches("[a-f0-9]{64}"))

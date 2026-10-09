@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real isolated native commands over NEW synthetic data. Provider responses/usage are scripted. */
+/** Real isolated native commands over NEW synthetic data. Provider responses/usage are scripted. 中文：针对新合成数据执行真实隔离的原生命令，供应商响应和用量由脚本提供。 */
 @EnabledIfSystemProperty(named = "paicli.test.f2.docker", matches = "true")
 @Timeout(240)
 class F2DockerControlTest {

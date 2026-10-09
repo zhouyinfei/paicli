@@ -26,9 +26,9 @@ class FormalExecutionPlanTest {
         FormalBenchmarkPreflight.VerifiedPreflight verified =
                 fixture.verify(fixture.preflight());
 
-        // Admission already captured every execution-affecting suite value. If planning tried to
-        // reload this mutable path, the replacement bytes below would make construction fail or
-        // change the plan.
+        // Admission already captured every execution-affecting suite value. If planning tried to（中文：准入已捕获所有影响执行的套件值；如果规划尝试）
+        // reload this mutable path, the replacement bytes below would make construction fail or（中文：重新加载此可变路径，下方替换字节将使构建失败或）
+        // change the plan.（中文：改变计划。）
         Files.writeString(verified.suiteFile(), "replaced after successful preflight\n");
         Files.writeString(verified.blueprintFile(), "replaced blueprint after preflight\n");
         Files.writeString(verified.cases().get(0).scoringContractFile(),

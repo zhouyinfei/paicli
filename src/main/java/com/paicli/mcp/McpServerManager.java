@@ -77,6 +77,8 @@ public class McpServerManager implements AutoCloseable {
      * bounded wait is supplied, unfinished servers continue starting on daemon
      * threads so the CLI can render the first prompt instead of being held hostage
      * by a slow stdio/http server.
+     * 中文：启动全部配置服务器。maxWait 为 null 时保留原有阻塞行为，等待全部进入 READY 或
+     * ERROR；指定等待上限时，未完成服务器继续在守护线程启动，让 CLI 能显示首个提示而不被缓慢服务器阻塞。
      */
     public void startAll(PrintStream progressOut, Duration maxWait) {
         List<McpServer> targets = servers.values().stream()

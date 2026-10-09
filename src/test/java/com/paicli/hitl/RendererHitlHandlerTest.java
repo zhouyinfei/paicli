@@ -35,15 +35,15 @@ class RendererHitlHandlerTest {
         stub.nextResult = ApprovalResult.approveAll();
         RendererHitlHandler handler = new RendererHitlHandler(stub, true);
 
-        // First call asks renderer and records approve-all
+        // First call asks renderer and records approve-all（中文：首次调用询问渲染器并记录全部批准。）
         handler.requestApproval(ApprovalRequest.of("write_file", "{}", "test"));
         assertEquals(1, stub.promptCount);
         assertTrue(handler.isApprovedAllByTool("write_file"));
 
-        // Second call should NOT prompt — fast path
+        // Second call should NOT prompt — fast path（中文：第二次调用走快速路径，不应再次提示。）
         ApprovalResult result = handler.requestApproval(
                 ApprovalRequest.of("write_file", "{}", "test"));
-        assertEquals(1, stub.promptCount);  // unchanged
+        assertEquals(1, stub.promptCount);  // unchanged（中文：保持不变。）
         assertEquals(ApprovalResult.Decision.APPROVED_ALL, result.decision());
     }
 
@@ -56,7 +56,7 @@ class RendererHitlHandlerTest {
         handler.requestApproval(ApprovalRequest.of("mcp__chrome-devtools__click", "{}", "test"));
         assertTrue(handler.isApprovedAllByServer("chrome-devtools"));
 
-        // Different tool from same server — fast path
+        // Different tool from same server — fast path（中文：同一服务器的其他工具走快速路径。）
         ApprovalResult result = handler.requestApproval(
                 ApprovalRequest.of("mcp__chrome-devtools__navigate_page", "{}", "test"));
         assertEquals(1, stub.promptCount);

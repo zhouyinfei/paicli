@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-/** Selects durable facts from the user's own submitted turn, never from tool or assistant text. */
+/** Selects durable facts from the user's own submitted turn, never from tool or assistant text. 中文：从用户自己提交的轮次选择持久事实，不从工具或助手文本提取。 */
 public final class AutoFactExtractor {
     public record Result(List<String> facts, boolean called, int inputTokens,
                          int outputTokens, int cachedInputTokens) {
@@ -61,8 +61,8 @@ public final class AutoFactExtractor {
                 || llmClient == null) {
             return Result.skipped();
         }
-        // Keep unrelated stable statements, but never send a sentence containing a
-        // credential or personal identifier to the extraction model.
+        // Keep unrelated stable statements, but never send a sentence containing a（中文：保留无关的稳定陈述，但不得把包含）
+        // credential or personal identifier to the extraction model.（中文：凭据或个人标识符的句子发送给提取模型。）
         String safeInput = withoutSensitiveSentences(submittedUserInput);
         if (safeInput.length() < 5 || !POSSIBLE_FACT.matcher(safeInput).find()) {
             return Result.skipped();
@@ -144,7 +144,7 @@ public final class AutoFactExtractor {
                 && input.indexOf(close, start + length) >= 0;
     }
 
-    /** Interactive CLI default; embedded agents enable extraction explicitly. */
+    /** Interactive CLI default; embedded agents enable extraction explicitly. 中文：交互 CLI 默认启用，嵌入式 Agent 需显式启用提取。 */
     public static boolean enabledByConfiguration() {
         String raw = System.getProperty(ENABLED_PROPERTY);
         if (raw == null || raw.isBlank()) raw = System.getenv(ENABLED_ENV);
@@ -169,7 +169,7 @@ public final class AutoFactExtractor {
                 }
             }
         } catch (IOException ignored) {
-            // The CLI retains its default when optional local configuration cannot be read.
+            // The CLI retains its default when optional local configuration cannot be read.（中文：可选本地配置不可读时，CLI 保留默认值。）
         }
         return null;
     }

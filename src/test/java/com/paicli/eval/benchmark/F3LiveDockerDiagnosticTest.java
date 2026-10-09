@@ -20,7 +20,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Explicit opt-in two-model paid diagnostic, never a final holdout or a full-batch admission. */
+/** Explicit opt-in two-model paid diagnostic, never a final holdout or a full-batch admission. 中文：显式启用的双模型付费诊断，不是最终留出集或完整批次准入。 */
 @EnabledIfSystemProperty(named = "paicli.test.f3.live", matches = "true")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class F3LiveDockerDiagnosticTest {
@@ -136,7 +136,7 @@ class F3LiveDockerDiagnosticTest {
             execution = worker.executeWithInjection(request, workspace, home, Duration.ofSeconds(plan.timeoutSeconds()), session);
             var response = execution.response(); var metrics = response == null ? null : response.metrics();
             report.put("workerStatus", execution.status().name());
-            // Adapter-level calls; provider-internal HTTP retries are not separate audit records.
+            // Adapter-level calls; provider-internal HTTP retries are not separate audit records.（中文：适配器级调用；供应商内部 HTTP 重试不单独记为审计记录。）
             if (metrics != null) report.put("recordedProviderCalls", metrics.calls());
             if (execution.status() == BenchmarkCoordinatorMain.WorkerStatus.SECURITY_ERROR
                     || BenchmarkSecretCanary.contains(credential.apiKey(), JSON.writeValueAsString(execution))
@@ -169,7 +169,7 @@ class F3LiveDockerDiagnosticTest {
             report.put("scoreResult", score); report.put("diagnosticScore", score.score());
             report.put("diagnosticSatisfied", score.strictSuccess()); report.put("status", "DIAGNOSTIC_COMPLETED");
         } finally {
-            // A healthy partial audit is diagnostic-only. Never invent a terminal or a scoring envelope.
+            // A healthy partial audit is diagnostic-only. Never invent a terminal or a scoring envelope.（中文：正常的部分审计仅供诊断，不得编造终止记录或评分信封。）
             try {
                 if (securityBoundary || execution != null && execution.status() == BenchmarkCoordinatorMain.WorkerStatus.SECURITY_ERROR) {
                     report.put("rawAuditRetention", "OMITTED_SECURITY_BOUNDARY");
@@ -212,7 +212,7 @@ class F3LiveDockerDiagnosticTest {
         try {
             try { write(path, report, secret); }
             catch (CredentialRejected rejected) {
-                // Rejection happens before file creation. Do not carry any original object into fallback.
+                // Rejection happens before file creation. Do not carry any original object into fallback.（中文：在创建文件之前拒绝，不得将任何原始对象带入回退路径。）
                 report.clear(); report.put("kind", "F3_DIAGNOSTIC_SECURITY_REDACTED");
                 report.put("formalScores", null); report.put("publishable", false);
                 invalidate(report, "CREDENTIAL_IN_REPORT"); write(path, report, null);

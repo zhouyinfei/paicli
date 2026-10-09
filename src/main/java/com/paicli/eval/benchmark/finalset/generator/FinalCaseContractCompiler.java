@@ -26,6 +26,7 @@ import java.util.TreeSet;
 /**
  * Compiles generated per-case inputs to real v4 case contracts, not execution authority.
  * Full-suite assembly, source freeze and production admission remain separate gates.
+ * 中文：将生成逐题输入编译为真实 v4 用例合同，不授予执行权限；完整套件组装、来源冻结和生产准入仍为独立门禁。
  */
 public final class FinalCaseContractCompiler {
     public static final String POLICY_VERSION = "case-execution-policy-v1";
@@ -38,7 +39,7 @@ public final class FinalCaseContractCompiler {
 
     private FinalCaseContractCompiler() {}
 
-    /** Does not execute a provider, change the source, or create a reduced formal suite. */
+    /** Does not execute a provider, change the source, or create a reduced formal suite. 中文：不执行供应商、不修改来源，也不创建缩减的正式套件。 */
     public static FinalExecutableSuiteContract.CaseContract compile(Path sourceRoot, String caseId)
             throws IOException {
         var recipe = FinalSourceRecipeCatalog.require(caseId);
@@ -203,7 +204,7 @@ public final class FinalCaseContractCompiler {
         return "provenance/final/" + caseId + "/execution-contract.json";
     }
 
-    /** Shared by all providers; draft calibration may change these only before final freeze. */
+    /** Shared by all providers; draft calibration may change these only before final freeze. 中文：全部供应商共享，草案校准仅可在最终冻结前修改。 */
     public static Limits limits(String caseId) {
         FinalSourceRecipeCatalog.require(caseId);
         int timeoutMinutes = switch (caseId) {
@@ -220,7 +221,7 @@ public final class FinalCaseContractCompiler {
             case "C3" -> 15;
             default -> throw new IllegalArgumentException("runtime policy not implemented for recipe");
         };
-        // Cumulative task tokens, not the context window or per-call output cap.
+        // Cumulative task tokens, not the context window or per-call output cap.（中文：累计任务 Token，不是上下文窗口或单次输出上限。）
         boolean mock = List.of("D1", "D2", "D3", "D4", "F4").contains(caseId);
         if ("E1".equals(caseId)) return new Limits(timeoutMinutes * 60, 200_000, 32, 8);
         if ("E2".equals(caseId)) return new Limits(timeoutMinutes * 60, 300_000, 48, 8);

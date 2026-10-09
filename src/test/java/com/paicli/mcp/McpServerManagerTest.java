@@ -192,7 +192,7 @@ class McpServerManagerTest {
         assertTrue(manager.logs("missing").contains("未找到"));
     }
 
-    // ---- helpers ----
+    // ---- helpers ----（中文：辅助方法。）
 
     @Test
     void statusTableKeepsErrorsReadableInNarrowTerminal() throws Exception {

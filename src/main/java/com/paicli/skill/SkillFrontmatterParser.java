@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * 不支持（命中即 warnings 报错并跳过该字段，不阻塞整个 skill 加载）：
  * - 嵌套对象 key: { nested: ... }
- * - YAML anchor / alias / merge key
+ * - YAML anchor / alias / merge key（中文：YAML 锚点、别名和合并键。）
  * - 复杂 YAML 类型（!!str 等）
  *
  * 解析失败的 skill 会在 SkillRegistry 层被丢弃，warnings 打印到 stderr。

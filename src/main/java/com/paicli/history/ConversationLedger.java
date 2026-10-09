@@ -36,6 +36,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>Raw records may contain complete prompts, tool arguments/results, reasoning text,
  * and image payloads. The default directory and file permissions are therefore restricted
  * to the current user on POSIX file systems.
+ * 中文：记录单次 PaiCLI 会话原始 LLM 消息的仅追加账本。Agent 的可变 conversationHistory
+ * 是交付视图，图片裁剪、清空与压缩可替换或删除条目；账本独立于视图，仅追加 JSONL
+ * 记录。原始记录可能包含完整提示、工具参数及结果、推理和图片载荷，因此 POSIX 系统上默认目录和文件权限限制为当前用户。
  */
 public final class ConversationLedger {
     private static final Logger log = LoggerFactory.getLogger(ConversationLedger.class);
@@ -83,6 +86,7 @@ public final class ConversationLedger {
 
     /**
      * Opens a new session ledger below {@code ~/.paicli/history/raw/}.
+     * 中文：在用户目录的 .paicli/history/raw 下打开新会话账本。
      */
     public static ConversationLedger openDefault(Path userHome) throws IOException {
         Objects.requireNonNull(userHome, "userHome");
@@ -92,6 +96,7 @@ public final class ConversationLedger {
     /**
      * Opens a new ledger below {@code historyDirectory/raw/}. Exposed for tests and
      * alternate front ends that want to control the session identifier.
+     * 中文：在 historyDirectory/raw 下打开新账本，供测试及需要控制会话标识的其他前端使用。
      */
     public static ConversationLedger open(Path historyDirectory, String sessionId) throws IOException {
         Objects.requireNonNull(historyDirectory, "historyDirectory");
@@ -110,6 +115,7 @@ public final class ConversationLedger {
 
     /**
      * No-op ledger used by unit tests and entry points that have not attached persistence.
+     * 中文：供单元测试与未挂接持久化的入口使用的空操作账本。
      */
     public static ConversationLedger disabled() {
         return DISABLED;
@@ -239,7 +245,7 @@ public final class ConversationLedger {
         try {
             Files.setPosixFilePermissions(path, permissions);
         } catch (UnsupportedOperationException ignored) {
-            // Windows and other non-POSIX file systems use their platform defaults.
+            // Windows and other non-POSIX file systems use their platform defaults.（中文：Windows 及其他非 POSIX 文件系统使用平台默认权限。）
         }
     }
 

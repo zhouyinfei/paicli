@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import static com.paicli.agent.TeamExecutionObserver.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Codec controls are synthetic observations, not actual Team, relay or model execution. */
+/** Codec controls are synthetic observations, not actual Team, relay or model execution. 中文：编解码对照使用合成观测，不是实际团队、中继或模型执行。 */
 class TeamObservationWireTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final String RUN = UUID.randomUUID().toString();
@@ -143,7 +143,7 @@ class TeamObservationWireTest {
         for (int i = 0; i < 129; i++) many.add(new ToolResult(i, "id", "name", TEXT, TEXT, false, false, 0));
         assertThrows(IOException.class, () -> TeamObservationWire.encode(new ToolBatchReturned(ACTIVE, 1, 1, many)));
         many.clear();
-        String metadata = "🙂".repeat(300); // Below the per-identifier character cap, but costly in UTF-8.
+        String metadata = "🙂".repeat(300); // Below the per-identifier character cap, but costly in UTF-8.（中文：未超过单个标识符的字符上限，但 UTF-8 字节开销较大。）
         for (int i = 0; i < 128; i++) many.add(new ToolResult(i, metadata, metadata, TEXT, TEXT, false, false, 0));
         var tooLarge = new ToolBatchReturned(ACTIVE, 1, 1, many);
         String serialized = JSON.writeValueAsString(tooLarge);

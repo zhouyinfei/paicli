@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Entry point for one independent, isolated ReAct benchmark episode. */
+/** Entry point for one independent, isolated ReAct benchmark episode. 中文：独立隔离 ReAct 评测回合的入口。 */
 public final class BenchmarkWorkerMain {
     private static final Pattern HTTP_STATUS = Pattern.compile(
             "(?i)(?:API(?:request)?(?:failed|\u8bf7\u6c42\u5931\u8d25)|HTTP)[^0-9]{0,20}([45][0-9]{2})");
@@ -69,7 +69,7 @@ public final class BenchmarkWorkerMain {
             protocolOut.println();
             protocolOut.flush();
         } catch (IOException e) {
-            // No safe protocol response can be emitted. The coordinator will classify the empty output as infra.
+            // No safe protocol response can be emitted. The coordinator will classify the empty output as infra.（中文：无法发出安全协议响应，协调器会将空输出归为基础设施问题。）
         }
     }
 

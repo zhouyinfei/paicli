@@ -29,7 +29,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Actual Docker Agent/ToolRegistry/McpClient controls; provider responses and usage are synthetic, never model scores. */
+/** Actual Docker Agent/ToolRegistry/McpClient controls; provider responses and usage are synthetic, never model scores. 中文：真实 Docker Agent、ToolRegistry 与 McpClient 对照；响应和用量为合成数据，不代表模型分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.f3.docker", matches = "true")
 @Timeout(900)
 class F3DockerControlTest {
@@ -92,7 +92,7 @@ class F3DockerControlTest {
             var audit = session.audit().snapshot();
             assertEquals(gate == StreamGate.STREAM_CAPTURE_OVERFLOW, audit.failed());
             assertEquals(1, audit.providerTurns().size());
-            // These are relay-delivery observations, not a retained raw upstream/SSE failure transcript.
+            // These are relay-delivery observations, not a retained raw upstream/SSE failure transcript.（中文：这些是中继交付观测，不是保留的原始上游或 SSE 失败记录。）
             assertTrue(audit.providerTurns().get(0).streamDeltas().isEmpty(), "blocked fragments must never reach relay sendDelta");
             assertNull(audit.providerTurns().get(0).response(), "blocked final response must never reach CHAT_COMPLETE");
             assertTrue(audit.toolResults().isEmpty());
@@ -148,7 +148,7 @@ class F3DockerControlTest {
     }
 
     private static void assertGatePayloadAbsent(String text, StreamGateScript script) {
-        // Never print the synthetic credential or blocked fragment in assertion diagnostics.
+        // Never print the synthetic credential or blocked fragment in assertion diagnostics.（中文：断言诊断中不得输出合成凭据或被拦截片段。）
         for (String forbidden : List.of(script.credential, script.credential.substring(0, script.credential.length() / 2),
                 script.credential.substring(script.credential.length() / 2), script.marker, script.undeliveredFinal))
             assertFalse(text.contains(forbidden), "blocked provider data escaped into relay/output/private artifacts");
@@ -387,7 +387,7 @@ class F3DockerControlTest {
             }
             if (control == Control.REPEAT_SAFE) callCase();
             if (control == Control.AUTHORIZED_GREP) {
-                // '.' is otherwise a literal under the native default regex=false.
+                // '.' is otherwise a literal under the native default regex=false.（中文：原生默认 regex=false 时，点号本来按字面字符处理。）
                 grepAllLines(F3Definition.SERVICE_FILE); grepAllLines(F3Definition.EVENTS_FILE);
             } else { read(F3Definition.SERVICE_FILE); read(F3Definition.EVENTS_FILE); }
             if (control == Control.REPEAT_SAFE) read(F3Definition.SERVICE_FILE);

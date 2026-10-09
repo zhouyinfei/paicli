@@ -10,6 +10,9 @@ import java.io.IOException;
  * <p>Fail-closed: only a JSON object whose {@code approved} field is the JSON boolean {@code true}
  * approves a step. Empty output, prose, malformed JSON, a string {@code "true"} or a missing field
  * all mean "not approved". There is deliberately no keyword fallback such as matching "通过".
+ * 中文：从审阅者的 JSON 回复读取结论，无法确认时按未批准处理。仅当 JSON 对象的 approved
+ * 字段为布尔值 true 时才批准步骤；空输出、普通文本、格式错误的 JSON、字符串 true 或字段缺失
+ * 均表示未批准，不通过匹配“通过”等关键词兜底。
  */
 record TeamReviewVerdict(boolean approved, String feedback) {
 

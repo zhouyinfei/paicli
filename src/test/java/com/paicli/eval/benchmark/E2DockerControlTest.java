@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * networkless Docker verifier running the independent Python program. The same frozen
  * oracle judges both controls; a conflicting but honest episode is a valid zero, and the
  * verifier cross-checks the host team audit independently. Zero provider API calls.
+ * 中文：E2 脚本对照经过真实无网络 Docker 候选工作进程与运行独立 Python 程序的真实无网络 Docker
+ * 验证器。同一冻结预期结果判定所有对照；冲突但诚实的回合可得有效零分，验证器独立交叉检查主机团队审计，不调用供应商 API。
  */
 @EnabledIfSystemProperty(named = "paicli.test.e2.docker", matches = "true")
 class E2DockerControlTest {
@@ -45,8 +47,8 @@ class E2DockerControlTest {
         String verifierImage = System.getProperty("paicli.test.verifier.image");
         assertNotNull(candidateJar); assertNotNull(runnerJar); assertNotNull(workerImage); assertNotNull(verifierImage);
 
-        // One frozen contract and one frozen program judge every control. Prior runs may
-        // have frozen them already; reuse only on byte identity, never rewrite.
+        // One frozen contract and one frozen program judge every control. Prior runs may（中文：所有对照都由同一冻结合同和程序判定；此前运行可能）
+        // have frozen them already; reuse only on byte identity, never rewrite.（中文：已经冻结它们，仅在字节一致时复用，绝不重写。）
         Path frozen = BenchmarkProcessEnvironment.preparePrivateDirectory(root.resolve("frozen"));
         Path oracleFile = frozen.resolve("oracle.json");
         byte[] oracleBytes = ORACLE.getBytes(java.nio.charset.StandardCharsets.UTF_8);

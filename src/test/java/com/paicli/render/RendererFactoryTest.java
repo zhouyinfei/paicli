@@ -28,7 +28,7 @@ class RendererFactoryTest {
     @Test
     void defaultsToInlineWhenUnset() {
         System.clearProperty("paicli.renderer");
-        // We can't easily clear env vars in tests; only verify property path
+        // We can't easily clear env vars in tests; only verify property path（中文：测试中不便清除环境变量，因此仅验证系统属性路径。）
         assertEquals(RendererFactory.Mode.INLINE, RendererFactory.resolveMode());
     }
 
@@ -70,7 +70,7 @@ class RendererFactoryTest {
 
     @Test
     void createInlineReturnsRendererInstance() {
-        // Day 1 stub still returns PlainRenderer; Day 2 will swap to InlineRenderer.
+        // Day 1 stub still returns PlainRenderer; Day 2 will swap to InlineRenderer.（中文：第一天的桩仍返回 PlainRenderer；第二天将切换到 InlineRenderer。）
         Renderer renderer = RendererFactory.create(RendererFactory.Mode.INLINE, null);
         assertInstanceOf(PlainRenderer.class, renderer);
     }

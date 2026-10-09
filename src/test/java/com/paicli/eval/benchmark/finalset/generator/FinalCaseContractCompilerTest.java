@@ -104,7 +104,7 @@ class FinalCaseContractCompilerTest {
         }
         Path extra = root.resolve("fixtures/final/F2/archive/unexpected.txt"); Files.writeString(extra, "extra");
         assertThrows(IOException.class, () -> FinalCaseContractCompiler.compile(root, "F2"));
-        Files.delete(extra); // Only the synthetic file this test just created.
+        Files.delete(extra); // Only the synthetic file this test just created.（中文：仅处理本测试刚创建的合成文件。）
         assertEquals(contract, FinalCaseContractCompiler.compile(root, "F2"));
     }
 
@@ -123,7 +123,7 @@ class FinalCaseContractCompilerTest {
         }
         Path extra = root.resolve("fixtures/final/E1/CASE-METADATA.json"); Files.writeString(extra, "{}");
         assertThrows(IOException.class, () -> FinalCaseContractCompiler.compile(root, "E1"));
-        Files.delete(extra); // Only the extra file just created by this test.
+        Files.delete(extra); // Only the extra file just created by this test.（中文：仅处理本测试刚创建的额外文件。）
         assertEquals(contract, FinalCaseContractCompiler.compile(root, "E1"));
     }
 
@@ -162,7 +162,7 @@ class FinalCaseContractCompilerTest {
         String original = Files.readString(oracle);
         Files.writeString(oracle, Files.readString(root.resolve("validators/final/_private/oracles/G2.json")));
         assertThrows(IOException.class, () -> FinalCaseContractCompiler.compile(root, "G1"));
-        Files.delete(oracle); // Generated test file only.
+        Files.delete(oracle); // Generated test file only.（中文：仅处理生成的测试文件。）
         assertThrows(IOException.class, () -> FinalCaseContractCompiler.compile(root, "G1"));
         Path outside = Files.writeString(temp.resolve("oracle-copy.json"), original);
         Files.createSymbolicLink(oracle, outside);

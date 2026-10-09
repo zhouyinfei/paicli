@@ -14,7 +14,7 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.List;
 
-/** Runner-owned evidence: v2 static, v3 MCP, v4 Web, v5 E1, v6 F4, v7 F1, v8 F2, v9 F3. */
+/** Runner-owned evidence: v2 static, v3 MCP, v4 Web, v5 E1, v6 F4, v7 F1, v8 F2, v9 F3. 中文：运行器管理的证据版本：v2 静态、v3 MCP、v4 Web、v5 E1、v6 F4、v7 F1、v8 F2、v9 F3。 */
 final class BenchmarkEvidenceEnvelope {
     static final int SCHEMA_VERSION = 2;
     static final String DIRECTORY_NAME = "verifier-evidence";
@@ -177,7 +177,7 @@ final class BenchmarkEvidenceEnvelope {
                 answer, llmMetrics, workspaceSnapshot, verifierBundle, toolExecutions, mock, web, null, exactSecret);
     }
 
-    /** Controlled E1 bridge. Only the host session supplies result, metrics, tools and Plan audit. */
+    /** Controlled E1 bridge. Only the host session supplies result, metrics, tools and Plan audit. 中文：受控 E1 桥接，仅主机会话提供结果、指标、工具与 Plan 审计。 */
     static Path writeBoundPlan(Path episodeDirectory, Path workspace, Path isolatedHome, int repeat,
             FormalPlanBinding.Session session, BenchmarkVerifierWorkspaceSnapshot.Snapshot snapshot,
             FormalVerifierBundleMaterializer.TrustedVerifierBundle bundle, String exactSecret) throws IOException {
@@ -315,9 +315,9 @@ final class BenchmarkEvidenceEnvelope {
                 ? answer
                 : (answer == null ? "" : answer.replace(exactSecret, SecretRedactor.REDACTED));
         scrubbedAnswer = SecretRedactor.redact(scrubbedAnswer == null ? "" : scrubbedAnswer);
-        // F2/F3 owner-only envelopes are private raw evidence surfaces. Heuristic redaction
-        // would change their text/UTF-16 length without changing the bound host digest.
-        // Exact credential canaries are rejected before any evidence file is created and again below.
+        // F2/F3 owner-only envelopes are private raw evidence surfaces. Heuristic redaction（中文：F2 和 F3 的仅所有者可访问信封是私有原始证据面；启发式脱敏）
+        // would change their text/UTF-16 length without changing the bound host digest.（中文：会改变文本及 UTF-16 长度，却不改变绑定的主机摘要。）
+        // Exact credential canaries are rejected before any evidence file is created and again below.（中文：创建任何证据文件前，以及下方再次检查时，都拒绝精确凭据金丝雀。）
         if (command != null || injection != null) scrubbedAnswer = answer == null ? "" : answer;
         List<BenchmarkToolExecutionEvidence> boundedToolExecutions =
                 toolExecutions == null ? List.of() : List.copyOf(toolExecutions);
@@ -377,7 +377,7 @@ final class BenchmarkEvidenceEnvelope {
             if (BenchmarkSecretCanary.contains(exactSecret, tree.toString())) throw new IOException("sensitive injection evidence rejected");
         }
         byte[] json = MAPPER.writeValueAsBytes(tree);
-        // A read-back makes malformed/trailing JSON a preparation failure instead of verifier input.
+        // A read-back makes malformed/trailing JSON a preparation failure instead of verifier input.（中文：回读使格式错误或尾随 JSON 成为准备失败，而非验证器输入。）
         MAPPER.readTree(json);
 
         Path file = evidenceDirectory.resolve(FILE_NAME);
@@ -393,7 +393,7 @@ final class BenchmarkEvidenceEnvelope {
         try {
             Files.setPosixFilePermissions(file, PosixFilePermissions.fromString("rw-------"));
         } catch (UnsupportedOperationException ignored) {
-            // The owner-only episode directory remains the fallback on non-POSIX filesystems.
+            // The owner-only episode directory remains the fallback on non-POSIX filesystems.（中文：非 POSIX 文件系统上，以仅所有者可访问的回合目录作为回退。）
         }
         if (Files.isSymbolicLink(file) || !Files.isRegularFile(file, LinkOption.NOFOLLOW_LINKS)) {
             throw new IOException("verifier evidence is not a safe regular file");
@@ -427,7 +427,7 @@ final class BenchmarkEvidenceEnvelope {
                     Long verifierBundleTotalBytes) {
     }
 
-    /** Frozen schema-v2 projection. New runner metrics must not silently alter verifier input. */
+    /** Frozen schema-v2 projection. New runner metrics must not silently alter verifier input. 中文：冻结的 schema-v2 投影，新运行器指标不得静默改变验证器输入。 */
     record EvidenceMetricsV2(int calls,
                              long inputTokens,
                              long outputTokens,

@@ -21,7 +21,7 @@ public class HunyuanClient extends AbstractOpenAiCompatibleClient {
         this(apiKey, model, baseUrl, null);
     }
 
-    /** Creates an immutable provider instance for a frozen benchmark output limit. */
+    /** Creates an immutable provider instance for a frozen benchmark output limit. 中文：按冻结的评测输出上限创建不可变供应商实例。 */
     public HunyuanClient(String apiKey, String model, String baseUrl,
                          int benchmarkMaxOutputTokens) {
         this(apiKey, model, baseUrl,

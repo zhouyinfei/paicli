@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/** Creates one path-safe benchmark run tree and persists its deterministic artifacts. */
+/** Creates one path-safe benchmark run tree and persists its deterministic artifacts. 中文：创建路径安全的评测运行目录树并持久化确定性产物。 */
 public final class BenchmarkArtifactStore {
     private static final ObjectMapper MAPPER = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT);
@@ -81,6 +81,7 @@ public final class BenchmarkArtifactStore {
     /**
      * Creates one append-only formal attempt below a repeat. Existing attempts are never reused.
      * The legacy three-argument overload intentionally keeps the established dev layout.
+     * 中文：在重复运行下创建仅追加正式尝试，不复用既有尝试；旧三参数重载明确保留原开发布局。
      */
     public synchronized EpisodeArtifacts episode(
             String caseId,
@@ -137,7 +138,7 @@ public final class BenchmarkArtifactStore {
             return directory;
         }
 
-        /** Creates a new owner-only directory below this episode (for example workspace or home). */
+        /** Creates a new owner-only directory below this episode (for example workspace or home). 中文：在该回合下创建新的仅所有者可访问目录，例如工作区或主目录。 */
         public Path createPrivateDirectory(String name) throws IOException {
             CaseDefinition.requireSafeIdentifier(name, "episode directory name");
             Path target = directory.resolve(name).normalize();
@@ -148,7 +149,7 @@ public final class BenchmarkArtifactStore {
             return target;
         }
 
-        /** Removes runner-owned episode contents after a credential-canary violation. */
+        /** Removes runner-owned episode contents after a credential-canary violation. 中文：凭据金丝雀违规后，移除运行器拥有的回合内容。 */
         public void purgeContentsForSecurityFailure() throws IOException {
             verifyPurgeRoots();
             try (DirectoryStream<Path> opened = Files.newDirectoryStream(episodeIdentity.realPath())) {
@@ -161,10 +162,10 @@ public final class BenchmarkArtifactStore {
                     return;
                 }
             }
-            // macOS's default NIO provider does not expose SecureDirectoryStream. This bounded
-            // fallback starts only after the captured roots were revalidated and never follows
-            // links. Formal publication still requires a container/VM boundary and does not rely
-            // on path-based deletion remaining race-free against a hostile concurrent process.
+            // macOS's default NIO provider does not expose SecureDirectoryStream. This bounded（中文：macOS 默认 NIO 实现不提供 SecureDirectoryStream；此有界）
+            // fallback starts only after the captured roots were revalidated and never follows（中文：回退仅在重新验证已捕获根目录后启动，且不跟随）
+            // links. Formal publication still requires a container/VM boundary and does not rely（中文：链接。正式发布仍要求容器或虚拟机边界，不依赖）
+            // on path-based deletion remaining race-free against a hostile concurrent process.（中文：基于路径的删除在恶意并发进程下仍无竞争条件。）
             purgeChildrenNoFollow(episodeIdentity.realPath());
         }
 
@@ -187,7 +188,7 @@ public final class BenchmarkArtifactStore {
             return writeSecure(directory.resolve("answer.md"), SecretRedactor.redact(text(answer)));
         }
 
-        /** Writes the unredacted private trace; owner-only permissions are applied when supported. */
+        /** Writes the unredacted private trace; owner-only permissions are applied when supported. 中文：写入未脱敏私有轨迹，在支持的平台应用仅所有者权限。 */
         public Path writeRawTrace(String rawJsonLines) throws IOException {
             return writeSecure(directory.resolve("raw.jsonl"), text(rawJsonLines));
         }
@@ -243,7 +244,7 @@ public final class BenchmarkArtifactStore {
             throw new IOException("benchmark artifact purge target escapes episode root: " + target);
         }
         if (Files.isSymbolicLink(target)) {
-            // walkFileTree does not follow links by default; deleting this path removes the link.
+            // walkFileTree does not follow links by default; deleting this path removes the link.（中文：walkFileTree 默认不跟随链接，删除此路径仅移除链接本身。）
             return;
         }
     }
@@ -446,7 +447,7 @@ public final class BenchmarkArtifactStore {
         requireOwnerOnlyDirectory(root);
     }
 
-    /** Resolves an absent target through its nearest existing real ancestor without creating it. */
+    /** Resolves an absent target through its nearest existing real ancestor without creating it. 中文：通过最近存在的真实祖先解析尚不存在的目标，不创建目标。 */
     static Path resolveAgainstRealAncestor(Path candidate) throws IOException {
         if (candidate == null) {
             throw new IllegalArgumentException("candidate must not be null");
@@ -563,7 +564,7 @@ public final class BenchmarkArtifactStore {
         try {
             Files.setPosixFilePermissions(directory, DIRECTORY_PERMISSIONS);
         } catch (IOException | UnsupportedOperationException | SecurityException ignored) {
-            // Non-POSIX file systems and restricted hosts retain their platform defaults.
+            // Non-POSIX file systems and restricted hosts retain their platform defaults.（中文：非 POSIX 文件系统和受限主机保留平台默认设置。）
         }
     }
 
@@ -571,7 +572,7 @@ public final class BenchmarkArtifactStore {
         try {
             Files.setPosixFilePermissions(file, FILE_PERMISSIONS);
         } catch (IOException | UnsupportedOperationException | SecurityException ignored) {
-            // Non-POSIX file systems and restricted hosts retain their platform defaults.
+            // Non-POSIX file systems and restricted hosts retain their platform defaults.（中文：非 POSIX 文件系统和受限主机保留平台默认设置。）
         }
     }
 

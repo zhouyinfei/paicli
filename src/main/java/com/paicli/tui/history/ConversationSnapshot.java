@@ -33,7 +33,7 @@ public class ConversationSnapshot {
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record MessageRecord(
-            String role,        // "user" | "assistant" | "tool"
+            String role,        // "user" | "assistant" | "tool"（中文：用户、助手或工具消息角色。）
             String content,
             long timestamp,
             Map<String, Object> metadata

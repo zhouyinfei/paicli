@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Builds the deliberately small, credential-free environment inherited by benchmark children. */
+/** Builds the deliberately small, credential-free environment inherited by benchmark children. 中文：构建评测子进程继承的刻意精简且无凭据环境。 */
 final class BenchmarkProcessEnvironment {
     private static volatile Map<String, String> cachedToolchainFingerprints;
     private static final List<Path> FIXED_TOOLCHAIN_CANDIDATES = List.of(
@@ -73,7 +73,7 @@ final class BenchmarkProcessEnvironment {
                     directories.add(real);
                 }
             } catch (IOException | RuntimeException ignored) {
-                // Missing fixed toolchains are omitted and surfaced by the coordinator fingerprint map.
+                // Missing fixed toolchains are omitted and surfaced by the coordinator fingerprint map.（中文：省略缺失的固定工具链，由协调器指纹映射揭示。）
             }
         }
         return directories.stream().distinct().toList();
@@ -104,7 +104,7 @@ final class BenchmarkProcessEnvironment {
                         return real;
                     }
                 } catch (IOException ignored) {
-                    // Keep looking through the fixed list.
+                    // Keep looking through the fixed list.（中文：继续遍历固定列表查找。）
                 }
             }
         }
@@ -160,7 +160,7 @@ final class BenchmarkProcessEnvironment {
         try {
             Files.setPosixFilePermissions(temp, PosixFilePermissions.fromString("rwx------"));
         } catch (UnsupportedOperationException ignored) {
-            // Platform defaults apply when POSIX permissions are unavailable.
+            // Platform defaults apply when POSIX permissions are unavailable.（中文：POSIX 权限不可用时使用平台默认值。）
         }
         return temp;
     }
@@ -183,7 +183,7 @@ final class BenchmarkProcessEnvironment {
         try {
             Files.setPosixFilePermissions(target, PosixFilePermissions.fromString("rwx------"));
         } catch (UnsupportedOperationException ignored) {
-            // Platform defaults apply when POSIX permissions are unavailable.
+            // Platform defaults apply when POSIX permissions are unavailable.（中文：POSIX 权限不可用时使用平台默认值。）
         }
         return target;
     }

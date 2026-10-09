@@ -25,7 +25,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Independently scored synthetic references; no model runs, OS audit, or publication claims. */
+/** Independently scored synthetic references; no model runs, OS audit, or publication claims. 中文：独立评分的合成参考，不含模型运行、操作系统审计或发布声明。 */
 @Timeout(30)
 class F3FormalAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -162,8 +162,8 @@ class F3FormalAdapterTest {
         var field = com.paicli.eval.benchmark.finalset.generator.FinalSourceGenerator.class.getDeclaredField("CREDENTIAL_LIKE");
         field.setAccessible(true);
         var guard = (java.util.regex.Pattern)field.get(null);
-        // Assert the production guard still rejects credential-shaped material;
-        // the runtime source fix changes syntax, never the guard or its scope.
+        // Assert the production guard still rejects credential-shaped material;（中文：断言生产防护仍拒绝具有凭据特征的材料；）
+        // the runtime source fix changes syntax, never the guard or its scope.（中文：运行时源码修复仅改变语法，不改变防护或其范围。）
         assertTrue(guard.matcher("api_key=synthetic-test-credential-value").find());
         for (String resource : List.of("f3_replay.py", "f3_verify.py"))
             try (var input = getClass().getResourceAsStream("/benchmark/" + resource)) {

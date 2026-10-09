@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native Worker + shared framed relay + closed host backend. No real model/API or formal scoring. */
+/** Native Worker + shared framed relay + closed host backend. No real model/API or formal scoring. 中文：原生工作进程、共享分帧中继和封闭主机后端，无真实模型或 API，也无正式评分。 */
 @Timeout(30)
 class D4WebRelayTest {
     private static final ObjectMapper JSON = new ObjectMapper();

@@ -386,7 +386,7 @@ final class CommandSandbox {
                 roots.add(canonical);
             }
         } catch (RuntimeException ignored) {
-            // An invalid inherited runtime path is omitted; the sandbox stays closed.
+            // An invalid inherited runtime path is omitted; the sandbox stays closed.（中文：省略无效的继承运行时路径，沙箱仍保持封闭。）
         }
     }
 
@@ -408,7 +408,7 @@ final class CommandSandbox {
                     roots.add(canonical);
                 }
             } catch (RuntimeException ignored) {
-                // Invalid PATH entries remain unusable instead of widening the profile.
+                // Invalid PATH entries remain unusable instead of widening the profile.（中文：无效 PATH 条目保持不可用，不扩大权限配置范围。）
             }
         }
     }

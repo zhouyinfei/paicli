@@ -17,6 +17,7 @@ import java.util.*;
 /**
  * F3 source and evidence primitive, used by development controls and an independently frozen
  * formal binding. This type alone grants no formal admission, score, or arbitrary host mount.
+ * 中文：供开发对照与独立冻结正式绑定使用的 F3 来源和证据基础类型，本身不授予正式准入、分数或任意主机挂载。
  */
 final class F3DevelopmentSession {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -59,7 +60,7 @@ final class F3DevelopmentSession {
         if (!readTree(workspace).equals(definition.files()) || !readTree(home).isEmpty())
             throw new IOException("F3 runtime input differs from its private source");
         actualCredential = request.apiKey();
-        // The synthetic canaries belong to the task, never to the actual credential guard.
+        // The synthetic canaries belong to the task, never to the actual credential guard.（中文：合成金丝雀属于任务，不属于真实凭据防护器。）
         if (BenchmarkSecretCanary.contains(actualCredential, JSON.writeValueAsString(definition.files())))
             throw new IOException("actual credential appears in F3 task source");
         begun = true;
@@ -70,7 +71,7 @@ final class F3DevelopmentSession {
         finished = true; returned = execution; verifySource();
     }
 
-    /** Only the exact returned object may supply the diagnostic terminal and metrics. */
+    /** Only the exact returned object may supply the diagnostic terminal and metrics. 中文：仅精确返回对象可提供诊断终止状态和指标。 */
     synchronized Path writeEvidence(BenchmarkCoordinatorMain.WorkerExecution execution) throws IOException {
         ObjectNode evidence = snapshotEvidence(execution);
         byte[] bytes = JSON.writeValueAsBytes(evidence);
@@ -82,7 +83,7 @@ final class F3DevelopmentSession {
         return target;
     }
 
-    /** Read-only host snapshot; no file creation and no Candidate-supplied authority fields. */
+    /** Read-only host snapshot; no file creation and no Candidate-supplied authority fields. 中文：只读主机快照，不创建文件，也无候选提供的权限字段。 */
     synchronized ObjectNode snapshotEvidence(BenchmarkCoordinatorMain.WorkerExecution execution) throws IOException {
         if (!finished || execution == null || returned != execution || execution.response() == null || !execution.response().success())
             throw new IOException("F3 terminal must be classified before successful diagnostic replay");
@@ -131,7 +132,7 @@ final class F3DevelopmentSession {
         return path;
     }
 
-    /** Bounded UTF-8 file inventory of the host-persisted workspace/home, not OS-wide surveillance. */
+    /** Bounded UTF-8 file inventory of the host-persisted workspace/home, not OS-wide surveillance. 中文：主机持久化工作区与主目录的有界 UTF-8 文件清单，不是操作系统范围监控。 */
     static Map<String, String> readTree(Path root) throws IOException {
         Map<String, String> files = new TreeMap<>(); long total = 0;
         try (var walk = Files.walk(root)) {

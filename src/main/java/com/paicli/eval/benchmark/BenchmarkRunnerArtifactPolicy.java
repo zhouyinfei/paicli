@@ -21,7 +21,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/** Fail-closed inventory check for the AgentBench trusted thin-runner jar. */
+/** Fail-closed inventory check for the AgentBench trusted thin-runner jar. 中文：AgentBench 受信精简运行器 jar 的失败时拒绝清单检查。 */
 public final class BenchmarkRunnerArtifactPolicy {
     public static final String MAIN_CLASS = "com.paicli.eval.benchmark.BenchmarkRelayWorkerMain";
 
@@ -52,7 +52,7 @@ public final class BenchmarkRunnerArtifactPolicy {
     private BenchmarkRunnerArtifactPolicy() {
     }
 
-    /** Opens, inventories and validates a runner jar without loading any class from it. */
+    /** Opens, inventories and validates a runner jar without loading any class from it. 中文：打开、盘点并验证运行器 jar，不加载其中任何类。 */
     public static Inspection inspect(Path artifact) throws IOException {
         ArtifactSnapshot snapshot = ArtifactSnapshot.capture(artifact);
         Path capturedJar = Files.createTempFile("paicli-agentbench-runner-", ".jar");
@@ -106,7 +106,7 @@ public final class BenchmarkRunnerArtifactPolicy {
         return inspection;
     }
 
-    /** Small command-line check used after {@code mvn package}. */
+    /** Small command-line check used after {@code mvn package}. 中文：mvn package 后使用的小型命令行检查。 */
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             throw new IllegalArgumentException("usage: BenchmarkRunnerArtifactPolicy <runner.jar>");
@@ -248,7 +248,7 @@ public final class BenchmarkRunnerArtifactPolicy {
     private record EntryFingerprint(String name, boolean directory, long size, String contentSha256) {
     }
 
-    /** One immutable bounded byte capture; all ZIP parsing is performed from these exact bytes. */
+    /** One immutable bounded byte capture; all ZIP parsing is performed from these exact bytes. 中文：一次不可变有界字节捕获，所有 ZIP 解析都基于这些精确字节。 */
     private record ArtifactSnapshot(
             Path path,
             Object fileKey,

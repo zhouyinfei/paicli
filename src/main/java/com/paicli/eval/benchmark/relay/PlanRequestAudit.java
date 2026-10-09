@@ -11,7 +11,7 @@ import java.util.*;
 
 import static com.paicli.plan.PlanExecutionObserver.*;
 
-/** Host-owned attribution from actual provider requests/responses plus a closed Plan lifecycle. */
+/** Host-owned attribution from actual provider requests/responses plus a closed Plan lifecycle. 中文：来自实际供应商请求响应和闭合 Plan 生命周期的主机归属。 */
 public final class PlanRequestAudit {
     private static final ObjectMapper JSON = new ObjectMapper();
     private final String prompt;
@@ -168,7 +168,7 @@ public final class PlanRequestAudit {
     }
     public synchronized void end() { active = null; activeInput = null; activeMessages = List.of(); activeTools = List.of(); }
 
-    /** Explicit private host evidence; not enabled for ordinary product Plan execution. */
+    /** Explicit private host evidence; not enabled for ordinary product Plan execution. 中文：显式私有主机证据，普通产品 Plan 执行不启用。 */
     public synchronized void writeSnapshot(java.nio.file.Path path) throws IOException {
         try (var channel = java.nio.file.Files.newByteChannel(path,
                 java.util.Set.of(java.nio.file.StandardOpenOption.CREATE_NEW, java.nio.file.StandardOpenOption.WRITE),
@@ -178,7 +178,7 @@ public final class PlanRequestAudit {
         }
     }
 
-    /** Independent mapping of original ids; never use Candidate-supplied normalized task ids as authority. */
+    /** Independent mapping of original ids; never use Candidate-supplied normalized task ids as authority. 中文：独立映射原始 ID，不将候选提供的归一化任务 ID 当作权限依据。 */
     private static List<TaskNode> normalize(String response) throws IOException {
         var root = JSON.readTree(response.replaceAll("```json\\s*", "").replaceAll("```\\s*", "").trim());
         require(root != null && root.isObject() && root.path("tasks").isArray() && !root.path("tasks").isEmpty()

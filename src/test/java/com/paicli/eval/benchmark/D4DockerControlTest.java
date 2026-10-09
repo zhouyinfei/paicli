@@ -18,7 +18,7 @@ import java.util.*;
 import static com.paicli.eval.benchmark.D4NativeWebTest.Control;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real networkless Docker Worker, scripted host LLM, closed offline Web. Never a formal/model score. */
+/** Real networkless Docker Worker, scripted host LLM, closed offline Web. Never a formal/model score. 中文：真实无网络 Docker 工作进程、脚本主机 LLM 和封闭离线 Web，不代表正式或模型分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.d4.docker", matches = "true")
 @Timeout(240)
 class D4DockerControlTest {
@@ -61,7 +61,7 @@ class D4DockerControlTest {
         boolean exact = false;
         if (execution.response() != null) {
             try { exact = D4NativeWebTest.reference(mock.definition()).equals(json.readTree(execution.response().answer())); }
-            catch (Exception invalidAnswer) { /* Invalid JSON is a negative control, not a harness failure. */ }
+            catch (Exception invalidAnswer) { /* Invalid JSON is a negative control, not a harness failure. 中文：无效 JSON 是负面对照，不是框架失败。 */ }
         }
         long fetches = mock.audit().stream().filter(e -> e.operation().equals("FETCH")).count();
         boolean diagnostic = exact && execution.toolExecutions().stream().allMatch(e -> e.successful()) && fetches == 2;

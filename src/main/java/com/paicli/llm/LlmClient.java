@@ -19,6 +19,7 @@ public interface LlmClient {
     /**
      * Best-effort cancellation hook for requests that are currently in flight.
      * Implementations that own transport resources should override this method.
+     * 中文：尽力取消正在进行的请求；拥有传输资源的实现应覆盖此方法。
      */
     default void cancelInFlightCalls() {
     }

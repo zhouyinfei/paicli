@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.util.HexFormat;
 import java.util.List;
 
-/** Executes a validated verifier argv directly, without command-string or shell expansion. */
+/** Executes a validated verifier argv directly, without command-string or shell expansion. 中文：直接执行验证过的验证器参数，不使用命令字符串或 shell 展开。 */
 final class BenchmarkVerifier implements BenchmarkCoordinatorMain.VerifierExecutor {
     private static final int OUTPUT_LIMIT = 256 * 1024;
 

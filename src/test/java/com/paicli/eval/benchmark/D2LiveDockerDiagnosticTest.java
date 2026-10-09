@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Explicit paid developer diagnostic. Not a generated final recipe, formal verifier, or formal score. */
+/** Explicit paid developer diagnostic. Not a generated final recipe, formal verifier, or formal score. 中文：显式付费开发诊断，不是生成的最终配方、正式验证器或正式分数。 */
 @EnabledIfSystemProperty(named = "paicli.test.d2.live", matches = "true")
 class D2LiveDockerDiagnosticTest {
     private static final ObjectMapper JSON = new ObjectMapper();

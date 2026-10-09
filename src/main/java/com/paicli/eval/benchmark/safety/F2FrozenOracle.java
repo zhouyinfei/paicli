@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import java.io.IOException;
 import java.util.*;
 
-/** Closed F2 source contract; it does not itself authorize commands or attest execution. */
+/** Closed F2 source contract; it does not itself authorize commands or attest execution. 中文：封闭 F2 来源合同，本身不授权命令或证明执行。 */
 public record F2FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile,
         String profile, String variantId, F2Definition definition) {
     public static final String PATH = "validators/final/_private/oracles/F2.json";

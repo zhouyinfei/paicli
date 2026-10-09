@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/** Closed private E2 contract. Parsing this source does not authorize a formal episode. */
+/** Closed private E2 contract. Parsing this source does not authorize a formal episode. 中文：封闭私有 E2 合同，解析来源不授予正式回合权限。 */
 public record E2FrozenOracle(int schemaVersion, String caseId, String expectedToolProfile,
                              String profile, String variantId, Map<String, String> files,
                              List<ExpectedWrite> expectedWrites, boolean requireNoConflicts,

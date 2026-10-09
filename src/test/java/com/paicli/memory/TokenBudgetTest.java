@@ -13,7 +13,7 @@ class TokenBudgetTest {
     void shouldCalculateAvailableTokens() {
         TokenBudget budget = new TokenBudget(128000);
         int available = budget.getAvailableForConversation();
-        // 128000 - 500(system) - 800(tools) - 2000(response)
+        // 128000 - 500(system) - 800(tools) - 2000(response)（中文：上下文总量减去系统提示、工具和回复的预留量。）
         assertEquals(124700, available);
     }
 
@@ -38,7 +38,7 @@ class TokenBudgetTest {
         int tokens = TokenBudget.estimateMessagesTokens(messages);
         assertTrue(tokens > 0);
         // 至少包含两条消息的开销
-        assertTrue(tokens >= 8); // 2 messages * 4 overhead
+        assertTrue(tokens >= 8); // 2 messages * 4 overhead（中文：两条消息，每条占用 4 个额外开销单位。）
     }
 
     @Test

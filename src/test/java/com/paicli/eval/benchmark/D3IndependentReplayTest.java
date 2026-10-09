@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 import static com.paicli.eval.benchmark.D3ScriptedApprovalTest.Control;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Separately implemented Python replay of native Worker evidence; no formal score or provider API. */
+/** Separately implemented Python replay of native Worker evidence; no formal score or provider API. 中文：独立实现的 Python 程序重放原生工作进程证据，不产生正式分数或调用供应商 API。 */
 @Timeout(90)
 class D3IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -73,7 +73,7 @@ class D3IndependentReplayTest {
                             && relay.get(i).path("request").path("header").path("type").asText().equals("APPROVAL_REQUEST")) at = i;
                     assertTrue(at > 0); relay.remove(at);
                     for (int i = 0; i < relay.size(); i++) ((ObjectNode) relay.get(i)).put("sequence", i + 1);
-                    // Also remove the matching HITL record: simple count/hash checks alone must not pass this bypass.
+                    // Also remove the matching HITL record: simple count/hash checks alone must not pass this bypass.（中文：同时删除对应 HITL 记录，简单计数或哈希检查不得让这种绕过通过。）
                     var audit = (ArrayNode) n.path("events");
                     for (int i = audit.size() - 1; i >= 0; i--) if (audit.get(i).path("source").asText().equals("HITL")) audit.remove(i);
                     for (int i = 0; i < audit.size(); i++) ((ObjectNode) audit.get(i)).put("sequence", i + 1);
@@ -83,7 +83,7 @@ class D3IndependentReplayTest {
                             && event.path("request").path("header").path("type").asText().equals("MCP_REQUEST")) {
                         var result = (ObjectNode) event.path("response").path("message").path("result");
                         ((ArrayNode) result.path("content")).remove(1);
-                        // Recompute its stored digest as an attacker might; replay must still require duplicate acknowledgments.
+                        // Recompute its stored digest as an attacker might; replay must still require duplicate acknowledgments.（中文：模拟攻击者重新计算已存摘要；重放仍须要求重复确认。）
                         for (JsonNode audit : n.path("events")) if (audit.path("outcome").asText().equals("CREATED"))
                             ((ObjectNode) audit).put("resultSha256", BenchmarkRelayProtocol.textSha256(result.toString()));
                     }

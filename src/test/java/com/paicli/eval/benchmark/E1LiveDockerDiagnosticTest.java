@@ -22,7 +22,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Paid opt-in diagnostic of one development sibling, never a 28-case formal admission. */
+/** Paid opt-in diagnostic of one development sibling, never a 28-case formal admission. 中文：显式启用的单个开发变体付费诊断，不属于 28 题正式准入。 */
 @EnabledIfSystemProperty(named = "paicli.test.e1.live", matches = "true")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class E1LiveDockerDiagnosticTest {
@@ -105,7 +105,7 @@ class E1LiveDockerDiagnosticTest {
         try {
             execution = worker.executeWithPlan(request, workspace, home, Duration.ofSeconds(plan.timeoutSeconds()), session);
         } catch (Exception error) {
-            // Retain the owned audit for diagnosis; never turn a failed launch into a scoring attestation.
+            // Retain the owned audit for diagnosis; never turn a failed launch into a scoring attestation.（中文：保留自有审计供诊断使用，不得把启动失败转为评分证明。）
             report.put("status", "EVALUATION_INVALID"); report.put("dispatchErrorType", error.getClass().getSimpleName());
             retainAuditWithoutSecret(session, credential.apiKey(), report);
             assertFalse(BenchmarkSecretCanary.containsInTree(episode, credential.apiKey()));
@@ -158,7 +158,7 @@ class E1LiveDockerDiagnosticTest {
         assertEquals("DIAGNOSTIC_COMPLETED", report.get("status"), "invalid real episode; preserve and inspect private evidence");
     }
 
-    /** Same real generator/contract path as catalog admission; no synthetic 28-slot test admission. */
+    /** Same real generator/contract path as catalog admission; no synthetic 28-slot test admission. 中文：采用与目录准入相同的真实生成器及合同路径，不使用合成的 28 槽测试准入。 */
     static PreparedSource prepareSource(Path root) throws Exception {
         if (!root.isAbsolute() || !root.equals(root.toRealPath()) || Files.isSymbolicLink(root)
                 || !Files.getPosixFilePermissions(root).equals(PosixFilePermissions.fromString("rwx------")))

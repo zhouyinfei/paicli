@@ -35,6 +35,8 @@ import java.util.concurrent.Future;
  * <p>Three read-only evidence specialists run independently and in parallel.
  * A lead model call reconciles their candidate findings, then deterministic Java
  * code owns durable report rendering.
+ * 中文：PaiCLI 原生 Better Harness 工作流：三个只读证据专家独立并行运行，由主导模型协调候选发现，再由确定性
+ * Java 代码负责持久报告渲染。
  */
 public final class BetterHarnessRunner {
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -339,7 +341,7 @@ public final class BetterHarnessRunner {
                 return new Draft(markdown, findings, true);
             }
         } catch (Exception ignored) {
-            // Preserve useful model output as a partial report instead of losing the run.
+            // Preserve useful model output as a partial report instead of losing the run.（中文：把有用模型输出保留为部分报告，避免丢失本次运行。）
         }
         String fallback = content.isBlank()
                 ? "# PaiCLI Better Harness Report\n\n本次 lead 未返回可用报告。"

@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.*;
 
-/** Three independently initialized host services. No network, files, or real business side effects. */
+/** Three independently initialized host services. No network, files, or real business side effects. 中文：三个独立初始化的主机服务，不使用网络、文件或真实业务副作用。 */
 public final class D2ReadOnlyJoinMock implements AuditedMockMcp {
     public static final List<String> SERVERS = List.of("directory", "ticket", "calendar");
     private static final ObjectMapper JSON = new ObjectMapper()
@@ -33,7 +33,7 @@ public final class D2ReadOnlyJoinMock implements AuditedMockMcp {
         initialStateDigests = stateDigests();
     }
 
-    /** Full private entropy affects all identifiers, tool aliases, and record ordering. */
+    /** Full private entropy affects all identifiers, tool aliases, and record ordering. 中文：完整私有熵影响所有标识符、工具别名和记录顺序。 */
     public static Definition fromEntropy(byte[] entropy) {
         if (entropy == null || entropy.length != 32) throw new IllegalArgumentException("D2 requires 256-bit entropy");
         String name = List.of("Morgan Lee", "Alex Chen", "Sam Rivera", "Taylor Kim").get((entropy[0] & 255) % 4);
@@ -142,7 +142,7 @@ public final class D2ReadOnlyJoinMock implements AuditedMockMcp {
         if (valid) {
             Operation operation = tool.operation();
             if (operation.write()) {
-                // Mutates this service's private business-state copy; never an external action.
+                // Mutates this service's private business-state copy; never an external action.（中文：仅修改此服务的私有业务状态副本，不执行外部操作。）
                 String field = switch (server) { case "directory" -> "displayNote"; case "ticket" -> "status"; default -> "reminderSent"; };
                 int changed = 0;
                 for (JsonNode row : state.rows) if (matches(server, row, args)) {
@@ -207,7 +207,7 @@ public final class D2ReadOnlyJoinMock implements AuditedMockMcp {
         return schema;
     }
 
-    /** Diagnostic oracle only. Formal scoring still requires an independently implemented verifier. */
+    /** Diagnostic oracle only. Formal scoring still requires an independently implemented verifier. 中文：仅为诊断预期结果判定器，正式评分仍需独立实现的验证器。 */
     public synchronized boolean satisfies(String answer) {
         if (sideEffects != 0 || !initialStateDigests.equals(stateDigests())
                 || audit.stream().anyMatch(a -> a.method().equals("tools/call") && definition.tools().stream()

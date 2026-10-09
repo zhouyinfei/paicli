@@ -19,7 +19,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Synthetic command observations and counterexamples, never model or host OS-audit evidence. */
+/** Synthetic command observations and counterexamples, never model or host OS-audit evidence. 中文：合成命令观测与反例，不代表模型或主机操作系统审计证据。 */
 @Timeout(30)
 class F2IndependentReplayTest {
     private static final ObjectMapper JSON = new ObjectMapper();

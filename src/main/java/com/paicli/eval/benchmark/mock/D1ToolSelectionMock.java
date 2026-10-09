@@ -19,6 +19,9 @@ import java.util.Set;
  * catalog, correct tool and ledger state stay on the coordinator, never mounted
  * in the Candidate workspace. The long-seed constructor is diagnostic-only;
  * formal execution binds a validated Definition to its frozen private dependency.
+ * 中文：确定性 D1
+ * 诊断服务，不拥有网络或文件系统工具。目录、正确工具及账本状态保留在协调器，不挂载候选工作区。长整型种子构造器仅供诊断；正式执行将已验证
+ * Definition 绑定冻结私有依赖。
  */
 public final class D1ToolSelectionMock implements AuditedMockMcp {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -74,7 +77,7 @@ public final class D1ToolSelectionMock implements AuditedMockMcp {
         return new Definition(1, customer, month, amountMinor, specs);
     }
 
-    /** Full private entropy affects every alias and the permutation; no seed is retained. */
+    /** Full private entropy affects every alias and the permutation; no seed is retained. 中文：完整私有熵影响每个别名和排列，不保留种子。 */
     public static Definition fromEntropy(byte[] entropy) {
         if (entropy == null || entropy.length != 32) throw new IllegalArgumentException("D1 requires 256-bit entropy");
         List<ToolSpec> specs = new ArrayList<>();
@@ -212,7 +215,7 @@ public final class D1ToolSelectionMock implements AuditedMockMcp {
                 .put("currency", "USD").put("balance_minor", amount);
     }
 
-    /** Host-only oracle for diagnostic controls. Never part of MCP responses/catalog. */
+    /** Host-only oracle for diagnostic controls. Never part of MCP responses/catalog. 中文：主机专属诊断预期结果判定器，不进入 MCP 响应或目录。 */
     public synchronized boolean satisfies(String answer) {
         List<AuditEvent> calls = audit.stream().filter(event -> event.method().equals("tools/call")).toList();
         if (sideEffects != 0 || calls.size() != 1 || !"CORRECT_READ".equals(calls.get(0).outcome())) return false;

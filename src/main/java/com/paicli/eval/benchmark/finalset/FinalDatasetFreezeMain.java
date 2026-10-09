@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/** Minimal shell-free entry point for creating and independently verifying a private freeze. */
+/** Minimal shell-free entry point for creating and independently verifying a private freeze. 中文：创建并独立验证私有冻结快照的最小无 shell 入口。 */
 public final class FinalDatasetFreezeMain {
     private static final Set<String> FREEZE_OPTIONS = Set.of(
             "--source", "--destination", "--public-repo", "--suite", "--validators");

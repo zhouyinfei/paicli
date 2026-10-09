@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/** Owner-operated CLI for writing a partial private source to an explicit Git-external path. */
+/** Owner-operated CLI for writing a partial private source to an explicit Git-external path. 中文：由所有者操作的 CLI，向明确位于 Git 外部的路径写入部分私有来源。 */
 public final class FinalSourceGeneratorMain {
     private FinalSourceGeneratorMain() {
     }

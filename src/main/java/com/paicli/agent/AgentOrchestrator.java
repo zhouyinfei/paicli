@@ -62,12 +62,12 @@ public class AgentOrchestrator {
     private volatile TeamExecutionObserver executionObserver;
     private final AtomicLong executionObservationFailures = new AtomicLong();
 
-    /** Optional, process-local diagnostics only; callbacks may run concurrently. */
+    /** Optional, process-local diagnostics only; callbacks may run concurrently. 中文：可选的进程内诊断，回调可能并发运行。 */
     public void setExecutionObserver(TeamExecutionObserver observer) { this.executionObserver = observer; }
 
     public TeamExecutionObserver getExecutionObserver() { return executionObserver; }
 
-    /** Number of runs whose observer failed; not a product execution failure count. */
+    /** Number of runs whose observer failed; not a product execution failure count. 中文：观测器失败的运行次数，不是产品执行失败次数。 */
     public long getExecutionObservationFailures() { return executionObservationFailures.get(); }
 
     // 执行步骤的数据结构（package-private 供测试访问）
@@ -162,7 +162,7 @@ public class AgentOrchestrator {
         return run(userInput, userInput);
     }
 
-    /** Use submittedUserInput for policy decisions and userInput for expanded task context. */
+    /** Use submittedUserInput for policy decisions and userInput for expanded task context. 中文：submittedUserInput 用于策略判断，userInput 用于展开后的任务上下文。 */
     public String run(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, false);
     }
@@ -171,6 +171,8 @@ public class AgentOrchestrator {
      * Runs an input that a trusted caller has already classified as an explicit task envelope.
      * URL provenance and no-web rules still come from {@code submittedUserInput}; only the
      * bare-title actionability heuristic is bypassed.
+     * 中文：执行已由受信调用方归类为显式任务信封的输入。URL 来源和禁联网规则仍取自
+     * submittedUserInput，仅跳过裸标题可执行性启发式判断。
      */
     public String runExplicitTask(String userInput, String submittedUserInput) {
         return runInternal(userInput, submittedUserInput, true);
@@ -726,7 +728,7 @@ public class AgentOrchestrator {
         return result.toString();
     }
 
-    /** Captured per run. Observation failures never enter the product control flow. */
+    /** Captured per run. Observation failures never enter the product control flow. 中文：每次运行独立捕获，观测失败不进入产品控制流。 */
     private final class TeamObservation {
         private final TeamExecutionObserver observer;
         private final String runId;
@@ -787,8 +789,8 @@ public class AgentOrchestrator {
         }
 
         private void blocked(ExecutionStep step) {
-            // Native status remains PENDING inside a running step. After an interrupted
-            // Future wait, do not invent a second exit for a still-running descendant.
+            // Native status remains PENDING inside a running step. After an interrupted（中文：步骤运行期间原生状态保持 PENDING；在）
+            // Future wait, do not invent a second exit for a still-running descendant.（中文：Future 等待被中断后，不得为仍在运行的后代编造第二个退出事件。）
             emit(() -> enteredSteps.contains(step.id()) ? null
                     : new StepExited(runId, now(), step.id(), ProductStatus.PENDING,
                             StepExitReason.BLOCKED_DEPENDENCY, null, null,
@@ -801,7 +803,7 @@ public class AgentOrchestrator {
         }
     }
 
-    /** Passed explicitly per invocation: no mutable shared actor/request scope. */
+    /** Passed explicitly per invocation: no mutable shared actor/request scope. 中文：每次调用显式传入，不使用可变共享角色或请求作用域。 */
     static final class ActivationObservation {
         private final TeamObservation run;
         private final ActivationIdentity identity;
@@ -832,8 +834,8 @@ public class AgentOrchestrator {
 
         void compactionScope(int iteration, List<LlmClient.Message> history, int triggerTokens,
                               boolean sessionMemoryEnabled) {
-            // Evaluate only inside the enabled, failure-isolated observer path. The native
-            // manager still makes its own unchanged estimate and compaction decision.
+            // Evaluate only inside the enabled, failure-isolated observer path. The native（中文：仅在已启用且失败隔离的观测路径内计算；原生）
+            // manager still makes its own unchanged estimate and compaction decision.（中文：管理器仍保持原有估算和压缩决定。）
             run.emit(() -> {
                 if (triggerTokens <= 0) return null;
                 boolean thresholdReached = TokenBudget.estimateMessagesTokens(history) >= triggerTokens;

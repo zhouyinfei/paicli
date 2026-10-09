@@ -17,7 +17,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Draft adapter consumes native product traces; no formal Runner admission, model API or synthetic timestamps. */
+/** Draft adapter consumes native product traces; no formal Runner admission, model API or synthetic timestamps. 中文：草案适配器消费原生产品轨迹，不含正式运行器准入、模型 API 或合成时间戳。 */
 @Timeout(180)
 class E1ScoringAdapterTest {
     static final ObjectMapper JSON = new ObjectMapper();

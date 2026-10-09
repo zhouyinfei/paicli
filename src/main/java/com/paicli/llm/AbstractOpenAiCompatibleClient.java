@@ -317,6 +317,8 @@ public abstract class AbstractOpenAiCompatibleClient implements LlmClient {
      * A usage object is evidence only when both required counters are explicit, non-negative
      * integers that fit the public response type. Empty, partial or coercible string objects are
      * not proof of complete provider usage.
+     * 中文：仅当两个必需计数器均明确为非负整数且符合公开响应类型范围时，用量对象才可作为证据。空对象、字段不全或可强转的字符串都不能证明完整供
+     * 应商用量。
      */
     static boolean hasCompleteTokenUsage(JsonNode usage) {
         if (usage == null || !usage.isObject()) {

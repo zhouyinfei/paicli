@@ -23,7 +23,7 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Offline checks of live preparation; no credentials, provider, Docker or reference execution. */
+/** Offline checks of live preparation; no credentials, provider, Docker or reference execution. 中文：真实运行准备的离线检查，不使用凭据、供应商、Docker 或执行参考。 */
 class F3LiveFixtureTest {
     private static final List<String> INPUTS = List.of("README.md", "config/credentials.json",
             "inputs/events.jsonl", "inputs/service.json", "private/runtime.env");
@@ -43,7 +43,7 @@ class F3LiveFixtureTest {
         byte[] manifestBytes = Files.readAllBytes(manifestPath);
         var manifest = new FinalSourceGenerator().inspect(source);
         var oracle = F3FrozenOracle.parse(Files.readAllBytes(source.resolve(F3FrozenOracle.PATH)));
-        // Generated directories may be 0700 or 0500; materialization requires freezing all to 0500.
+        // Generated directories may be 0700 or 0500; materialization requires freezing all to 0500.（中文：生成目录可能为 0700 或 0500；物化时必须全部冻结为 0500。）
         Files.setPosixFilePermissions(source.resolve("fixtures/final/F3/inputs"), PosixFilePermissions.fromString("r-x------"));
         var directoryKeys = new TreeMap<String, String>();
         for (String relative : List.of("fixtures/final/F3", "fixtures/final/F3/inputs", "fixtures/final/F3/config", "fixtures/final/F3/private"))
@@ -91,7 +91,7 @@ class F3LiveFixtureTest {
         assertFalse(Files.exists(source.resolve("suite.json")));
         assertFalse(Files.exists(plan.fixture().sourcePath().resolve("CASE-METADATA.json")));
         assertTrue(Files.exists(source.resolve("provenance/final/F3/CASE-METADATA.json")));
-        // No generator-manifest rewrite to disguise the deliberate permission-only freeze.
+        // No generator-manifest rewrite to disguise the deliberate permission-only freeze.（中文：不得重写生成器清单来掩盖刻意仅修改权限的冻结。）
         assertThrows(IOException.class, () -> new FinalSourceGenerator().inspect(source));
         var binding = FormalInjectionBinding.capture(plan); binding.verifyUnchanged();
         assertNotSame(binding.newSession(), binding.newSession());

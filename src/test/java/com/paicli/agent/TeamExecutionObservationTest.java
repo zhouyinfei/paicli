@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 import static com.paicli.agent.TeamExecutionObserver.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Native offline observation controls, not E2 admission, independent verification or model scores. */
+/** Native offline observation controls, not E2 admission, independent verification or model scores. 中文：原生离线观测对照，不代表 E2 准入、独立验证或模型分数。 */
 @ResourceLock(Resources.SYSTEM_PROPERTIES)
 class TeamExecutionObservationTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -342,8 +342,8 @@ class TeamExecutionObservationTest {
                 return script.chat(messages, tools, listener);
             }
         };
-        // Scripted image-bearing tool outputs exercise the native tool-result/user-message append path.
-        // There is no external image request and no injected conversation-history or observation event.
+        // Scripted image-bearing tool outputs exercise the native tool-result/user-message append path.（中文：带图片的脚本工具输出用于验证原生工具结果及用户消息追加路径。）
+        // There is no external image request and no injected conversation-history or observation event.（中文：没有外部图片请求，也没有注入对话历史或观测事件。）
         var registry = new ToolRegistry() {
             @Override public ToolOutput executeToolOutput(String name, String argumentsJson) {
                 ToolOutput actual = super.executeToolOutput(name, argumentsJson);
@@ -439,7 +439,7 @@ class TeamExecutionObservationTest {
                 assertEquals(event, TeamObservationWire.decode(event.getClass().getSimpleName(), TeamObservationWire.encode(event)),
                         "actual native observation must round-trip exactly");
             } catch (IOException | RuntimeException | AssertionError error) {
-                // Native isolation also catches AssertionError. Assert this independent list after the run.
+                // Native isolation also catches AssertionError. Assert this independent list after the run.（中文：原生隔离也捕获 AssertionError；运行后检查这份独立列表。）
                 codecFailures.add(error);
             }
             observer.onEvent(event);

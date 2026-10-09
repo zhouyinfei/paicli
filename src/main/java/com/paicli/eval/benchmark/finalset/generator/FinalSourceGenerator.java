@@ -42,6 +42,9 @@ import java.util.regex.Pattern;
  * A1-A4/B1-B6/C1-C3/D1-D4/G1-G2 materials,
  * but omits {@code suite.json} and writes an incomplete marker. {@link #generateFinalSource}
  * refuses before touching disk until all 28 recipes are implemented.</p>
+ * 中文：在所有 Git 目录树之外确定性生成私有最终来源变体。当前 generateIncompleteSource 创建全部 28
+ * 个骨架和已实现类别的参考报告材料，省略 suite.json 并写入不完整标记。全部 28
+ * 个配方实现前，generateFinalSource 在访问磁盘前拒绝。
  */
 public final class FinalSourceGenerator {
     public static final String GENERATION_MANIFEST = "generation-manifest.json";
@@ -63,7 +66,7 @@ public final class FinalSourceGenerator {
             .enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
 
-    /** Produces the current auditable partial source. It can never be consumed as a formal suite. */
+    /** Produces the current auditable partial source. It can never be consumed as a formal suite. 中文：生成当前可审计的部分来源，绝不能作为正式套件使用。 */
     public GenerationResult generateIncompleteSource(GenerationRequest request) throws IOException {
         ValidatedRequest validated = validate(request);
         Files.createDirectory(validated.destination(),
@@ -188,7 +191,7 @@ public final class FinalSourceGenerator {
         }
     }
 
-    /** Formal entry point: deliberately fail-closed while any of the 28 recipes is incomplete. */
+    /** Formal entry point: deliberately fail-closed while any of the 28 recipes is incomplete. 中文：正式入口，28 个配方任一未完成时明确拒绝。 */
     public GenerationResult generateFinalSource(GenerationRequest request) throws IOException {
         FinalSourceRecipeCatalog.requireFinalReady();
         throw new IllegalStateException(
@@ -228,7 +231,7 @@ public final class FinalSourceGenerator {
         }
     }
 
-    /** Rejects the current partial materialization instead of treating implemented cases as final. */
+    /** Rejects the current partial materialization instead of treating implemented cases as final. 中文：拒绝当前部分物化结果，不将已实现用例当作最终套件。 */
     public void requireFinalReady(Path sourceRoot) throws IOException {
         FinalSourceGenerationManifest manifest = inspect(sourceRoot);
         if (!manifest.finalReady() || !manifest.missingCaseIds().isEmpty()
@@ -295,7 +298,7 @@ public final class FinalSourceGenerator {
         writer.text("prompts/final/" + recipe.id() + ".md", "F3".equals(recipe.id()) ? renderedPrompt
                 : "# " + recipe.id() + " " + recipe.title() + "\n\n"
                         + renderedPrompt + "\n\nVariant: " + variant.variantId() + "\n");
-        // E1's closed input consists of exactly two CSV files. Keep generator metadata off its tool surface.
+        // E1's closed input consists of exactly two CSV files. Keep generator metadata off its tool surface.（中文：E1 封闭输入恰为两个 CSV 文件，生成器元数据不进入其工具接口。）
         writer.json((List.of("E1", "E2", "F1", "F2", "F3", "F4").contains(recipe.id()) ? "provenance/final/" : "fixtures/final/") + recipe.id() + "/CASE-METADATA.json", Map.of(
                 "caseId", recipe.id(),
                 "recipeVersion", recipe.recipeVersion(),

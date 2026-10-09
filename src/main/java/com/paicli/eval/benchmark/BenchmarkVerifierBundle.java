@@ -20,7 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Materializes only verifier files explicitly referenced by argv into a private read-only bundle. */
+/** Materializes only verifier files explicitly referenced by argv into a private read-only bundle. 中文：仅将参数明确引用的验证器文件物化到私有只读依赖包。 */
 final class BenchmarkVerifierBundle {
     static final int MAX_FILES = 10_000;
     static final long MAX_TOTAL_BYTES = 256L * 1024L * 1024L;

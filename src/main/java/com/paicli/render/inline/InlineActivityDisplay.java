@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
  * It intentionally avoids {@code Display.update(...)} because an independent
  * JLine Display does not share layout ownership with the transcript and status
  * renderer; once scrollback moves, Display can clear from the wrong origin.
+ * 中文：固定高度的临时模型思考活动区。仅清除重写自身输出行，避免使用独立 JLine
+ * Display；其布局所有权不与记录和状态渲染器共享，回滚区移动后可能从错误原点清除。
  */
 final class InlineActivityDisplay implements AutoCloseable {
 

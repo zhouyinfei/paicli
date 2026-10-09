@@ -156,7 +156,7 @@ class D3RelayProtocolTest {
         @Override public String getModelName() { return "deepseek-v4-flash"; }
         @Override public int maxContextWindow() { return 1_000_000; }
     }
-    /** Protocol spy only, not a D3 oracle or a claim about business correctness. */
+    /** Protocol spy only, not a D3 oracle or a claim about business correctness. 中文：仅监测协议，不是 D3 预期结果判定器，也不保证业务正确性。 */
     private static final class ClosedMock implements ScriptedInteraction {
         int approvals, exchanges, nextCalls;
         @Override public List<String> serverNames() { return List.of("availability", "calendar"); }

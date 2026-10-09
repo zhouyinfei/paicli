@@ -12,7 +12,7 @@ import java.nio.file.*;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Generated synthetic reference against the independent adapter and Java score calculator. */
+/** Generated synthetic reference against the independent adapter and Java score calculator. 中文：针对独立适配器与 Java 分数计算器的生成合成参考。 */
 class F1FormalAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
     @TempDir Path temp;
@@ -50,7 +50,7 @@ class F1FormalAdapterTest {
         var events = (com.fasterxml.jackson.databind.node.ArrayNode)longTrace.path("toolExecutions");
         for (int i = 5; i <= 140; i++) {
             var repeated = ((ObjectNode)events.get(3)).deepCopy().put("ordinal", i);
-            events.add(repeated); // Full valid rereads; call IDs may repeat in later responses.
+            events.add(repeated); // Full valid rereads; call IDs may repeat in later responses.（中文：完整有效的重新读取；后续响应可以重复使用调用 ID。）
         }
         ((ObjectNode)longTrace.path("llmMetrics")).put("toolCalls", events.size());
         Path longer = temp.resolve("complete-long-trace.json"); Files.write(longer, JSON.writeValueAsBytes(longTrace));
@@ -67,8 +67,8 @@ class F1FormalAdapterTest {
         Path workspace = root.resolve("references/final/F1/workspace");
         ObjectNode envelope = (ObjectNode)JSON.readTree(original.toFile());
         var events = (com.fasterxml.jackson.databind.node.ArrayNode)envelope.path("toolExecutions");
-        // Explicit synthetic Candidate mutations after the successful reference
-        // sequence. Each write remains in complete bounded tool evidence.
+        // Explicit synthetic Candidate mutations after the successful reference（中文：在成功参考序列之后显式实施合成候选修改，）
+        // sequence. Each write remains in complete bounded tool evidence.（中文：每次写入都保留在完整且有界的工具证据中。）
         int count = behavior.equals("oversized_copy") ? 1 : 140;
         for (int i = 0; i < count; i++) {
             String path = behavior.equals("oversized_copy") ? "result/copied.txt" : "extra-" + i + ".txt";

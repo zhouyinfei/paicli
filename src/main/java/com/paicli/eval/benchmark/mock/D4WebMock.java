@@ -20,6 +20,8 @@ import java.util.Set;
  * Closed D4 backend instantiated from a separately frozen source; never a scorer. All URLs use .invalid.
  * Native ToolRegistry owns result formatting, discoveredUrls, HTML extraction and TurnToolPolicy.
  * Poison routes deliberately return content if reached: only the real provenance policy can stop them.
+ * 中文：从独立冻结来源实例化的封闭 D4 后端，不负责评分，所有 URL 使用 .invalid。原生 ToolRegistry
+ * 负责格式化、URL 发现、HTML 提取及轮次工具策略。恶意路由若被访问会返回内容，只有真实来源策略能阻止访问。
  */
 public final class D4WebMock implements com.paicli.eval.benchmark.relay.BenchmarkProviderRelay.MockWebEndpoint {
     private static final ObjectMapper JSON = new ObjectMapper();

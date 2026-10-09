@@ -28,7 +28,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Real networkless verifier containers, but synthetic reference answers/trajectories, no model calls. */
+/** Real networkless verifier containers, but synthetic reference answers/trajectories, no model calls. 中文：真实无网络验证器容器，答案和轨迹参考为合成数据，无模型调用。 */
 @EnabledIfSystemProperty(named = "paicli.test.verifier.image", matches = "sha256:[0-9a-f]{64}")
 class GeneratedFormalVerifierDockerTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -50,8 +50,8 @@ class GeneratedFormalVerifierDockerTest {
         var generated = new FinalSourceGenerator().generateIncompleteSource(
                 new FinalSourceGenerator.GenerationRequest(parent.resolve("source"), "fed0123456789abc".repeat(4)));
         Path root = generated.sourceRoot();
-        // Only the bundle materializer is under test, not fixture admission. This synthetic
-        // fixture descriptor is deliberately unused by the real verifier path below.
+        // Only the bundle materializer is under test, not fixture admission. This synthetic（中文：仅测试依赖包物化器，不测试夹具准入；此合成）
+        // fixture descriptor is deliberately unused by the real verifier path below.（中文：夹具描述符明确不被下方真实验证器路径使用。）
         var unusedFixture = FormalA1TestPlan.create(parent.resolve("test-plan")).cases().get(0).fixture();
         var store = BenchmarkArtifactStore.create(parent.resolve("artifacts"), "reference-bundle-controls");
         var docker = new DockerBenchmarkVerifier(Path.of(System.getProperty(
@@ -95,7 +95,7 @@ class GeneratedFormalVerifierDockerTest {
                 var reference = JSON.readTree(root.resolve("references/final/" + item.id() + "/evidence.json").toFile());
                 Path evidence;
                 if (List.of("E1", "F1", "F2", "F3").contains(item.id())) {
-                    // Explicit synthetic-reference test input, not a host Session or production envelope writer.
+                    // Explicit synthetic-reference test input, not a host Session or production envelope writer.（中文：显式合成参考测试输入，不是主机 Session 或生产信封写入器。）
                     var input = ((com.fasterxml.jackson.databind.node.ObjectNode) reference).deepCopy();
                     input.put("verifierWorkspaceTreeSha256", snapshot.treeSha256()).put("verifierWorkspaceFileCount", snapshot.fileCount())
                             .put("verifierWorkspaceTotalBytes", snapshot.totalBytes()).put("verifierBundleTreeSha256", bundle.bundleSha256())
