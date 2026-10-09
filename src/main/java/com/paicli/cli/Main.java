@@ -10,23 +10,15 @@ import com.paicli.browser.BrowserMode;
 import com.paicli.browser.BrowserSession;
 import com.paicli.browser.SensitivePagePolicy;
 import com.paicli.config.PaiCliConfig;
-import com.paicli.hitl.HitlHandler;
-import com.paicli.hitl.HitlToolRegistry;
-import com.paicli.hitl.SwitchableHitlHandler;
-import com.paicli.hitl.RendererHitlHandler;
-import com.paicli.hitl.TerminalHitlHandler;
+import com.paicli.hitl.*;
 import com.paicli.history.ConversationLedger;
 import com.paicli.harness.BetterHarnessOptions;
 import com.paicli.harness.BetterHarnessRunner;
 import com.paicli.llm.LlmClient;
 import com.paicli.llm.ModelCatalog;
 import com.paicli.llm.LlmClientFactory;
-import com.paicli.memory.LongTermMemory;
-import com.paicli.memory.MemoryCommandArgs;
-import com.paicli.memory.MemoryEntry;
-import com.paicli.memory.ExternalContextTracker;
-import com.paicli.memory.MemoryManager;
-import com.paicli.memory.MemoryWriteResult;
+import com.paicli.memory.*;
+import com.paicli.rag.*;
 import com.paicli.render.Renderer;
 import com.paicli.render.RendererFactory;
 import com.paicli.render.StatusInfo;
@@ -37,22 +29,20 @@ import com.paicli.mcp.McpServerManager;
 import com.paicli.mcp.McpServerStatus;
 import com.paicli.mcp.mention.AtMentionExpander;
 import com.paicli.plan.ExecutionPlan;
-import com.paicli.rag.CodeIndex;
-import com.paicli.hitl.ApprovalPolicy;
 import com.paicli.policy.AuditLog;
-import com.paicli.rag.CodeRetriever;
-import com.paicli.rag.CodeRelation;
-import com.paicli.rag.SearchResultFormatter;
 import com.paicli.runtime.CancellationContext;
 import com.paicli.runtime.CancellationToken;
 import com.paicli.runtime.api.RuntimeApiServer;
 import com.paicli.runtime.api.RuntimeThreadStore;
 import com.paicli.runtime.task.DurableTaskManager;
 import com.paicli.runtime.task.TaskCommandFormatter;
+import com.paicli.skill.SkillStateStore;
 import com.paicli.snapshot.RestoreResult;
 import com.paicli.snapshot.SnapshotService;
 import com.paicli.snapshot.TurnSnapshot;
 import com.paicli.skill.SkillRegistry;
+import com.paicli.tool.CommandSandboxMode;
+import com.paicli.tool.CommandSandboxStatus;
 import com.paicli.tool.ToolRegistry;
 import com.paicli.util.AnsiStyle;
 import com.paicli.util.TerminalInputLock;
@@ -249,7 +239,7 @@ public class Main {
             SessionModeController sessionModes = new SessionModeController(hitlHandler);
             HitlToolRegistry hitlToolRegistry = new HitlToolRegistry(hitlHandler);
             // auto 模式的 Shell 命令审查：跟随当前会话的供应商，关闭思考的轻量请求；切换模型后自动重建
-            com.paicli.hitl.LlmApprovalClassifier approvalClassifier = new com.paicli.hitl.LlmApprovalClassifier(
+            LlmApprovalClassifier approvalClassifier = new LlmApprovalClassifier(
                     approvalClassifierClient(llmClientRef, config));
             hitlToolRegistry.setAutoApprovalReviewer(approvalClassifier);
             BrowserSession browserSession = new BrowserSession();
@@ -329,8 +319,8 @@ public class Main {
             } catch (Exception e) {
                 startupNote = appendStartupNote(startupNote, "内置 skill 解压失败: " + e.getMessage());
             }
-            com.paicli.skill.SkillStateStore skillStateStore = new com.paicli.skill.SkillStateStore(home.resolve(".paicli/skills.json"));
-            com.paicli.skill.SkillRegistry skillRegistry = new com.paicli.skill.SkillRegistry(
+            SkillStateStore skillStateStore = new SkillStateStore(home.resolve(".paicli/skills.json"));
+            SkillRegistry skillRegistry = new SkillRegistry(
                     skillsCacheDir, userSkillsDir, projectSkillsDir, skillStateStore);
             skillRegistry.reload();
             skillRegistryRef.set(skillRegistry);
@@ -347,14 +337,14 @@ public class Main {
             }
 
             // execute_command 沙箱：默认 OFF 与旧行为一致；auto/required 时探测 Seatbelt / bubblewrap 并提示结果。
-            com.paicli.tool.CommandSandboxStatus sandboxStatus = hitlToolRegistry.configureCommandSandbox(
-                    com.paicli.tool.CommandSandboxMode.fromConfiguration(),
+            CommandSandboxStatus sandboxStatus = hitlToolRegistry.configureCommandSandbox(
+                    CommandSandboxMode.fromConfiguration(),
                     Path.of(hitlToolRegistry.getProjectPath()));
             startupNote = appendStartupNote(startupNote, sandboxStatus.message());
 
             Agent reactAgent = new Agent(llmClient, hitlToolRegistry);
             reactAgent.getMemoryManager().setAutoFactExtractionEnabled(
-                    com.paicli.memory.AutoFactExtractor.enabledByConfiguration());
+                    AutoFactExtractor.enabledByConfiguration());
             reactAgent.setConversationLedger(conversationLedger);
             reactAgent.setExternalContextSupplier(mcpServerManager::resourceIndexForPrompt);
             reactAgent.setSkillRegistry(skillRegistry);
@@ -904,7 +894,7 @@ public class Main {
                                 ui.println("⚠️ 代码库尚未索引，请先使用 /index 命令\n");
                                 continue;
                             }
-                            List<com.paicli.rag.VectorStore.SearchResult> results = retriever.hybridSearch(query, 5);
+                            List<VectorStore.SearchResult> results = retriever.hybridSearch(query, 5);
                             if (results.isEmpty()) {
                                 ui.println("📭 未找到相关代码\n");
                             } else {
@@ -2030,7 +2020,7 @@ public class Main {
                                             PaiCliConfig config,
                                             LlmClient llmClient,
                                             SwitchableHitlHandler hitlHandler,
-                                            com.paicli.skill.SkillRegistry skillRegistry) {
+                                            SkillRegistry skillRegistry) {
         var items = java.util.List.of(
                 "模型: " + (llmClient == null ? "(none)" : llmClient.getModelName() + " / " + llmClient.getProviderName()),
                 "默认 Provider: " + (config == null ? "(none)" : config.getDefaultProvider()),
@@ -3088,15 +3078,15 @@ public class Main {
     static ModelSelection resolveModelSelection(String raw, PaiCliConfig config) {
         String value = raw == null ? "" : raw.trim();
         int slash = value.indexOf('/');
-        if (slash > 0 && com.paicli.llm.ModelCatalog.BUILTINS.containsKey(value.substring(0, slash))) {
+        if (slash > 0 && ModelCatalog.BUILTINS.containsKey(value.substring(0, slash))) {
             String model = value.substring(slash + 1);
-            if (!com.paicli.llm.ModelCatalog.validModelId(model)) throw new IllegalArgumentException("模型 ID 无效");
+            if (!ModelCatalog.validModelId(model)) throw new IllegalArgumentException("模型 ID 无效");
             return new ModelSelection(value.substring(0, slash), model, true);
         }
-        if (!com.paicli.llm.ModelCatalog.BUILTINS.containsKey(value)) {
+        if (!ModelCatalog.BUILTINS.containsKey(value)) {
             List<String> matches = new ArrayList<>();
-            for (String provider : com.paicli.llm.ModelCatalog.BUILTINS.keySet()) {
-                if (com.paicli.llm.ModelCatalog.entries(config, provider).containsKey(value)) matches.add(provider);
+            for (String provider : ModelCatalog.BUILTINS.keySet()) {
+                if (ModelCatalog.entries(config, provider).containsKey(value)) matches.add(provider);
             }
             if (matches.size() > 1) throw new IllegalArgumentException("模型 ID 属于多个供应商，请使用 /model <provider>/<模型ID>");
             if (matches.size() == 1) return new ModelSelection(matches.get(0), value, true);
